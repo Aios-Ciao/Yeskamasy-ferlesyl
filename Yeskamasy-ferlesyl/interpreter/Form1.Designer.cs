@@ -29,30 +29,33 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.デバッグToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tctlEditor = new System.Windows.Forms.TabControl();
+            this.tbpDebug = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.デバッグToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lstLabelSymbol = new System.Windows.Forms.ListBox();
+            this.txtStatementList = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtDebugConsole = new System.Windows.Forms.TextBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.clAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.値 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRegisters = new System.Windows.Forms.DataGridView();
             this.clRegister = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clRegValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvMemView = new System.Windows.Forms.DataGridView();
+            this.clAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.値 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tbpEdit = new System.Windows.Forms.TabPage();
+            this.txtSourceCode = new System.Windows.Forms.TextBox();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.txtEditConsole = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tctlEditor.SuspendLayout();
+            this.tbpDebug.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,14 +68,19 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRegisters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMemView)).BeginInit();
+            this.tbpEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -86,37 +94,39 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // tabControl1
+            // ファイルToolStripMenuItem
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 24);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(745, 502);
-            this.tabControl1.TabIndex = 1;
+            this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
+            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ファイルToolStripMenuItem.Text = "ファイル";
             // 
-            // tabPage1
+            // デバッグToolStripMenuItem
             // 
-            this.tabPage1.Controls.Add(this.splitContainer1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(737, 476);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Debug";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.デバッグToolStripMenuItem.Name = "デバッグToolStripMenuItem";
+            this.デバッグToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.デバッグToolStripMenuItem.Text = "デバッグ";
             // 
-            // tabPage2
+            // tctlEditor
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(737, 476);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Edit";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tctlEditor.Controls.Add(this.tbpEdit);
+            this.tctlEditor.Controls.Add(this.tbpDebug);
+            this.tctlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tctlEditor.Location = new System.Drawing.Point(0, 24);
+            this.tctlEditor.Name = "tctlEditor";
+            this.tctlEditor.SelectedIndex = 0;
+            this.tctlEditor.Size = new System.Drawing.Size(745, 502);
+            this.tctlEditor.TabIndex = 1;
+            // 
+            // tbpDebug
+            // 
+            this.tbpDebug.Controls.Add(this.splitContainer1);
+            this.tbpDebug.Location = new System.Drawing.Point(4, 22);
+            this.tbpDebug.Name = "tbpDebug";
+            this.tbpDebug.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpDebug.Size = new System.Drawing.Size(737, 476);
+            this.tbpDebug.TabIndex = 0;
+            this.tbpDebug.Text = "Debug";
+            this.tbpDebug.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -170,34 +180,17 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.textBox2);
+            this.splitContainer3.Panel2.Controls.Add(this.txtStatementList);
             this.splitContainer3.Size = new System.Drawing.Size(540, 345);
             this.splitContainer3.SplitterDistance = 130;
             this.splitContainer3.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.clAddr,
-            this.値});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(179, 168);
-            this.dataGridView1.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.listBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lstLabelSymbol, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -218,35 +211,33 @@
             this.label1.Text = "ラベル一覧";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // listBox1
+            // lstLabelSymbol
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(3, 23);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(124, 319);
-            this.listBox1.TabIndex = 1;
+            this.lstLabelSymbol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstLabelSymbol.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lstLabelSymbol.FormattingEnabled = true;
+            this.lstLabelSymbol.ItemHeight = 12;
+            this.lstLabelSymbol.Location = new System.Drawing.Point(3, 23);
+            this.lstLabelSymbol.Name = "lstLabelSymbol";
+            this.lstLabelSymbol.Size = new System.Drawing.Size(124, 319);
+            this.lstLabelSymbol.TabIndex = 1;
             // 
-            // ファイルToolStripMenuItem
+            // txtStatementList
             // 
-            this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
-            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.ファイルToolStripMenuItem.Text = "ファイル";
-            // 
-            // デバッグToolStripMenuItem
-            // 
-            this.デバッグToolStripMenuItem.Name = "デバッグToolStripMenuItem";
-            this.デバッグToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.デバッグToolStripMenuItem.Text = "デバッグ";
+            this.txtStatementList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtStatementList.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtStatementList.Location = new System.Drawing.Point(0, 0);
+            this.txtStatementList.Multiline = true;
+            this.txtStatementList.Name = "txtStatementList";
+            this.txtStatementList.Size = new System.Drawing.Size(406, 345);
+            this.txtStatementList.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.AutoSize = true;
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.textBox1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.txtDebugConsole, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -256,25 +247,15 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(540, 113);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
-            // textBox1
+            // txtDebugConsole
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 3);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(534, 107);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = ">";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox2.Location = new System.Drawing.Point(0, 0);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(406, 345);
-            this.textBox2.TabIndex = 0;
+            this.txtDebugConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDebugConsole.Location = new System.Drawing.Point(3, 3);
+            this.txtDebugConsole.Multiline = true;
+            this.txtDebugConsole.Name = "txtDebugConsole";
+            this.txtDebugConsole.Size = new System.Drawing.Size(534, 107);
+            this.txtDebugConsole.TabIndex = 0;
+            this.txtDebugConsole.Text = ">";
             // 
             // splitContainer4
             // 
@@ -285,33 +266,63 @@
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.dataGridView2);
+            this.splitContainer4.Panel1.Controls.Add(this.dgvRegisters);
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer4.Panel2.Controls.Add(this.dgvMemView);
             this.splitContainer4.Size = new System.Drawing.Size(179, 466);
             this.splitContainer4.SplitterDistance = 294;
             this.splitContainer4.TabIndex = 0;
             // 
-            // dataGridView2
+            // dgvRegisters
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvRegisters.AllowUserToAddRows = false;
+            this.dgvRegisters.AllowUserToDeleteRows = false;
+            this.dgvRegisters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRegisters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.clRegister,
             this.clRegValue});
-            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView2.Enabled = false;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView2.MultiSelect = false;
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 21;
-            this.dataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView2.Size = new System.Drawing.Size(179, 294);
-            this.dataGridView2.TabIndex = 0;
+            this.dgvRegisters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRegisters.Enabled = false;
+            this.dgvRegisters.Location = new System.Drawing.Point(0, 0);
+            this.dgvRegisters.MultiSelect = false;
+            this.dgvRegisters.Name = "dgvRegisters";
+            this.dgvRegisters.RowHeadersVisible = false;
+            this.dgvRegisters.RowTemplate.Height = 21;
+            this.dgvRegisters.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvRegisters.Size = new System.Drawing.Size(179, 294);
+            this.dgvRegisters.TabIndex = 0;
+            // 
+            // clRegister
+            // 
+            this.clRegister.HeaderText = "レジスタ";
+            this.clRegister.Name = "clRegister";
+            this.clRegister.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.clRegister.Width = 80;
+            // 
+            // clRegValue
+            // 
+            this.clRegValue.HeaderText = "データ";
+            this.clRegValue.Name = "clRegValue";
+            this.clRegValue.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // dgvMemView
+            // 
+            this.dgvMemView.AllowUserToAddRows = false;
+            this.dgvMemView.AllowUserToDeleteRows = false;
+            this.dgvMemView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMemView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clAddr,
+            this.値});
+            this.dgvMemView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMemView.Location = new System.Drawing.Point(0, 0);
+            this.dgvMemView.Name = "dgvMemView";
+            this.dgvMemView.RowHeadersVisible = false;
+            this.dgvMemView.RowTemplate.Height = 21;
+            this.dgvMemView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvMemView.Size = new System.Drawing.Size(179, 168);
+            this.dgvMemView.TabIndex = 0;
             // 
             // clAddr
             // 
@@ -328,33 +339,68 @@
             this.値.HeaderText = "データ";
             this.値.Name = "値";
             // 
-            // clRegister
+            // tbpEdit
             // 
-            this.clRegister.HeaderText = "レジスタ";
-            this.clRegister.Name = "clRegister";
-            this.clRegister.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.clRegister.Width = 80;
+            this.tbpEdit.Controls.Add(this.splitContainer5);
+            this.tbpEdit.Location = new System.Drawing.Point(4, 22);
+            this.tbpEdit.Name = "tbpEdit";
+            this.tbpEdit.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpEdit.Size = new System.Drawing.Size(737, 476);
+            this.tbpEdit.TabIndex = 1;
+            this.tbpEdit.Text = "Edit";
+            this.tbpEdit.UseVisualStyleBackColor = true;
             // 
-            // clRegValue
+            // txtSourceCode
             // 
-            this.clRegValue.HeaderText = "データ";
-            this.clRegValue.Name = "clRegValue";
-            this.clRegValue.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.txtSourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSourceCode.Location = new System.Drawing.Point(0, 0);
+            this.txtSourceCode.Multiline = true;
+            this.txtSourceCode.Name = "txtSourceCode";
+            this.txtSourceCode.Size = new System.Drawing.Size(731, 323);
+            this.txtSourceCode.TabIndex = 0;
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer5.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.txtSourceCode);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.txtEditConsole);
+            this.splitContainer5.Size = new System.Drawing.Size(731, 470);
+            this.splitContainer5.SplitterDistance = 323;
+            this.splitContainer5.TabIndex = 1;
+            // 
+            // txtEditConsole
+            // 
+            this.txtEditConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtEditConsole.Location = new System.Drawing.Point(0, 0);
+            this.txtEditConsole.Multiline = true;
+            this.txtEditConsole.Name = "txtEditConsole";
+            this.txtEditConsole.Size = new System.Drawing.Size(731, 143);
+            this.txtEditConsole.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(745, 526);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tctlEditor);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Yeskamasy-ferlesyl";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tctlEditor.ResumeLayout(false);
+            this.tbpDebug.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -369,7 +415,6 @@
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -378,7 +423,15 @@
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRegisters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMemView)).EndInit();
+            this.tbpEdit.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel1.PerformLayout();
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            this.splitContainer5.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,25 +442,28 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem デバッグToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabControl tctlEditor;
+        private System.Windows.Forms.TabPage tbpDebug;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.ListBox lstLabelSymbol;
+        private System.Windows.Forms.TextBox txtStatementList;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TextBox txtDebugConsole;
+        private System.Windows.Forms.DataGridView dgvMemView;
+        private System.Windows.Forms.TabPage tbpEdit;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvRegisters;
         private System.Windows.Forms.DataGridViewTextBoxColumn clRegister;
         private System.Windows.Forms.DataGridViewTextBoxColumn clRegValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn clAddr;
         private System.Windows.Forms.DataGridViewTextBoxColumn 値;
+        private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.TextBox txtSourceCode;
+        private System.Windows.Forms.TextBox txtEditConsole;
     }
 }
 
