@@ -1,6 +1,6 @@
 ﻿namespace interpreter
 {
-    partial class Form1
+    partial class frmMainForm
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -29,9 +29,13 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.デバッグToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mmFileIO = new System.Windows.Forms.ToolStripMenuItem();
+            this.mmDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.tctlEditor = new System.Windows.Forms.TabControl();
+            this.tbpEdit = new System.Windows.Forms.TabPage();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.txtSourceCode = new System.Windows.Forms.TextBox();
+            this.txtEditConsole = new System.Windows.Forms.TextBox();
             this.tbpDebug = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -49,12 +53,18 @@
             this.dgvMemView = new System.Windows.Forms.DataGridView();
             this.clAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.値 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tbpEdit = new System.Windows.Forms.TabPage();
-            this.txtSourceCode = new System.Windows.Forms.TextBox();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.txtEditConsole = new System.Windows.Forms.TextBox();
+            this.miToMnemonic = new System.Windows.Forms.ToolStripMenuItem();
+            this.miOpenFromFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.miReqProgramExit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tctlEditor.SuspendLayout();
+            this.tbpEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
             this.tbpDebug.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -76,35 +86,37 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegisters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMemView)).BeginInit();
-            this.tbpEdit.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
-            this.splitContainer5.Panel1.SuspendLayout();
-            this.splitContainer5.Panel2.SuspendLayout();
-            this.splitContainer5.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ファイルToolStripMenuItem,
-            this.デバッグToolStripMenuItem});
+            this.mmFileIO,
+            this.mmDebug});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(745, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // ファイルToolStripMenuItem
+            // mmFileIO
             // 
-            this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
-            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.ファイルToolStripMenuItem.Text = "ファイル";
+            this.mmFileIO.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miOpenFromFile,
+            this.miSaveToFile,
+            this.toolStripSeparator1,
+            this.miReqProgramExit});
+            this.mmFileIO.Name = "mmFileIO";
+            this.mmFileIO.Size = new System.Drawing.Size(53, 20);
+            this.mmFileIO.Text = "ファイル";
             // 
-            // デバッグToolStripMenuItem
+            // mmDebug
             // 
-            this.デバッグToolStripMenuItem.Name = "デバッグToolStripMenuItem";
-            this.デバッグToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.デバッグToolStripMenuItem.Text = "デバッグ";
+            this.mmDebug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miToMnemonic});
+            this.mmDebug.Name = "mmDebug";
+            this.mmDebug.Size = new System.Drawing.Size(55, 20);
+            this.mmDebug.Text = "デバッグ";
             // 
             // tctlEditor
             // 
@@ -116,6 +128,54 @@
             this.tctlEditor.SelectedIndex = 0;
             this.tctlEditor.Size = new System.Drawing.Size(745, 502);
             this.tctlEditor.TabIndex = 1;
+            // 
+            // tbpEdit
+            // 
+            this.tbpEdit.Controls.Add(this.splitContainer5);
+            this.tbpEdit.Location = new System.Drawing.Point(4, 22);
+            this.tbpEdit.Name = "tbpEdit";
+            this.tbpEdit.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpEdit.Size = new System.Drawing.Size(737, 476);
+            this.tbpEdit.TabIndex = 1;
+            this.tbpEdit.Text = "Edit";
+            this.tbpEdit.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer5.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.txtSourceCode);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.txtEditConsole);
+            this.splitContainer5.Size = new System.Drawing.Size(731, 470);
+            this.splitContainer5.SplitterDistance = 323;
+            this.splitContainer5.TabIndex = 1;
+            // 
+            // txtSourceCode
+            // 
+            this.txtSourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSourceCode.Location = new System.Drawing.Point(0, 0);
+            this.txtSourceCode.Multiline = true;
+            this.txtSourceCode.Name = "txtSourceCode";
+            this.txtSourceCode.Size = new System.Drawing.Size(731, 323);
+            this.txtSourceCode.TabIndex = 0;
+            // 
+            // txtEditConsole
+            // 
+            this.txtEditConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtEditConsole.Location = new System.Drawing.Point(0, 0);
+            this.txtEditConsole.Multiline = true;
+            this.txtEditConsole.Name = "txtEditConsole";
+            this.txtEditConsole.Size = new System.Drawing.Size(731, 143);
+            this.txtEditConsole.TabIndex = 0;
             // 
             // tbpDebug
             // 
@@ -339,55 +399,37 @@
             this.値.HeaderText = "データ";
             this.値.Name = "値";
             // 
-            // tbpEdit
+            // miToMnemonic
             // 
-            this.tbpEdit.Controls.Add(this.splitContainer5);
-            this.tbpEdit.Location = new System.Drawing.Point(4, 22);
-            this.tbpEdit.Name = "tbpEdit";
-            this.tbpEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpEdit.Size = new System.Drawing.Size(737, 476);
-            this.tbpEdit.TabIndex = 1;
-            this.tbpEdit.Text = "Edit";
-            this.tbpEdit.UseVisualStyleBackColor = true;
+            this.miToMnemonic.Name = "miToMnemonic";
+            this.miToMnemonic.Size = new System.Drawing.Size(184, 22);
+            this.miToMnemonic.Text = "ニーモニック表示へ切替";
+            this.miToMnemonic.Click += new System.EventHandler(this.miToMnemonic_Click);
             // 
-            // txtSourceCode
+            // miOpenFromFile
             // 
-            this.txtSourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSourceCode.Location = new System.Drawing.Point(0, 0);
-            this.txtSourceCode.Multiline = true;
-            this.txtSourceCode.Name = "txtSourceCode";
-            this.txtSourceCode.Size = new System.Drawing.Size(731, 323);
-            this.txtSourceCode.TabIndex = 0;
+            this.miOpenFromFile.Name = "miOpenFromFile";
+            this.miOpenFromFile.Size = new System.Drawing.Size(152, 22);
+            this.miOpenFromFile.Text = "開く";
             // 
-            // splitContainer5
+            // miSaveToFile
             // 
-            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer5.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer5.Name = "splitContainer5";
-            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.miSaveToFile.Name = "miSaveToFile";
+            this.miSaveToFile.Size = new System.Drawing.Size(152, 22);
+            this.miSaveToFile.Text = "保存";
             // 
-            // splitContainer5.Panel1
+            // toolStripSeparator1
             // 
-            this.splitContainer5.Panel1.Controls.Add(this.txtSourceCode);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
-            // splitContainer5.Panel2
+            // miReqProgramExit
             // 
-            this.splitContainer5.Panel2.Controls.Add(this.txtEditConsole);
-            this.splitContainer5.Size = new System.Drawing.Size(731, 470);
-            this.splitContainer5.SplitterDistance = 323;
-            this.splitContainer5.TabIndex = 1;
+            this.miReqProgramExit.Name = "miReqProgramExit";
+            this.miReqProgramExit.Size = new System.Drawing.Size(152, 22);
+            this.miReqProgramExit.Text = "終了";
             // 
-            // txtEditConsole
-            // 
-            this.txtEditConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtEditConsole.Location = new System.Drawing.Point(0, 0);
-            this.txtEditConsole.Multiline = true;
-            this.txtEditConsole.Name = "txtEditConsole";
-            this.txtEditConsole.Size = new System.Drawing.Size(731, 143);
-            this.txtEditConsole.TabIndex = 0;
-            // 
-            // Form1
+            // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -395,11 +437,18 @@
             this.Controls.Add(this.tctlEditor);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "frmMainForm";
             this.Text = "Yeskamasy-ferlesyl";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tctlEditor.ResumeLayout(false);
+            this.tbpEdit.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel1.PerformLayout();
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            this.splitContainer5.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
             this.tbpDebug.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -425,13 +474,6 @@
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegisters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMemView)).EndInit();
-            this.tbpEdit.ResumeLayout(false);
-            this.splitContainer5.Panel1.ResumeLayout(false);
-            this.splitContainer5.Panel1.PerformLayout();
-            this.splitContainer5.Panel2.ResumeLayout(false);
-            this.splitContainer5.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
-            this.splitContainer5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -440,8 +482,8 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem デバッグToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mmFileIO;
+        private System.Windows.Forms.ToolStripMenuItem mmDebug;
         private System.Windows.Forms.TabControl tctlEditor;
         private System.Windows.Forms.TabPage tbpDebug;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -464,6 +506,11 @@
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.TextBox txtSourceCode;
         private System.Windows.Forms.TextBox txtEditConsole;
+        private System.Windows.Forms.ToolStripMenuItem miOpenFromFile;
+        private System.Windows.Forms.ToolStripMenuItem miSaveToFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem miReqProgramExit;
+        private System.Windows.Forms.ToolStripMenuItem miToMnemonic;
     }
 }
 
