@@ -20,14 +20,20 @@ namespace interpreter
         private void miToMnemonic_Click(object sender, EventArgs e)
         {
             string buf;
-            string[] saSrc;
+            List<string> saTokens;
+
 
             buf = txtSourceCode.Text;
 
             // ここで成型
-            saSrc = buf.Split('\n');
-            buf = Tokenize(saSrc);
+            saTokens = Tokenize(buf);
 
+            // 再度並べ替え
+            buf = "";
+            foreach( string token in saTokens)
+            {
+                buf += token + "\r\n";
+            }
 
             txtStatementList.Text = buf;
 
@@ -35,29 +41,72 @@ namespace interpreter
             tctlEditor.SelectTab(tbpDebug.Name);
         }
 
-        // コメント除去
-        string Tokenize(string [] saSrc)
+        // トークン化
+        List<string> Tokenize(string sSrc)
         {
-            string sResult = "";
+            string[] saSrc = sSrc.Split('\n','\r');
+            string sStream = "";
+            var saTokens = new List<string> ();
 
-            foreach( string sLine in saSrc )
+            // コメントと改行文字を1文字の空白へ置き換え
+            foreach ( string sLine in saSrc )
             {
                 int posdeli = sLine.IndexOf(';');
 
-                // コメント開始文字以降を除去
                 if( posdeli < 0 )
                 {
                     // 見つからなかった
-                    sResult += sLine + " ";
+                    sStream += sLine + " ";
                 }
                 else
                 {
                     // １文字の空白文字として置換する
-                    sResult += sLine.Substring(0, posdeli) + " ";
+                    sStream += sLine.Substring(0, posdeli) + " ";
                 }
             }
 
-            return( sResult );
+            // 空白区切りで文字列配列に変換
+            // todo:区切り条件を空白から文字種別に切り替える
+            bool bWord = false;
+            int posStart = 0, posDelim = 0;
+            for ( posStart = posDelim = 0; posDelim < sStream.Length; ++posDelim )
+            {
+
+                // その文字が
+                switch( sStream[posDelim] )
+                {
+                    // 空白文字ならば
+                    case '\x20':
+                    case '\t':
+             //     case '\r':
+                        if( bWord )
+                        {
+                            // 単語から空白へ → トークン切り出し
+                            string token = sStream.Substring(posStart, posDelim - posStart);
+                            saTokens.Add( token );
+
+                            bWord = false;
+                        }
+                        break;
+                    default:
+                        if(!bWord)
+                        {
+                            posStart = posDelim;
+                            bWord = true;
+                        }
+                        break;
+                }
+            }
+
+            // 行末まで単語が続いていた場合の処理
+            if( bWord )
+            {
+                // 残りすべてを取得
+                string token = sStream.Substring(posStart);
+                saTokens.Add(token);
+            }
+
+            return( saTokens );
         }
     }
 
