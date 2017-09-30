@@ -10,6 +10,54 @@ using System.Windows.Forms;
 
 namespace interpreter
 {
+    public enum ETokenType
+    {
+        ttUndefined,        // 未定義
+        ttNumeric,          // 数値
+        ttLabel,            // ラベル
+        ttPlus = '+',       // オフセット計算の +
+        ttAt = '@',         // 間接参照の @
+        ttQuat = '\'',      // 方向定義の '
+       
+        tt_Mnemonic = 0x100, // ニーモニック識別子
+        tt_krz,             // mov
+        tt_ata,             // add
+        tt_nta,             // sub
+        tt_lat,             // mul
+    //  tt_kak,             // div
+        tt_ada,             // and
+        tt_ekc,             // or
+        tt_nac,             // not
+        tt_dal,             // xnor
+        tt_dto,             // shr (論理右シフト)
+        tt_dro,             // shl (左シフト)
+    //  tt_                 //      (算術右シフト)
+        tt_malkrz,          // 条件付きmov
+        tt_fi,              // 条件判断→フラグセット
+        tt__xtlo,           // 条件 <=    (符号あり判断)
+        tt__xylo,           // 条件 <
+        tt__clo,            // 条件 ==
+        tt__xolo,           // 条件 >=
+        tt__llo,            // 条件 >
+        tt__niv,            // 条件 !=
+        tt__xtlonys,        // 条件 <=    (符号なし判断)
+        tt__xylonys,        // 条件 <
+        tt__xolonys,        // 条件 >=
+        tt__llonys,         // 条件 >
+        tt_inj,             // shift
+        tt_fen,             // nop
+
+    };
+
+    public class Tokens
+    {
+        public long         SrcLine;        // ソースコード上の行番号位置
+        public long         SrcColm;        // ソースコード上の桁位置
+        public string       Token;          // トークン文字列
+        public ETokenType   Type;           // トークン種別
+
+    };
+
     public partial class frmMainForm : Form
     {
         public frmMainForm()
@@ -20,7 +68,7 @@ namespace interpreter
         private void miToMnemonic_Click(object sender, EventArgs e)
         {
             string buf;
-            List<string> saTokens;
+            List<Tokens> saTokens;
 
 
             buf = txtSourceCode.Text;
@@ -30,9 +78,29 @@ namespace interpreter
 
             // 再度並べ替え
             buf = "";
-            foreach( string token in saTokens)
+            long lindx = -1;
+            bool spOut = false;
+            foreach( Tokens token in saTokens)
             {
-                buf += token + "\r\n";
+                // 行が変わったら行番号を出力
+                if (lindx != token.SrcLine)
+                {
+                    // 初回は出さない
+                    if( lindx != -1)
+                    {
+                        buf += "\r\n";
+                        spOut = false;
+                    }
+                    lindx = token.SrcLine;
+                    buf += lindx.ToString("0000") + " | ";
+                }
+                // トークンをブランク区切りで出力
+                if (spOut)
+                {
+                    buf += "\x20";
+                }
+                buf += token.Token;
+                spOut = true;
             }
 
             txtStatementList.Text = buf;
@@ -41,69 +109,58 @@ namespace interpreter
             tctlEditor.SelectTab(tbpDebug.Name);
         }
 
+
         // トークン化
-        List<string> Tokenize(string sSrc)
+        List<Tokens> Tokenize(string sSrc)
         {
-            string[] saSrc = sSrc.Split('\n','\r');
-            string sStream = "";
-            var saTokens = new List<string> ();
+            var saTokens = new List<Tokens> ();             // 分割されたトークンリスト
+            var saLines = new List<string>();               // コメントが除去された１行ずつ文字列リスト
+
 
             // コメントと改行文字を1文字の空白へ置き換え
-            foreach ( string sLine in saSrc )
             {
-                int posdeli = sLine.IndexOf(';');
-
-                if( posdeli < 0 )
+                char[] sep = { '\n', '\r' };
+                string[] saSrc = sSrc.Split(sep);         // 改行文字でスライス
+                foreach (string sLine in saSrc)
                 {
-                    // 見つからなかった
-                    sStream += sLine + " ";
-                }
-                else
-                {
-                    // １文字の空白文字として置換する
-                    sStream += sLine.Substring(0, posdeli) + " ";
-                }
-            }
+                    if (sLine.Length == 0) continue;           // 空行スキップ
+                    int posdeli = sLine.IndexOf(';');           // 各行のコメントを除去
 
-            // 空白区切りで文字列配列に変換
-            // todo:区切り条件を空白から文字種別に切り替える
-            bool bWord = false;
-            int posStart = 0, posDelim = 0;
-            for ( posStart = posDelim = 0; posDelim < sStream.Length; ++posDelim )
-            {
-
-                // その文字が
-                switch( sStream[posDelim] )
-                {
-                    // 空白文字ならば
-                    case '\x20':
-                    case '\t':
-             //     case '\r':
-                        if( bWord )
-                        {
-                            // 単語から空白へ → トークン切り出し
-                            string token = sStream.Substring(posStart, posDelim - posStart);
-                            saTokens.Add( token );
-
-                            bWord = false;
-                        }
-                        break;
-                    default:
-                        if(!bWord)
-                        {
-                            posStart = posDelim;
-                            bWord = true;
-                        }
-                        break;
+                    if (posdeli < 0)
+                    {
+                        // 見つからなかった
+                        saLines.Add(sLine);
+                    }
+                    else
+                    {
+                        // １文字の空白文字として置換する
+                        saLines.Add(sLine.Substring(0, posdeli));
+                    }
                 }
             }
 
-            // 行末まで単語が続いていた場合の処理
-            if( bWord )
+            // 空白区切りごとに切り出し
+            int lindex = 0;                         // 行番号
+            foreach (string sLine in saLines)
             {
-                // 残りすべてを取得
-                string token = sStream.Substring(posStart);
-                saTokens.Add(token);
+                if (sLine.Length == 0) continue;               // 空行スキップ
+
+                char[] sep = { '\x20', '\t' };
+                string[] saSepStr = sLine.Split(sep);      // 空白文字でスライス
+
+                // 文字があればリストに積む
+                foreach (string tkn in saSepStr)
+                {
+                    if( tkn != "" )
+                    {
+                        Tokens token = new Tokens();
+                        token.Token = tkn;
+                        token.SrcLine = lindex + 1;
+                        saTokens.Add(token);
+                    }
+                }
+
+                ++lindex;
             }
 
             return( saTokens );
@@ -112,3 +169,12 @@ namespace interpreter
 
 
 }
+
+/*
+aaa bbb ccc
+a b c d ;agwio
+1 2 3 4 
+agw0
+ 
+*/
+
