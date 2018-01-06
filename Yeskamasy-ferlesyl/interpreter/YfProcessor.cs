@@ -77,9 +77,9 @@ namespace interpreter
             data[3] = (byte)((value & 0xFF000000) >> 24);
 
             memory[addr + 0] = data[0];
-            memory[addr + 1] = data[0];
-            memory[addr + 2] = data[0];
-            memory[addr + 3] = data[0];
+            memory[addr + 1] = data[1];
+            memory[addr + 2] = data[2];
+            memory[addr + 3] = data[3];
         }
     }
 
