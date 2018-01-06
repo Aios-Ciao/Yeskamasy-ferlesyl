@@ -52,6 +52,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YfProcessor.cs" />
+    <Compile Include="YfProcessor_Ope.cs" />
     <EmbeddedResource Include="frmMainForm.resx">
       <DependentUpon>frmMainForm.cs</DependentUpon>
     </EmbeddedResource>
