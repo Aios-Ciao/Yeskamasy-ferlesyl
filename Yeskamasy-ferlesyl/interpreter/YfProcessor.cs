@@ -11,11 +11,11 @@ namespace interpreter
     /// </summary>
     class YfMemory
     {
-        Dictionary<ulong, byte> memory;      // アドレス→値
+        Dictionary<uint, byte> memory;      // アドレス→値
 
         public YfMemory()
         {
-            this.memory = new Dictionary<ulong, byte>();
+            this.memory = new Dictionary<uint, byte>();
 
             Reset();
         }
@@ -40,11 +40,11 @@ namespace interpreter
         /// </summary>
         /// <param name="addr">基点アドレス</param>
         /// <returns>指定アドレスからの32bit値</returns>
-        public ulong Read(ulong addr)
+        public uint Read(uint addr)
         {
             Random r = new Random();
             byte[] rdata = new byte[4];
-            ulong retval;
+            uint retval;
 
             // 全既に書き込みをしているかチェック
             if (memory.ContainsKey(addr + 0) && memory.ContainsKey(addr + 1)
@@ -67,7 +67,7 @@ namespace interpreter
         /// </summary>
         /// <param name="addr">書き込み先のアドレス</param>
         /// <param name="value">書きこむ値</param>
-        public void Write(ulong addr, ulong value)
+        public void Write(uint addr, uint value)
         {
             byte[] data = new byte[4];
 
@@ -85,14 +85,14 @@ namespace interpreter
 
     class Registers
     {
-        private ulong f0;       // 引数1 / 戻り値
-        private ulong f1;
-        private ulong f2;
-        private ulong f3;
-        private ulong f4;
-        private ulong f5;       // リターンアドレス
-        private ulong f6;
-        private ulong xx;       // プログラムカウンタ
+        private uint f0;       // 引数1 / 戻り値
+        private uint f1;
+        private uint f2;
+        private uint f3;
+        private uint f4;
+        private uint f5;       // リターンアドレス
+        private uint f6;
+        private uint xx;       // プログラムカウンタ
 
         private bool flag;       // コンディション
 
@@ -100,42 +100,42 @@ namespace interpreter
         /// <summary>
         /// 各種アクセサ
         /// </summary>
-        public ulong F0
+        public uint F0
         {
             set { this.f0 = value; }
             get { return this.f0; }
         }
-        public ulong F1
+        public uint F1
         {
             set { this.f1 = value; }
             get { return this.f1; }
         }
-        public ulong F2
+        public uint F2
         {
             set { this.f2 = value; }
             get { return this.f2; }
         }
-        public ulong F3
+        public uint F3
         {
             set { this.f3 = value; }
             get { return this.f3; }
         }
-        public ulong F4
+        public uint F4
         {
             set { this.f4 = value; }
             get { return this.f4; }
         }
-        public ulong F5
+        public uint F5
         {
             set { this.f5 = value; }
             get { return this.f5; }
         }
-        public ulong F6
+        public uint F6
         {
             set { this.f6 = value; }
             get { return this.f6; }
         }
-        public ulong XX
+        public uint XX
         {
             set { this.xx = value; }
             get { return this.xx; }
@@ -176,7 +176,7 @@ namespace interpreter
         /// <summary>
         ///     引数の情報
         /// </summary>
-        public enum efParamType
+        public enum EfParamType
         {
             efImmidiate,            // 即値
             efDirectReg,            // レジスタ値
@@ -191,7 +191,7 @@ namespace interpreter
         /// <summary>
         ///     引数レジスタ番号
         /// </summary>
-        public enum efRegName
+        public enum EfRegName
         {
             efRegF0,
             efRegF1,
@@ -203,39 +203,55 @@ namespace interpreter
             efRegXX
         };
 
-        efParamType addrtype;       // アドレッシングモード
-        efRegName basereg;          // ベースレジスタ
-        efRegName offsetreg;        // オフセットレジスタ
-        ulong immidiate;                // 即値
-        ulong label;                // ラベル値( TODO:いずれインデックス引きしたい)
+        EfParamType addrtype;       // アドレッシングモード
+        EfRegName basereg;          // ベースレジスタ
+        EfRegName offsetreg;        // オフセットレジスタ
+        uint immidiate;             // 即値
+        uint label;                 // ラベル値( TODO:いずれインデックス引きしたい)
 
-        public efParamType Type
+        public EfParamType Type
         {
             set { this.addrtype = value; }
             get { return this.addrtype; }
         }
 
-        public efRegName BaseReg
+        public EfRegName BaseReg
         {
             set { this.basereg = value; }
             get { return this.basereg; }
         }
-        public efRegName OffsetReg
+        public EfRegName OffsetReg
         {
             set { this.offsetreg = value; }
             get { return this.offsetreg; }
         }
-        public ulong Immidiate
+        public uint Immidiate
         {
             set { this.immidiate = value; }
             get { return this.immidiate; }
         }
-        public ulong Label
+        public uint Label
         {
             set { this.label = value; }
             get { return this.label; }
         }
 
+        /// <summary>
+        /// 比較コード
+        /// </summary>
+        public enum EfCondition
+        {
+            efCond_xylonys,         /// 符号なし未満
+            efCond_llonys,          /// 符号なし超過
+            efCond_xtlonys,         /// 符号なし以下
+            efCond_xolonys,         /// 符号なし以上
+            efCond_xylo,            /// 符号あり未満
+            efCond_llo,             /// 符号あり超過
+            efCond_xtlo,            /// 符号あり以下
+            efCond_xolo,            /// 符号あり以上
+            efCond_niv,             /// 不等
+            efCond_clo              /// 同値
+        }
     };
 
     // プロセッサ
@@ -255,27 +271,32 @@ namespace interpreter
 
         }
 
+        ~YfProcessor()
+        {
+            firjal = null;
+            setistafar = null;
+        }
 
         /// <summary>
         /// レジスタの内容読み出し
         /// </summary>
         /// <param name="reg">レジスタ番号</param>
         /// <returns></returns>
-        private ulong RegRead(MOpeland.efRegName reg)
+        private uint RegRead(MOpeland.EfRegName reg)
         {
-            ulong retval = 0;
+            uint retval = 0;
 
             // レジスタ管理のclassではなく、オペランド側の名前として、ここで解決
             switch (reg)
             {
-                case MOpeland.efRegName.efRegF0: retval = firjal.F0; break;
-                case MOpeland.efRegName.efRegF1: retval = firjal.F1; break;
-                case MOpeland.efRegName.efRegF2: retval = firjal.F2; break;
-                case MOpeland.efRegName.efRegF3: retval = firjal.F3; break;
-                case MOpeland.efRegName.efRegF4: retval = firjal.F4; break;
-                case MOpeland.efRegName.efRegF5: retval = firjal.F5; break;
-                case MOpeland.efRegName.efRegF6: retval = firjal.F6; break;
-                case MOpeland.efRegName.efRegXX: retval = firjal.XX; break;
+                case MOpeland.EfRegName.efRegF0: retval = firjal.F0; break;
+                case MOpeland.EfRegName.efRegF1: retval = firjal.F1; break;
+                case MOpeland.EfRegName.efRegF2: retval = firjal.F2; break;
+                case MOpeland.EfRegName.efRegF3: retval = firjal.F3; break;
+                case MOpeland.EfRegName.efRegF4: retval = firjal.F4; break;
+                case MOpeland.EfRegName.efRegF5: retval = firjal.F5; break;
+                case MOpeland.EfRegName.efRegF6: retval = firjal.F6; break;
+                case MOpeland.EfRegName.efRegXX: retval = firjal.XX; break;
                 default:
                     // 例外スローしたい
                     break;
@@ -289,18 +310,18 @@ namespace interpreter
         /// </summary>
         /// <param name="reg">レジスタ番号</param>
         /// <param name="value">書きこむ値</param>
-        private void RegWrite(MOpeland.efRegName reg, ulong value)
+        private void RegWrite(MOpeland.EfRegName reg, uint value)
         {
             switch (reg)
             {
-                case MOpeland.efRegName.efRegF0: firjal.F0 = value; break;
-                case MOpeland.efRegName.efRegF1: firjal.F1 = value; break;
-                case MOpeland.efRegName.efRegF2: firjal.F2 = value; break;
-                case MOpeland.efRegName.efRegF3: firjal.F3 = value; break;
-                case MOpeland.efRegName.efRegF4: firjal.F4 = value; break;
-                case MOpeland.efRegName.efRegF5: firjal.F5 = value; break;
-                case MOpeland.efRegName.efRegF6: firjal.F6 = value; break;
-                case MOpeland.efRegName.efRegXX: firjal.XX = value; break;
+                case MOpeland.EfRegName.efRegF0: firjal.F0 = value; break;
+                case MOpeland.EfRegName.efRegF1: firjal.F1 = value; break;
+                case MOpeland.EfRegName.efRegF2: firjal.F2 = value; break;
+                case MOpeland.EfRegName.efRegF3: firjal.F3 = value; break;
+                case MOpeland.EfRegName.efRegF4: firjal.F4 = value; break;
+                case MOpeland.EfRegName.efRegF5: firjal.F5 = value; break;
+                case MOpeland.EfRegName.efRegF6: firjal.F6 = value; break;
+                case MOpeland.EfRegName.efRegXX: firjal.XX = value; break;
                 default:
                     // 例外スローしたい
                     break;
@@ -312,40 +333,40 @@ namespace interpreter
         /// </summary>
         /// <param name="addr">アドレスオペランド</param>
         /// <returns>読み出した値</returns>
-        public ulong Load(MOpeland addr)
+        public uint Load(MOpeland addr)
         {
-            ulong retval = 0;
-            ulong address = 0;
+            uint retval = 0;
+            uint address = 0;
 
             switch (addr.Type)
             {
-                case MOpeland.efParamType.efImmidiate:
+                case MOpeland.EfParamType.efImmidiate:
                     retval = addr.Immidiate;
                     break;
-                case MOpeland.efParamType.efDirectReg:
+                case MOpeland.EfParamType.efDirectReg:
                     retval = RegRead(addr.BaseReg);
                     break;
-                case MOpeland.efParamType.efLabel:
+                case MOpeland.EfParamType.efLabel:
                     retval = addr.Label;                // TODO:ラベル処理未実装
                     break;
-                case MOpeland.efParamType.efRegDispImm:
+                case MOpeland.EfParamType.efRegDispImm:
                     address = RegRead(addr.BaseReg) + addr.Immidiate;
                     retval = setistafar.Read(address);
                     break;
-                case MOpeland.efParamType.efRegDispReg:
+                case MOpeland.EfParamType.efRegDispReg:
                     address = RegRead(addr.BaseReg) + RegRead(addr.OffsetReg);
                     retval = setistafar.Read(address);
                     break;
-                case MOpeland.efParamType.efLabelDispImm:       // 拡張
+                case MOpeland.EfParamType.efLabelDispImm:       // 拡張
                     address = addr.Label + addr.Immidiate;
                     retval = setistafar.Read(address);
                     break;
-                case MOpeland.efParamType.efLabelDispReg:       // 拡張
+                case MOpeland.EfParamType.efLabelDispReg:       // 拡張
                     address = addr.Label + RegRead(addr.BaseReg);
                     retval = setistafar.Read(address);
                     break;
                 default:
-                case MOpeland.efParamType.efReserved:
+                case MOpeland.EfParamType.efReserved:
                     // 例外を投げたい
                     break;
             }
@@ -358,40 +379,40 @@ namespace interpreter
         /// </summary>
         /// <param name="addr">アドレスオペランド</param>
         /// <param name="val"></param>
-        public void Store(MOpeland addr, ulong val)
+        public void Store(MOpeland addr, uint val)
         {
-            ulong address = 0;
+            uint address = 0;
 
             switch (addr.Type)
             {
-                case MOpeland.efParamType.efDirectReg:
+                case MOpeland.EfParamType.efDirectReg:
                     // レジスタへの格納
                     RegWrite(addr.BaseReg, val);
                     break;
-                case MOpeland.efParamType.efRegDispImm:
+                case MOpeland.EfParamType.efRegDispImm:
                     // 即値修飾レジスタ間接参照で格納
                     address = RegRead(addr.BaseReg) + addr.Immidiate;
                     setistafar.Write(address,val);
                     break;
-                case MOpeland.efParamType.efRegDispReg:
+                case MOpeland.EfParamType.efRegDispReg:
                     // レジスタ修飾レジスタ間接参照で格納
                     address = RegRead(addr.BaseReg) + RegRead(addr.OffsetReg);
                     setistafar.Write(address, val);
                     break;
-                case MOpeland.efParamType.efLabelDispImm:       // 拡張
+                case MOpeland.EfParamType.efLabelDispImm:       // 拡張
                     // 即値修飾ラベル間接参照で格納
                     address = addr.Label + addr.Immidiate;
                     setistafar.Write(address, val);
                     break;
-                case MOpeland.efParamType.efLabelDispReg:       // 拡張
+                case MOpeland.EfParamType.efLabelDispReg:       // 拡張
                     // レジスタ修飾ラベル間接参照で格納
                     address = addr.Label + RegRead(addr.BaseReg);
                     setistafar.Write(address, val);
                     break;
                 default:
-                case MOpeland.efParamType.efReserved:
-                case MOpeland.efParamType.efImmidiate:          // 即値に対して値の代入は不可
-                case MOpeland.efParamType.efLabel:              // ラベルそのものへの代入は不可
+                case MOpeland.EfParamType.efReserved:
+                case MOpeland.EfParamType.efImmidiate:          // 即値に対して値の代入は不可
+                case MOpeland.EfParamType.efLabel:              // ラベルそのものへの代入は不可
                     // 例外を投げたい
                     break;
             }
