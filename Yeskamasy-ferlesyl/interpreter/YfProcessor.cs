@@ -83,69 +83,64 @@ namespace interpreter
         }
     }
 
+    /// <summary>
+    /// CPUの持つレジスタ群
+    /// </summary>
     class Registers
     {
-        private uint f0;       // 引数1 / 戻り値
-        private uint f1;
-        private uint f2;
-        private uint f3;
-        private uint f4;
-        private uint f5;       // リターンアドレス
-        private uint f6;
-        private uint xx;       // プログラムカウンタ
-
-        private bool flag;       // コンディション
-
+        /// <summary>
+        /// レジスタf0
+        /// 1番目の引数、または戻り値の格納に用いられる
+        /// </summary>
+        public uint F0 { set; get; }
 
         /// <summary>
-        /// 各種アクセサ
+        /// レジスタf1
+        /// 2番目の引数の格納に用いられる
         /// </summary>
-        public uint F0
-        {
-            set { this.f0 = value; }
-            get { return this.f0; }
-        }
-        public uint F1
-        {
-            set { this.f1 = value; }
-            get { return this.f1; }
-        }
-        public uint F2
-        {
-            set { this.f2 = value; }
-            get { return this.f2; }
-        }
-        public uint F3
-        {
-            set { this.f3 = value; }
-            get { return this.f3; }
-        }
-        public uint F4
-        {
-            set { this.f4 = value; }
-            get { return this.f4; }
-        }
-        public uint F5
-        {
-            set { this.f5 = value; }
-            get { return this.f5; }
-        }
-        public uint F6
-        {
-            set { this.f6 = value; }
-            get { return this.f6; }
-        }
-        public uint XX
-        {
-            set { this.xx = value; }
-            get { return this.xx; }
-        }
+        public uint F1 { set; get; }
 
-        public bool Flag
-        {
-            set { this.flag = value; }
-            get { return this.flag; }
-        }
+        /// <summary>
+        /// レジスタf2
+        /// スクラッチレジスタ
+        /// </summary>
+        public uint F2 { set; get; }
+
+        /// <summary>
+        /// レジスタf3
+        /// スクラッチレジスタ
+        /// </summary>
+        public uint F3 { set; get; }
+
+        /// <summary>
+        /// レジスタf4
+        /// 用途未定義(いちおう復元して復帰すること)
+        /// </summary>
+        public uint F4 { set; get; }
+
+        /// <summary>
+        /// レジスタf5
+        /// 主にスタック操作用
+        /// </summary>
+        public uint F5 { set; get; }
+
+        /// <summary>
+        /// レジスタf6
+        /// 用途未定義(いちおう復元して復帰すること)
+        /// </summary>
+        public uint F6 { set; get; }
+
+        /// <summary>
+        /// プログラムカウンタ
+        /// </summary>
+        public uint XX { set; get; }
+
+        /// <summary>
+        /// フラグレジスタ
+        /// 条件判断命令によってセット/クリアされる。
+        /// 条件判断命令直後以外での参照は内容が保証されない。
+        /// </summary>
+        public bool Flag { set; get; }
 
         /// <summary>
         ///  コンストラクタ
@@ -203,39 +198,6 @@ namespace interpreter
             efRegXX
         };
 
-        EfParamType addrtype;       // アドレッシングモード
-        EfRegName basereg;          // ベースレジスタ
-        EfRegName offsetreg;        // オフセットレジスタ
-        uint immidiate;             // 即値
-        uint label;                 // ラベル値( TODO:いずれインデックス引きしたい)
-
-        public EfParamType Type
-        {
-            set { this.addrtype = value; }
-            get { return this.addrtype; }
-        }
-
-        public EfRegName BaseReg
-        {
-            set { this.basereg = value; }
-            get { return this.basereg; }
-        }
-        public EfRegName OffsetReg
-        {
-            set { this.offsetreg = value; }
-            get { return this.offsetreg; }
-        }
-        public uint Immidiate
-        {
-            set { this.immidiate = value; }
-            get { return this.immidiate; }
-        }
-        public uint Label
-        {
-            set { this.label = value; }
-            get { return this.label; }
-        }
-
         /// <summary>
         /// 比較コード
         /// </summary>
@@ -252,6 +214,35 @@ namespace interpreter
             efCond_niv,             /// 不等
             efCond_clo              /// 同値
         }
+
+        /// <summary>
+        /// アドレッシングフォーマット
+        /// 命令に対するパラメータフォーマットタイプの設定と取得
+        /// </summary>
+        public EfParamType Type { set; get; }
+
+        /// <summary>
+        /// ベースレジスタ番号
+        /// レジスタ間接アドレッシングモードで基準となるレジスタ番号の設定と取得
+        /// </summary>
+        public EfRegName BaseReg { set; get; }
+
+        /// <summary>
+        /// オフセットレジスタ番号
+        /// オフセットに用いるレジスタ番号の設定と取得
+        /// </summary>
+        public EfRegName OffsetReg { set; get; }
+
+        /// <summary>
+        /// 即値(32bit整数)データの設定と取得
+        /// </summary>
+        public uint Immidiate { set; get; }
+
+        /// <summary>
+        /// ラベルデータの設定と取得
+        /// TODO:検討：このパラメータにあてがう値の意味
+        /// </summary>
+        public uint Label { set; get; }
     };
 
     // プロセッサ
