@@ -129,7 +129,7 @@ namespace interpreter
             uint temp;
 
             temp = Load(target);
-            temp |= Load(value);
+            temp ^= Load(value);
             temp = ~temp;
             Store(target, temp);
         }
