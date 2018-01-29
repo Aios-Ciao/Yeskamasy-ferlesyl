@@ -1,6 +1,6 @@
 #pragma once
 
-// ƒAƒZƒ“ƒuƒ‰
+// ã‚¢ã‚»ãƒ³ãƒ–ãƒ©
 class ladirvirelyl
 {
 public:
