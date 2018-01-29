@@ -1,11 +1,12 @@
-// assembler.cpp : コンソール アプリケーションのエントリ ポイントを定義します。
-//
 
-#include "stdafx.h"
+#include <cstdio>
+#include "ladirvirelyl.h"
 
 
-int main()
+int main(int argc, char *argv[])
 {
-    return 0;
+	ladirvirelyl	lv(argc, argv);
+
+	return 0;
 }
 
