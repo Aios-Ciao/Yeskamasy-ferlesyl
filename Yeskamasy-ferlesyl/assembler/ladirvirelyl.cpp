@@ -31,7 +31,32 @@ void ladirvirelyl::load(char *fname)
 	{
 		lidx++;
 		std::cout << lidx << ":" << linebuf << std::endl;
+		linebuf = removeComment(linebuf);
+
+
 	}
 
 	(void)getchar();
 }
+
+// コメントの除去
+std::string ladirvirelyl::removeComment(std::string &buf)
+{
+	size_t dpos(buf.find(';'));
+
+	if (dpos != -1)
+	{
+		buf = buf.substr(0, dpos);
+	}
+
+	return buf;
+}
+
+// トークン間ブランクのスキップ
+std::string ladirvirelyl::skipBlank(std::string &buf)
+{
+	size_t dpos(buf.find_first_not_of("\x20\t\n\r"));
+
+	return buf.substr(dpos);
+}
+

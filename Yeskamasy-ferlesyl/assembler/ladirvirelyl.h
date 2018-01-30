@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 // アセンブラ
 class ladirvirelyl
@@ -9,6 +10,7 @@ public:
 
 	void load(char *fname);
 
-
+	std::string removeComment(std::string &buf);
+	std::string skipBlank(std::string &buf);
 };
 
