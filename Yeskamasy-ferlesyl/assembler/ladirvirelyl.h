@@ -9,8 +9,5 @@ public:
 	~ladirvirelyl();
 
 	void load(char *fname);
-
-	std::string removeComment(std::string &buf);
-	std::string skipBlank(std::string &buf);
 };
 

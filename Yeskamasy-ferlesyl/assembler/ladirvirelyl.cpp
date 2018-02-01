@@ -2,7 +2,9 @@
 #include <fstream>
 #include <string>
 #include "ladirvirelyl.h"
+#include "Parse.h"
 
+using namespace std;
 
 ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 {
@@ -16,47 +18,24 @@ ladirvirelyl::~ladirvirelyl()
 
 void ladirvirelyl::load(char *fname)
 {
-	std::ifstream	ifs(fname);
-
-	// 開けていなければ終了
-	if (ifs.fail()) {
-		std::cerr << "ファイルが開けませんでした(" << std::string(fname) << ")" << std::endl;
-		return;
-	}
-
-	std::string linebuf;
-	unsigned long	lidx(0);
-
-	while (getline(ifs, linebuf))
+	string token;
+	Parse	prs(fname);
+	
+	while (prs.getToken(token))
 	{
-		lidx++;
-		std::cout << lidx << ":" << linebuf << std::endl;
-		linebuf = removeComment(linebuf);
+		// トークン区切りの処理
+		if (token == " ") {
+			continue;
+		}
+		// コメントの処理
+		if (token == ";") {
+			prs.skipToBreak();
+			continue;
+		}
 
-
+		std::cout << token << " ";
 	}
 
+	std::cout << "done." << std::endl;
 	(void)getchar();
 }
-
-// コメントの除去
-std::string ladirvirelyl::removeComment(std::string &buf)
-{
-	size_t dpos(buf.find(';'));
-
-	if (dpos != -1)
-	{
-		buf = buf.substr(0, dpos);
-	}
-
-	return buf;
-}
-
-// トークン間ブランクのスキップ
-std::string ladirvirelyl::skipBlank(std::string &buf)
-{
-	size_t dpos(buf.find_first_not_of("\x20\t\n\r"));
-
-	return buf.substr(dpos);
-}
-
