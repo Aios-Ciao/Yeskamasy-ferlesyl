@@ -20,21 +20,25 @@ void ladirvirelyl::load(char *fname)
 {
 	string token;
 	Parse	prs(fname);
+	Parse::PosInfo	curp, nextp;
+	unsigned long	lastlinenum(0);
+	string line = "";
 	
-	while (prs.getToken(token))
+	while (prs.getToken(token, curp, nextp))
 	{
-		// トークン区切りの処理
-		if (token == " ") {
-			continue;
-		}
-		// コメントの処理
-		if (token == ";") {
-			prs.skipToBreak();
-			continue;
-		}
+		if (token == "\x20") continue;
 
-		std::cout << token << " ";
+		if (lastlinenum != curp.nRow)
+		{
+			lastlinenum = curp.nRow;
+			std::cout << curp.nRow << " : " << line;
+			std::cout << endl;
+			line = "";
+		}
+		line += "<" + token + ">";
 	}
+	std::cout << curp.nRow << " : " << line;
+	std::cout << std::endl;
 
 	std::cout << "done." << std::endl;
 	(void)getchar();

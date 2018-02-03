@@ -3,19 +3,24 @@
 #include <fstream>
 #include "Parse.h"
 
+unsigned char Parse::tblCharType[256];
+
 // コンストラクタ
 Parse::Parse(char *fname)
-	: ifs( fname)
+	: ifs( fname )
 {
 	// 文字タイプマップ初期化
 	{
+		// 使用可能な文字種以外は不正として初期化
 		for (int idx = 0; idx < 255; idx++) {
 			tblCharType[idx] = Parse::eUnknown;
 		}
+
 		// 数字
 		for (int idx = 0; idx < 10; idx++) {
 			tblCharType['0' + idx] = Parse::eNum;
 		}
+
 		// 通常文字
 		for (int idx = 'a'; idx <= 'z'; idx++) {
 			tblCharType[idx] = Parse::eWord;
@@ -29,10 +34,12 @@ Parse::Parse(char *fname)
 		tblCharType['_'] = Parse::eWord;
 
 		// 空白文字
-		tblCharType['\r'] = Parse::eBlank;
-		tblCharType['\n'] = Parse::eBlank;
 		tblCharType['\x20'] = Parse::eBlank;
 		tblCharType['\t'] = Parse::eBlank;
+
+		// 改行系文字
+		tblCharType['\r'] = Parse::eBreak;
+		tblCharType['\n'] = Parse::eBreak;
 
 		// 記号
 		tblCharType['+'] = Parse::ePlus;
@@ -41,7 +48,7 @@ Parse::Parse(char *fname)
 		// コメント記号
 		tblCharType[';'] = Parse::eComment;
 	}
-	// 開けていなければ終了
+	// 開けていなければ警告
 	if (ifs.fail()) {
 		std::cerr << "ファイルが開けませんでした(" << std::string(fname) << ")" << std::endl;
 	}
@@ -54,38 +61,49 @@ Parse::~Parse()
 }
 
 // 1単語取得
-size_t Parse::getToken(std::string &token)
+bool Parse::getToken(std::string &token, Parse::PosInfo &tokenpos, Parse::PosInfo &nexttoken)
 {
-	size_t pos(0);
-	char	chr;
+	char chr;
 	bool next(true);
+	bool bcommentskip(false);
 	unsigned char context;
 	unsigned char type;
 
 	token = "";
+	tokenpos = nexttoken;
 
 	chr = ifs.get();
-	context = tblCharType[chr];
+	if (chr == -1 )	// eof
+	{
+		return(false);
+	}
 	ifs.unget();
+
+	context = tblCharType[chr];
 
 	while (next && ifs.get(chr))
 	{
+		nexttoken.nColumn++;
+
 		type = tblCharType[chr];
+		// コメント処理中は改行以外空白として扱う
+		if (bcommentskip) {
+			if (type != eBreak)
+			{
+				type = eComment;
+			}
+		}
+
 		switch (context) {
-		case Parse::eBlank:
-			if (type != context) {
-				ifs.unget();
-				token = "\x20";
-				next = false;
-			}
-			break;
 		case Parse::eNum:
-			if (type != context) {
+			switch (type) {
+			case Parse::eNum:
+				token += chr;
+				break;
+			default:
 				ifs.unget();
 				next = false;
-			}
-			else {
-				token += chr;
+				break;
 			}
 			break;
 		case Parse::eWord:
@@ -99,41 +117,40 @@ size_t Parse::getToken(std::string &token)
 				next = false;
 			}
 			break;
-		case Parse::eDerefer:
-		case Parse::ePlus:
-		case Parse::eComment:
+		case Parse::eBreak:
+			token = "\x20";
+			nexttoken.nRow++;			// 次の行へ
+			nexttoken.nColumn = 0;
+			bcommentskip = false;		// 行コメント終了
+			next = false;
+			break;
+		case Parse::eBlank:
+			if (type != context) {
+				ifs.unget();
+				token = "\x20";
+				next = false;
+			}
+			break;
+		case Parse::eComment:		// ;
+			if (type == eBreak)
+			{
+				ifs.unget();
+				token = "\x20";
+				next = false;
+			}
+			bcommentskip = true;	// 以降行末(改行)までコメントとしてスキップ
+			break;
+		case Parse::eDerefer:		// @
+		case Parse::ePlus:			// +
 			token = chr;
 			next = false;
 			break;
 		default:
+			return(false);
 			break;
 		}
-		pos++;
 	}
 
-	return pos;
-}
-
-// 行末まで読み飛ばす
-size_t Parse::skipToBreak()
-{
-	size_t pos(0);
-	char	chr;
-	bool next(true);
-
-	while (next && ifs.get(chr)) {
-
-		switch (chr) {
-		case '\r':
-		case '\n':
-			next = false;
-			break;
-		default:
-			break;
-		}
-		pos++;
-	}
-
-	return pos;
+	return (!ifs.eof());
 }
 
