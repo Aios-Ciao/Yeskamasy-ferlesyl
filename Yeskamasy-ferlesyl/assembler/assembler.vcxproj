@@ -147,12 +147,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Encoder.h" />
     <ClInclude Include="ladirvirelyl.h" />
     <ClInclude Include="Parse.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="ladirvirelyl.cpp" />
+    <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="Parse.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
