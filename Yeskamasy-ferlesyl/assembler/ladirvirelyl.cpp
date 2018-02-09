@@ -18,16 +18,17 @@ ladirvirelyl::~ladirvirelyl()
 
 void ladirvirelyl::load(char *fname)
 {
-	string token;
+	string word;
 	Parse	prs(fname);
 	Parse::PosInfo	curp, nextp;
 	unsigned long	lastlinenum(0);
 	string line = "";
 	
-	while (prs.getToken(token, curp, nextp))
+	while (prs.getToken(word, curp, nextp))
 	{
-		if (token == "\x20") continue;
+		if (word == "\x20") continue;
 
+		Parse::Token	token = prs.Tokenize(word, curp);
 		if (lastlinenum != curp.nRow)
 		{
 			lastlinenum = curp.nRow;
@@ -35,7 +36,7 @@ void ladirvirelyl::load(char *fname)
 			std::cout << endl;
 			line = "";
 		}
-		line += "<" + token + ">";
+		line += "<" + token.str + "," + std::to_string(token.type) + ">";
 	}
 	std::cout << curp.nRow << " : " << line;
 	std::cout << std::endl;
