@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Mnemonics">
+      <UniqueIdentifier>{da3cd56d-53d9-4cc3-9fd8-567f45c16724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -23,6 +26,9 @@
     </ClInclude>
     <ClInclude Include="Parse.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_fen.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
     <ClInclude Include="Encoder.h">
       <Filter>ヘッダー ファイル</Filter>
