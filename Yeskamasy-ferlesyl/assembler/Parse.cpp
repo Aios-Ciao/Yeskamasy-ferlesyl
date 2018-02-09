@@ -106,7 +106,6 @@ Parse::Parse(char *fname)
 	mmOpe["xolonys"] = "xolonys";
 	mmOpe["llonys"] = "llonys";
 
-
 	// 開けていなければ警告
 	if (ifs.fail()) {
 		std::cerr << "ファイルが開けませんでした(" << std::string(fname) << ")" << std::endl;
@@ -117,6 +116,23 @@ Parse::Parse(char *fname)
 Parse::~Parse()
 {
 	ifs.close();
+}
+
+// トークンのリストを生成する
+std::vector<Parse::Token> Parse::makeTokenList()
+{
+	std::string	word;
+	Parse::PosInfo	curp, nextp;
+	std::vector<Token> vTokenList;
+
+	while (getToken(word, curp, nextp))
+	{
+		if (word != "\x20") {
+			vTokenList.push_back(Tokenize(word, curp));
+		}
+	}
+
+	return (vTokenList);
 }
 
 // 1単語取得
@@ -280,7 +296,6 @@ Parse::Token Parse::Tokenize(std::string &token, Parse::PosInfo &tokenpos)
 		tok.type = TokenType::eSymbol;
 	}
 	else {
-		// ラベルかもしれないし不正な文字列かもしれない
 		tok.type = TokenType::eUnknown;
 	}
 

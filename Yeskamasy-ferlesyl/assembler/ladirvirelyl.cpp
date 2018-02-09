@@ -18,27 +18,24 @@ ladirvirelyl::~ladirvirelyl()
 
 void ladirvirelyl::load(char *fname)
 {
-	string word;
 	Parse	prs(fname);
-	Parse::PosInfo	curp, nextp;
+	vector<Parse::Token> vTokenList = prs.makeTokenList();
 	unsigned long	lastlinenum(0);
 	string line = "";
-	
-	while (prs.getToken(word, curp, nextp))
-	{
-		if (word == "\x20") continue;
 
-		Parse::Token	token = prs.Tokenize(word, curp);
-		if (lastlinenum != curp.nRow)
+	for (vector<Parse::Token>::iterator it = vTokenList.begin(); it != vTokenList.end(); it++)
+	{
+		if (lastlinenum != it->pos.nRow)
 		{
-			lastlinenum = curp.nRow;
-			std::cout << curp.nRow << " : " << line;
+			lastlinenum = it->pos.nRow;
+			std::cout << it->pos.nRow << " : " << line;
 			std::cout << endl;
 			line = "";
 		}
-		line += "<" + token.str + "," + std::to_string(token.type) + ">";
+		line += "<" + it->str + "," + std::to_string(it->type) + ">";
+
 	}
-	std::cout << curp.nRow << " : " << line;
+	std::cout << (++lastlinenum) << " : " << line;
 	std::cout << std::endl;
 
 	std::cout << "done." << std::endl;

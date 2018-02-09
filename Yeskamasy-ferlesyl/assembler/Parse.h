@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <string>
+#include <vector>
 class Parse
 {
 private:
@@ -44,17 +45,19 @@ public:
 		Token(std::string &token, PosInfo &_pos, TokenType _type = TokenType::eUnknown)
 			: str(token), pos(_pos), type(_type) {};
 	};
-
+public:
 	bool isProcOption(std::string &token);
 	bool isRegister(std::string &token);
 	bool isMnemonic(std::string &token);
 	bool isNumeric(std::string &token);
 	bool isValidSymbol(std::string &token);
+
 public:
 	Parse(char *fname);
 	~Parse();
-	
 
+	std::vector<Token> makeTokenList();
+private:
 	// ÉäÅ[É_Å[I/F
 	bool getToken(std::string &token, PosInfo &tokenpos, PosInfo &nexttoken);
 	Token Tokenize(std::string &token, PosInfo &tokenpos);
