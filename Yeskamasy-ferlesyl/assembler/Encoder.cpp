@@ -4,6 +4,7 @@
 #include "Mnemonics/ope_fen.h"
 #include "Mnemonics/ope_krz.h"
 #include "Mnemonics/ope_inj.h"
+#include "Mnemonics/ope_ata.h"
 using namespace std;
 
 std::vector<Mnemonic*>	Encoder::vMnemonics;
@@ -13,6 +14,7 @@ Encoder::Encoder()
 	vMnemonics.push_back(new ope_fen());
 	vMnemonics.push_back(new ope_krz());
 	vMnemonics.push_back(new ope_inj());
+	vMnemonics.push_back(new ope_ata());
 }
 
 Encoder::~Encoder()
