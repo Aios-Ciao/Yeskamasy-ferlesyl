@@ -149,7 +149,10 @@
   <ItemGroup>
     <ClInclude Include="Encoder.h" />
     <ClInclude Include="ladirvirelyl.h" />
+    <ClInclude Include="Mnemonic.h" />
     <ClInclude Include="Mnemonics\ope_fen.h" />
+    <ClInclude Include="Mnemonics\ope_inj.h" />
+    <ClInclude Include="Mnemonics\ope_krz.h" />
     <ClInclude Include="Parse.h" />
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,13 @@
 #include <fstream>
 #include <map>
 #include "Parse.h"
+#include "Encoder.h"
 
 unsigned char Parse::tblCharType[256];
 
 std::map<std::string, std::string>	mmPOC;	// Processor Option Command
 std::map<std::string, std::string>	mmReg;	// レジスタ
-std::map<std::string, std::string>	mmOpe;	// 命令
+//std::map<std::string, std::string>	mmOpe;	// 命令
 
 // コンストラクタ
 Parse::Parse(char *fname)
@@ -76,35 +77,35 @@ Parse::Parse(char *fname)
 	mmReg["xx"] = "xx";
 
 	// 命令(大小文字はいちおう区別する)
-	mmOpe.clear();
-	mmOpe["krz"] = "krz";			mmOpe["kRz"] = "krz";
-	mmOpe["malkrz"] = "malkrz";		mmOpe["malkRz"] = "malkrz";
-	mmOpe["fen"] = "fen";
-	mmOpe["inj"] = "inj";
-	mmOpe["ata"] = "ata";
-	mmOpe["nta"] = "nta";
-	mmOpe["lat"] = "lat";
-	mmOpe["latsna"] = "latsna";
-//	mmOpe["kak"] = "kak";
-	mmOpe["ada"] = "ada";
-	mmOpe["ekc"] = "ekc";
-	mmOpe["nac"] = "nac";
-	mmOpe["dal"] = "dal";
-	mmOpe["dto"] = "dto";
-	mmOpe["dtosna"] = "dtosna";
-	mmOpe["dro"] = "dro";			mmOpe["dRo"] = "dro";
+//	mmOpe.clear();
+//	mmOpe["krz"] = "krz";			mmOpe["kRz"] = "krz";
+//	mmOpe["malkrz"] = "malkrz";		mmOpe["malkRz"] = "malkrz";
+//	mmOpe["fen"] = "fen";
+//	mmOpe["inj"] = "inj";
+//	mmOpe["ata"] = "ata";
+//	mmOpe["nta"] = "nta";
+//	mmOpe["lat"] = "lat";
+//	mmOpe["latsna"] = "latsna";
+////	mmOpe["kak"] = "kak";
+//	mmOpe["ada"] = "ada";
+//	mmOpe["ekc"] = "ekc";
+//	mmOpe["nac"] = "nac";
+//	mmOpe["dal"] = "dal";
+//	mmOpe["dto"] = "dto";
+//	mmOpe["dtosna"] = "dtosna";
+//	mmOpe["dro"] = "dro";			mmOpe["dRo"] = "dro";
 
-	mmOpe["fi"] = "fi";
-	mmOpe["xtlo"] = "xtlo";		// 条件コード
-	mmOpe["xylo"] = "xylo";
-	mmOpe["clo"] = "clo";
-	mmOpe["xolo"] = "xolo";
-	mmOpe["llo"] = "llo";
-	mmOpe["niv"] = "niv";
-	mmOpe["xtlonys"] = "xtlonys";
-	mmOpe["xylonys"] = "xylonys";
-	mmOpe["xolonys"] = "xolonys";
-	mmOpe["llonys"] = "llonys";
+//	mmOpe["fi"] = "fi";
+//	mmOpe["xtlo"] = "xtlo";		// 条件コード
+//	mmOpe["xylo"] = "xylo";
+//	mmOpe["clo"] = "clo";
+//	mmOpe["xolo"] = "xolo";
+//	mmOpe["llo"] = "llo";
+//	mmOpe["niv"] = "niv";
+//	mmOpe["xtlonys"] = "xtlonys";
+//	mmOpe["xylonys"] = "xylonys";
+//	mmOpe["xolonys"] = "xolonys";
+//	mmOpe["llonys"] = "llonys";
 
 	// 開けていなければ警告
 	if (ifs.fail()) {
@@ -244,7 +245,8 @@ bool Parse::isRegister(std::string &token)
 // 命令名として登録があるか
 bool Parse::isMnemonic(std::string &token)
 {
-	return (mmOpe.count(token) > 0);
+//	return (mmOpe.count(token) > 0);
+	return (Encoder::isMnemonic(token));
 }
 
 // 数値文字列か

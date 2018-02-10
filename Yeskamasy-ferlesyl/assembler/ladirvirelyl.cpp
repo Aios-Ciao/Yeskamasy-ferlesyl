@@ -3,8 +3,11 @@
 #include <string>
 #include "ladirvirelyl.h"
 #include "Parse.h"
+#include "Encoder.h"
 
 using namespace std;
+
+static Encoder	enc;
 
 ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 {
@@ -32,7 +35,20 @@ void ladirvirelyl::load(char *fname)
 			std::cout << endl;
 			line = "";
 		}
-		line += "<" + it->str + "," + std::to_string(it->type) + ">";
+		line += "<" + it->str + ",";
+		switch (it->type)
+		{
+		case Parse::eNumeric:		line += "Num";	break;
+		case Parse::eDereference:	line += "Der";	break;
+		case Parse::eDisplacement:	line += "Dsp";	break;
+		case Parse::eMnemonic:		line += "Mne";	break;
+		case Parse::eProcOption:	line += "Opt";	break;
+		case Parse::eSymbol:		line += "Sym";	break;
+		case Parse::eRegister:		line += "Reg";	break;
+		default:
+		case Parse::eUnknown:		line += "???";	break;
+		}
+		line += ">";
 
 	}
 	std::cout << (++lastlinenum) << " : " << line;
