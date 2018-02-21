@@ -27,8 +27,10 @@ public:
 		eDereference,	// @
 		eDisplacement,	// +
 		eProcOption,	// 'c'i‚ânll‚Æ‚¢‚Á‚½‘åˆæ‚ÉŠÖ‚í‚éˆ—
+		eCondition,		// fi–½—ß—p‚Ì”»’fğŒ
 		eUnknown		// •s–¾‚È‚à‚Ì
 	};
+
 	struct PosInfo {
 		unsigned long nRow;			// s”Ô†
 		unsigned long nColumn;		// Œ…”Ô†
@@ -45,11 +47,14 @@ public:
 		Token(std::string &token, PosInfo &_pos, TokenType _type = TokenType::eUnknown)
 			: str(token), pos(_pos), type(_type) {};
 	};
+
+
 public:
 	bool isProcOption(std::string &token);
 	bool isRegister(std::string &token);
 	bool isMnemonic(std::string &token);
 	bool isNumeric(std::string &token);
+	bool isCondition(std::string &token);
 	bool isValidSymbol(std::string &token);
 
 public:

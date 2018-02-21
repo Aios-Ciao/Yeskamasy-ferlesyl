@@ -9,7 +9,7 @@ unsigned char Parse::tblCharType[256];
 
 std::map<std::string, std::string>	mmPOC;	// Processor Option Command
 std::map<std::string, std::string>	mmReg;	// レジスタ
-//std::map<std::string, std::string>	mmOpe;	// 命令
+std::map<std::string, std::string>	mmCondition;	// 比較条件
 
 // コンストラクタ
 Parse::Parse(char *fname)
@@ -76,36 +76,17 @@ Parse::Parse(char *fname)
 	mmReg["f7"] = "xx";
 	mmReg["xx"] = "xx";
 
-	// 命令(大小文字はいちおう区別する)
-//	mmOpe.clear();
-//	mmOpe["krz"] = "krz";			mmOpe["kRz"] = "krz";
-//	mmOpe["malkrz"] = "malkrz";		mmOpe["malkRz"] = "malkrz";
-//	mmOpe["fen"] = "fen";
-//	mmOpe["inj"] = "inj";
-//	mmOpe["ata"] = "ata";
-//	mmOpe["nta"] = "nta";
-//	mmOpe["lat"] = "lat";
-//	mmOpe["latsna"] = "latsna";
-////	mmOpe["kak"] = "kak";
-//	mmOpe["ada"] = "ada";
-//	mmOpe["ekc"] = "ekc";
-//	mmOpe["nac"] = "nac";
-//	mmOpe["dal"] = "dal";
-//	mmOpe["dto"] = "dto";
-//	mmOpe["dtosna"] = "dtosna";
-//	mmOpe["dro"] = "dro";			mmOpe["dRo"] = "dro";
-
-//	mmOpe["fi"] = "fi";
-//	mmOpe["xtlo"] = "xtlo";		// 条件コード
-//	mmOpe["xylo"] = "xylo";
-//	mmOpe["clo"] = "clo";
-//	mmOpe["xolo"] = "xolo";
-//	mmOpe["llo"] = "llo";
-//	mmOpe["niv"] = "niv";
-//	mmOpe["xtlonys"] = "xtlonys";
-//	mmOpe["xylonys"] = "xylonys";
-//	mmOpe["xolonys"] = "xolonys";
-//	mmOpe["llonys"] = "llonys";
+	// 条件コード
+	mmCondition["xtlo"] = "xtlo";
+	mmCondition["xylo"] = "xylo";
+	mmCondition["clo"] = "clo";
+	mmCondition["xolo"] = "xolo";
+	mmCondition["llo"] = "llo";
+	mmCondition["niv"] = "niv";
+	mmCondition["xtlonys"] = "xtlonys";
+	mmCondition["xylonys"] = "xylonys";
+	mmCondition["xolonys"] = "xolonys";
+	mmCondition["llonys"] = "llonys";
 
 	// 開けていなければ警告
 	if (ifs.fail()) {
@@ -256,6 +237,12 @@ bool Parse::isNumeric(std::string &token)
 	return (token.find_first_not_of("0123456789") == -1);
 }
 
+// 比較条件か
+bool Parse::isCondition(std::string &token)
+{
+	return(mmCondition.count(token) > 0);
+}
+
 // ラベル、シンボルとして有効な文字で構成されているか
 bool Parse::isValidSymbol(std::string &token)
 {
@@ -293,6 +280,9 @@ Parse::Token Parse::Tokenize(std::string &token, Parse::PosInfo &tokenpos)
 	}
 	else if (!token.compare("@")) {
 		tok.type = TokenType::eDereference;
+	}
+	else if (isCondition(token)) {
+		tok.type = TokenType::eCondition;
 	}
 	else if (isValidSymbol(token)) {
 		tok.type = TokenType::eSymbol;

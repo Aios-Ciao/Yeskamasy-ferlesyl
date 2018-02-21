@@ -44,6 +44,7 @@ void ladirvirelyl::load(char *fname)
 		case Parse::eMnemonic:		line += "Mne";	break;
 		case Parse::eProcOption:	line += "Opt";	break;
 		case Parse::eSymbol:		line += "Sym";	break;
+		case Parse::eCondition:		line += "Cnd";	break;
 		case Parse::eRegister:		line += "Reg";	break;
 		default:
 		case Parse::eUnknown:		line += "???";	break;
