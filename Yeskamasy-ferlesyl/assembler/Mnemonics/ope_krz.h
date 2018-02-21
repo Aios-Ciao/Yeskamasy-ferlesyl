@@ -4,6 +4,7 @@
 
 class ope_krz : public Mnemonic
 {
+	const std::string name = "krz";
 public:
 	bool chkApplicable(std::string &token)
 	{
@@ -14,5 +15,11 @@ public:
 
 		return(bok);
 	};
+
+	std::string getName()
+	{
+		return (name);
+	}
+
 };
 

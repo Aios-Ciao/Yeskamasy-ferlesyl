@@ -4,6 +4,8 @@
 
 class ope_ata : public Mnemonic
 {
+	const std::string name = "ata";
+
 public:
 	bool chkApplicable(std::string &token)
 	{
@@ -13,4 +15,11 @@ public:
 
 		return(bok);
 	};
+
+	std::string getName()
+	{
+		return (name);
+	}
+
 };
+

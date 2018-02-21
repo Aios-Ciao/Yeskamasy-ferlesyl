@@ -4,6 +4,8 @@
 
 class ope_inj : public Mnemonic
 {
+	const std::string name = "inj";
+
 public:
 	bool chkApplicable(std::string &token)
 	{
@@ -13,4 +15,10 @@ public:
 
 		return(bok);
 	};
+
+	std::string getName()
+	{
+		return (name);
+	}
+
 };
