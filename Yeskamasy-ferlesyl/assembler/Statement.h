@@ -7,8 +7,8 @@
 class Statement
 {
 public:
-	Mnemonic					*mnemonic;		// ƒj[ƒ‚ƒjƒbƒN
-	std::vector<Parameter>		param;			// ƒXƒe[ƒgƒƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^
+	Mnemonic					*mnemonic;		// ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯
+	std::vector<Parameter>		param;			// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 
 public:
 	Statement();

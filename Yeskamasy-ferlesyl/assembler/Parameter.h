@@ -1,33 +1,33 @@
 #pragma once
 #include <string>
 
-// ƒXƒe[ƒgƒƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^
+// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 class Parameter
 {
 public:
 	enum ParamType {
-		eptImmidiate,		/// ‘¦’l				imm
-		eptRegister,		/// ƒŒƒWƒXƒ^’¼Ú		f0
-		eptLabel,			/// ƒ‰ƒxƒ‹				l'‚©nll‚Å’è‹`Axok‚Å’è‹`QÆ
-		eptCondition,		/// ”»’fğŒ			fi‚Ìƒpƒ‰ƒ[ƒ^
-		eptReg_Ofs_Imm,		/// ‘¦’lƒIƒtƒZƒbƒg•t‚«ƒŒƒWƒXƒ^ŠÔÚ			f0+imm@
-		eptReg_Ofs_Reg,		/// ƒŒƒWƒXƒ^ƒIƒtƒZƒbƒg•t‚«ƒŒƒWƒXƒ^ŠÔÚ		f0+f1@
-//		eptReg_Idx_Imm,		/// ‘¦’lƒCƒ“ƒfƒbƒNƒX•t‚«ƒŒƒWƒXƒ^ŠÔÚ			f0:imm@
-//		eptReg_Idx_Reg		/// ƒŒƒWƒXƒ^ƒCƒ“ƒfƒbƒNƒX•t‚«ƒŒƒWƒXƒ^ŠÔÚ		f0:f1@
+		eptImmidiate,		/// å³å€¤				imm
+		eptRegister,		/// ãƒ¬ã‚¸ã‚¹ã‚¿ç›´æ¥		f0
+		eptLabel,			/// ãƒ©ãƒ™ãƒ«				l'ã‹nllã§å®šç¾©ã€xokã§å®šç¾©å‚ç…§
+		eptCondition,		/// åˆ¤æ–­æ¡ä»¶			fiã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+		eptReg_Ofs_Imm,		/// å³å€¤ã‚ªãƒ•ã‚»ãƒƒãƒˆä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥			f0+imm@
+		eptReg_Ofs_Reg,		/// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚ªãƒ•ã‚»ãƒƒãƒˆä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥		f0+f1@
+//		eptReg_Idx_Imm,		/// å³å€¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥			f0:imm@
+//		eptReg_Idx_Reg		/// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥		f0:f1@
 	};
 
-	/// ƒŒƒWƒXƒ^–¼
+	/// ãƒ¬ã‚¸ã‚¹ã‚¿å
 	enum ParamRegName {
 		ernF0, ernF1, ernF2, ernF3, ernF4, ernF5, ernF6, ernF7, ernXX
 	};
 
-	// ŠeƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒh‚Åg—p‚·‚éƒpƒ‰ƒ[ƒ^‚¾‚¯g—p‚·‚é
-	ParamType		type;	// ƒpƒ‰ƒ[ƒ^‚ÌƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒhí•Ê
-	uint32_t		imm;	// ‘¦’lƒf[ƒ^
-	ParamRegName	base;	// ƒx[ƒXƒŒƒWƒXƒ^
-	ParamRegName	dsp;	// ƒIƒtƒZƒbƒg‚Ü‚½‚ÍƒCƒ“ƒfƒbƒNƒX‚ÌƒŒƒWƒXƒ^
-	std::string		label;	// ƒ‰ƒxƒ‹•¶š—ñ
-	std::string		cond;	// ”äŠrğŒ
+	// å„ã‚¢ãƒ‰ãƒ¬ãƒƒã‚·ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ã§ä½¿ç”¨ã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã ã‘ä½¿ç”¨ã™ã‚‹
+	ParamType		type;	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ãƒƒã‚·ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ç¨®åˆ¥
+	uint32_t		imm;	// å³å€¤ãƒ‡ãƒ¼ã‚¿
+	ParamRegName	base;	// ãƒ™ãƒ¼ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿
+	ParamRegName	dsp;	// ã‚ªãƒ•ã‚»ãƒƒãƒˆã¾ãŸã¯ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ¬ã‚¸ã‚¹ã‚¿
+	std::string		label;	// ãƒ©ãƒ™ãƒ«æ–‡å­—åˆ—
+	std::string		cond;	// æ¯”è¼ƒæ¡ä»¶
 
 public:
 	Parameter(){};
