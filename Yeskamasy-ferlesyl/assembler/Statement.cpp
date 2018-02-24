@@ -13,7 +13,7 @@ Statement::~Statement()
 
 }
 
-// ï¼‘ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’é€†ã‚¢ã‚»ã—ãŸã‚ˆã†ã«æ–‡å­—åˆ—ã«ç›´ã™
+// ‚PƒXƒe[ƒgƒƒ“ƒg‚ğ‹tƒAƒZ‚µ‚½‚æ‚¤‚É•¶š—ñ‚É’¼‚·
 std::string Statement::ToString()
 {
 	std::string statement;
