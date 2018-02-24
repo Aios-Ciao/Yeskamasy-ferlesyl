@@ -154,13 +154,16 @@
     <ClInclude Include="Mnemonics\ope_fen.h" />
     <ClInclude Include="Mnemonics\ope_inj.h" />
     <ClInclude Include="Mnemonics\ope_krz.h" />
+    <ClInclude Include="Parameter.h" />
     <ClInclude Include="Parse.h" />
+    <ClInclude Include="Statement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="ladirvirelyl.cpp" />
     <ClCompile Include="Parse.cpp" />
+    <ClCompile Include="Statement.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
