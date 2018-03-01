@@ -22,11 +22,13 @@ ladirvirelyl::~ladirvirelyl()
 void ladirvirelyl::load(char *fname)
 {
 	Parse	prs(fname);
-	vector<Parse::Token> vTokenList = prs.makeTokenList();
+	Parse::tTokenList vTokenList = prs.makeTokenList();
 	unsigned long	lastlinenum(0);
 	string line = "";
 
-	for (vector<Parse::Token>::iterator it = vTokenList.begin(); it != vTokenList.end(); it++)
+	Parse::tStatementList	vStatements = prs.makeStatementList(vTokenList);
+
+	for (Parse::tTokenList::iterator it = vTokenList.begin(); it != vTokenList.end(); it++)
 	{
 		if (lastlinenum != it->pos.nRow)
 		{
@@ -38,16 +40,16 @@ void ladirvirelyl::load(char *fname)
 		line += "<" + it->str + ",";
 		switch (it->type)
 		{
-		case Parse::eNumeric:		line += "Num";	break;
-		case Parse::eDereference:	line += "Der";	break;
-		case Parse::eDisplacement:	line += "Dsp";	break;
-		case Parse::eMnemonic:		line += "Mne";	break;
-		case Parse::eProcOption:	line += "Opt";	break;
-		case Parse::eSymbol:		line += "Sym";	break;
-		case Parse::eCondition:		line += "Cnd";	break;
-		case Parse::eRegister:		line += "Reg";	break;
+		case Parse::Token::eNumeric:		line += "Num";	break;
+		case Parse::Token::eDereference:	line += "Der";	break;
+		case Parse::Token::eDisplacement:	line += "Dsp";	break;
+		case Parse::Token::eMnemonic:		line += "Mne";	break;
+		case Parse::Token::eProcOption:	line += "Opt";	break;
+		case Parse::Token::eSymbol:		line += "Sym";	break;
+		case Parse::Token::eCondition:		line += "Cnd";	break;
+		case Parse::Token::eRegister:		line += "Reg";	break;
 		default:
-		case Parse::eUnknown:		line += "???";	break;
+		case Parse::Token::eUnknown:		line += "???";	break;
 		}
 		line += ">";
 
