@@ -4,6 +4,7 @@
 #include <map>
 #include "Parse.h"
 #include "Encoder.h"
+#include "Statement.h"
 
 unsigned char Parse::tblCharType[256];
 
@@ -101,11 +102,11 @@ Parse::~Parse()
 }
 
 // トークンのリストを生成する
-std::vector<Parse::Token> Parse::makeTokenList()
+Parse::tTokenList Parse::makeTokenList()
 {
 	std::string	word;
 	Parse::PosInfo	curp, nextp;
-	std::vector<Token> vTokenList;
+	tTokenList vTokenList;
 
 	while (getToken(word, curp, nextp))
 	{
@@ -115,6 +116,25 @@ std::vector<Parse::Token> Parse::makeTokenList()
 	}
 
 	return (vTokenList);
+}
+
+// トークンリストからステートメントリストへの変換
+Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
+{
+	tStatementList vStatementList;
+	tTokenList::size_type	idx;
+
+	for (idx = 0; idx < vTokenList.size(); ++idx)
+	{
+		switch (vTokenList[idx].type)
+		{
+		case Token::eUnknown:
+		default:
+			break;
+		}
+	}
+
+	return(vStatementList);
 }
 
 // 1単語取得
@@ -264,31 +284,31 @@ Parse::Token Parse::Tokenize(std::string &token, Parse::PosInfo &tokenpos)
 	Token tok(token, tokenpos);
 
 	if (isProcOption(token)) {
-		tok.type = TokenType::eProcOption;
+		tok.type = Parse::Token::eProcOption;
 	}
 	else if (isRegister(token)) {
-		tok.type = TokenType::eRegister;
+		tok.type = Parse::Token::eRegister;
 	}
 	else if (isNumeric(token)) {
-		tok.type = TokenType::eNumeric;
+		tok.type = Parse::Token::eNumeric;
 	}
 	else if (isMnemonic(token)) {
-		tok.type = TokenType::eMnemonic;
+		tok.type = Parse::Token::eMnemonic;
 	}
 	else if (!token.compare("+")) {
-		tok.type = TokenType::eDisplacement;
+		tok.type = Parse::Token::eDisplacement;
 	}
 	else if (!token.compare("@")) {
-		tok.type = TokenType::eDereference;
+		tok.type = Parse::Token::eDereference;
 	}
 	else if (isCondition(token)) {
-		tok.type = TokenType::eCondition;
+		tok.type = Parse::Token::eCondition;
 	}
 	else if (isValidSymbol(token)) {
-		tok.type = TokenType::eSymbol;
+		tok.type = Parse::Token::eSymbol;
 	}
 	else {
-		tok.type = TokenType::eUnknown;
+		tok.type = Parse::Token::eUnknown;
 	}
 
 	return(tok);

@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "Statement.h"
+
 class Parse
 {
 private:
@@ -19,17 +21,6 @@ private:
 	std::ifstream	ifs;
 
 public:
-	enum TokenType {
-		eRegister,		// f0～f7
-		eMnemonic,		// 命令名
-		eNumeric,		// 数値
-		eSymbol,		// ラベル候補
-		eDereference,	// @
-		eDisplacement,	// +
-		eProcOption,	// 'c'iやnllといった大域に関わる処理
-		eCondition,		// fi命令用の判断条件
-		eUnknown		// 不明なもの
-	};
 
 	struct PosInfo {
 		unsigned long nRow;			// 行番号
@@ -39,6 +30,17 @@ public:
 	};
 
 	struct Token {
+		enum TokenType {
+			eRegister,		// f0～f7
+			eMnemonic,		// 命令名
+			eNumeric,		// 数値
+			eSymbol,		// ラベル候補
+			eDereference,	// @
+			eDisplacement,	// +
+			eProcOption,	// 'c'iやnllといった大域に関わる処理
+			eCondition,		// fi命令用の判断条件
+			eUnknown		// 不明なもの
+		};
 		std::string	str;		// 文字列
 		TokenType	type;		// 種別
 		PosInfo		pos;		// 元ソースでの位置情報
@@ -58,10 +60,14 @@ public:
 	bool isValidSymbol(std::string &token);
 
 public:
+	using tTokenList = std::vector<Token>;
+	using tStatementList = std::vector<Statement>;
+public:
 	Parse(char *fname);
 	~Parse();
 
-	std::vector<Token> makeTokenList();
+	tTokenList makeTokenList();
+	tStatementList makeStatementList(tTokenList &vTokenList);
 private:
 	// リーダーI/F
 	bool getToken(std::string &token, PosInfo &tokenpos, PosInfo &nexttoken);
