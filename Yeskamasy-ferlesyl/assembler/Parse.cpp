@@ -180,6 +180,7 @@ Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
 					break;
 				}
 			}
+			vStatementList.push_back(statement);
 		}	break;
 		default:
 			break;
@@ -228,7 +229,7 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 				param.type = Parameter::eptReg_Ofs_Imm;
 				param.base = Parameter::fromRegName(tok.str);
 				param.imm = 0;	// オフセット0の間接参照として扱う
-				top++;
+				top += 2;
 				break;
 			case Token::eDisplacement:	// +
 				// + reg/imm @ で3つ先まで必要
