@@ -51,6 +51,9 @@
     <ClInclude Include="Parameter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Mnemonics\ope_fi.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">
