@@ -5,7 +5,9 @@
 #include "Mnemonics/ope_krz.h"
 #include "Mnemonics/ope_inj.h"
 #include "Mnemonics/ope_ata.h"
+#include "Mnemonics/ope_nta.h"
 #include "Mnemonics/ope_fi.h"
+#include "Mnemonics/ope_malkrz.h"
 using namespace std;
 
 Encoder::tMnemonics	Encoder::vMnemonics;
@@ -16,7 +18,9 @@ Encoder::Encoder()
 	vMnemonics.push_back(new ope_krz());
 	vMnemonics.push_back(new ope_inj());
 	vMnemonics.push_back(new ope_ata());
+	vMnemonics.push_back(new ope_nta());
 	vMnemonics.push_back(new ope_fi());
+	vMnemonics.push_back(new ope_malkrz());
 }
 
 Encoder::~Encoder()

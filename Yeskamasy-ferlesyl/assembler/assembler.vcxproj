@@ -155,6 +155,8 @@
     <ClInclude Include="Mnemonics\ope_fi.h" />
     <ClInclude Include="Mnemonics\ope_inj.h" />
     <ClInclude Include="Mnemonics\ope_krz.h" />
+    <ClInclude Include="Mnemonics\ope_malkrz.h" />
+    <ClInclude Include="Mnemonics\ope_nta.h" />
     <ClInclude Include="Parameter.h" />
     <ClInclude Include="Parse.h" />
     <ClInclude Include="Statement.h" />
