@@ -5,13 +5,17 @@
 class ope_inj : public Mnemonic
 {
 private:
-	enum {
+	enum ePrmType {
 		eSource,
 		eDestSrc,
 		eTarget,
 		eParamCount
 	};
 	const std::string name = "inj";
+
+	// 引数位置テーブル								0			1		2
+	const ePrmType	tbl_prmidx_ic[eParamCount] = { eSource,	eDestSrc, eTarget };
+	const ePrmType	tbl_prmidx_ci[eParamCount] = { eTarget,	eDestSrc, eSource };
 
 public:
 	bool chkApplicable(std::string &token)
@@ -25,7 +29,22 @@ public:
 
 	tParamCount getParamCount()
 	{
-		return(ope_inj::eParamCount);
+		return(eParamCount);
+	}
+	tParamCount	getParamIndex(tParamCount idx, tParamDir d)
+	{
+		if (idx >= eParamCount) return(-1);	// 範囲外
+
+		switch (d)
+		{
+		case Mnemonic::eci_C_I:
+			return(tbl_prmidx_ci[idx]);
+			break;
+		case Mnemonic::eci_I_C:
+		default:
+			return(tbl_prmidx_ic[idx]);
+			break;
+		}
 	}
 
 	bool chkParamType(tParamCount idx, Parameter::ParamType type)
@@ -34,7 +53,7 @@ public:
 
 		switch (idx)
 		{
-		case ope_inj::eSource:
+		case eSource:
 			switch (type)
 			{
 			case Parameter::ParamType::eptRegister:
@@ -48,8 +67,8 @@ public:
 				break;
 			}
 			break;
-		case ope_inj::eDestSrc:
-		case ope_inj::eTarget:
+		case eDestSrc:
+		case eTarget:
 			switch (type)
 			{
 			case Parameter::ParamType::eptRegister:

@@ -9,9 +9,9 @@ class Statement
 public:
 	using tParamList = std::vector<Parameter>;
 public:
-	Mnemonic		*mnemonic;		// ニーモニック
-	tParamList		param;			// ステートメントのパラメータ
-
+	Mnemonic				*mnemonic;		// ニーモニック
+	tParamList				param;			// ステートメントのパラメータ
+	Mnemonic::tParamDir		eci;			// パラメータの格納順序
 public:
 	Statement();
 	~Statement();

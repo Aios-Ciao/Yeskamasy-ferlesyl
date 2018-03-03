@@ -5,12 +5,16 @@
 class ope_ata : public Mnemonic
 {
 private:
-	enum {
+	enum ePrmType {
 		eSource,
 		eTarget,
 		eParamCount
 	};
 	const std::string name = "ata";
+
+	// 引数位置テーブル								0			1
+	const ePrmType	tbl_prmidx_ic[eParamCount] = { eSource,	eTarget };
+	const ePrmType	tbl_prmidx_ci[eParamCount] = { eTarget,	eSource };
 
 public:
 	bool chkApplicable(std::string &token)
@@ -24,7 +28,23 @@ public:
 
 	tParamCount getParamCount()
 	{
-		return(ope_ata::eParamCount);
+		return(eParamCount);
+	}
+
+	tParamCount	getParamIndex(tParamCount idx, tParamDir d)
+	{
+		if (idx >= eParamCount) return(-1);	// 範囲外
+
+		switch (d)
+		{
+		case Mnemonic::eci_C_I:
+			return(tbl_prmidx_ci[idx]);
+			break;
+		case Mnemonic::eci_I_C:
+		default:
+			return(tbl_prmidx_ic[idx]);
+			break;
+		}
 	}
 
 	bool chkParamType(tParamCount idx, Parameter::ParamType type)
@@ -33,7 +53,7 @@ public:
 
 		switch (idx)
 		{
-		case ope_ata::eSource:
+		case eSource:
 			switch (type)
 			{
 			case Parameter::ParamType::eptRegister:
@@ -47,7 +67,7 @@ public:
 				break;
 			}
 			break;
-		case ope_ata::eTarget:
+		case eTarget:
 			switch (type)
 			{
 			case Parameter::ParamType::eptRegister:
