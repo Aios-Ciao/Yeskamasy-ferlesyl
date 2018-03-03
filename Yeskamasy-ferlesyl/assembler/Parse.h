@@ -48,8 +48,15 @@ public:
 		Token() :str(""), type(TokenType::eUnknown), pos() {};
 		Token(std::string &token, PosInfo &_pos, TokenType _type = TokenType::eUnknown)
 			: str(token), pos(_pos), type(_type) {};
+		bool chkKeyword(const char *ref) { return(!str.compare(ref)); };
 	};
 
+public:
+	using tTokenList = std::vector<Token>;
+	using tStatementList = std::vector<Statement>;
+
+private:
+	Parameter	makeParameter(Parse::tTokenList &list, Parse::tTokenList::size_type &top);
 
 public:
 	bool isProcOption(std::string &token);
@@ -59,9 +66,6 @@ public:
 	bool isCondition(std::string &token);
 	bool isValidSymbol(std::string &token);
 
-public:
-	using tTokenList = std::vector<Token>;
-	using tStatementList = std::vector<Statement>;
 public:
 	Parse(char *fname);
 	~Parse();
