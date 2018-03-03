@@ -7,10 +7,11 @@
 class Encoder
 {
 private:
-	static std::vector<Mnemonic*>	vMnemonics;
+	using tMnemonics = std::vector<Mnemonic*>;
+	static tMnemonics vMnemonics;
 public:
 	Encoder();
 	~Encoder();
 	static bool isMnemonic(std::string &token);
-
+	static Mnemonic *getMnemonic(std::string &ope);
 };
