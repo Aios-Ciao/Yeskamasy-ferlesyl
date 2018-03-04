@@ -160,9 +160,10 @@ Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
 			Mnemonic	*mne = Encoder::getMnemonic(tok.str);
 			Mnemonic::tParamCount	count = mne->getParamCount();
 			Statement	statement;
+			bool bError(false);
 
-			statement.eci = ecid;
-			statement.mnemonic = mne;
+			Statement::tParamMap	params;
+
 			idx++;	// 次からパラメータ
 			// 必要な数だけパラメータを集める
 			for (Mnemonic::tParamCount cnt = 0; cnt < count; ++cnt)
@@ -172,15 +173,30 @@ Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
 
 				if (mne->chkParamType(pidx, prm.type))
 				{
-					statement.param.push_back(prm);
+					params[pidx] = prm;
 				}
 				else
 				{
+					bError = true;
 					// 不正な形式のパラメータ
 					break;
 				}
 			}
-			vStatementList.push_back(statement);
+
+			// エラーがなければ'i'c順にパラメータを整えてステートメントにセット
+			if (!bError)
+			{
+				statement.eci = ecid;
+				statement.mnemonic = mne;
+
+				// 各Mnemonicで定義されるePrmTypeの順に積みなおし
+				for (Mnemonic::tParamCount cnt = 0; cnt < count; ++cnt)
+				{
+					statement.param.push_back(params[cnt]);
+				}
+
+				vStatementList.push_back(statement);
+			}
 		}	break;
 		default:
 			break;

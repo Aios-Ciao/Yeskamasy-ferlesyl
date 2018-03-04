@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <map>
 #include <string>
 #include "Mnemonic.h"
 #include "Parameter.h"
@@ -8,6 +9,7 @@ class Statement
 {
 public:
 	using tParamList = std::vector<Parameter>;
+	using tParamMap = std::map<Mnemonic::tParamCount, Parameter>;
 public:
 	Mnemonic				*mnemonic;		// ニーモニック
 	tParamList				param;			// ステートメントのパラメータ
