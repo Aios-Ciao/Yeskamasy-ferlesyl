@@ -60,6 +60,15 @@
     <ClInclude Include="Mnemonics\ope_nta.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Symbol.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">

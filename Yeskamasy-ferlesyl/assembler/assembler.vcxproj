@@ -147,7 +147,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Encoder.h" />
+    <ClInclude Include="Symbol.h" />
     <ClInclude Include="ladirvirelyl.h" />
     <ClInclude Include="Mnemonic.h" />
     <ClInclude Include="Mnemonics\ope_ata.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="Mnemonics\ope_krz.h" />
     <ClInclude Include="Mnemonics\ope_malkrz.h" />
     <ClInclude Include="Mnemonics\ope_nta.h" />
+    <ClInclude Include="Module.h" />
     <ClInclude Include="Parameter.h" />
     <ClInclude Include="Parse.h" />
     <ClInclude Include="Statement.h" />
