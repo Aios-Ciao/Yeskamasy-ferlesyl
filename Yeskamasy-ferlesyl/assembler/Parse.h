@@ -18,7 +18,6 @@ private:
 		eInvalid	// 不明
 	};
 	static unsigned char tblCharType[256];
-	std::ifstream	ifs;
 
 public:
 
@@ -67,13 +66,13 @@ public:
 	bool isValidSymbol(std::string &token);
 
 public:
-	Parse(char *fname);
+	Parse();
 	~Parse();
 
-	tTokenList makeTokenList();
+	tTokenList makeTokenList(std::string &);
 	tStatementList makeStatementList(tTokenList &vTokenList);
 private:
 	// リーダーI/F
-	bool getToken(std::string &token, PosInfo &tokenpos, PosInfo &nexttoken);
+	bool getToken(std::ifstream &ifs, std::string &token, PosInfo &tokenpos, PosInfo &nexttoken);
 	Token Tokenize(std::string &token, PosInfo &tokenpos);
 };

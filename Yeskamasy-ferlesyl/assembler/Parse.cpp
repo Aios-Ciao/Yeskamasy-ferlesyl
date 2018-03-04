@@ -5,15 +5,16 @@
 #include "Parse.h"
 #include "Encoder.h"
 #include "Statement.h"
+#include "Module.h"
 
 unsigned char Parse::tblCharType[256];
 
 std::map<std::string, std::string>	mmPOC;	// Processor Option Command
 std::map<std::string, std::string>	mmCondition;	// 比較条件
 
+
 // コンストラクタ
-Parse::Parse(char *fname)
-	: ifs( fname )
+Parse::Parse()
 {
 	// 文字タイプマップ初期化
 	{
@@ -76,31 +77,33 @@ Parse::Parse(char *fname)
 	mmCondition["xolonys"] = "xolonys";
 	mmCondition["llonys"] = "llonys";
 
-	// 開けていなければ警告
-	if (ifs.fail()) {
-		std::cerr << "ファイルが開けませんでした(" << std::string(fname) << ")" << std::endl;
-	}
 }
 
 // デストラクタ
 Parse::~Parse()
 {
-	ifs.close();
 }
 
 // トークンのリストを生成する
-Parse::tTokenList Parse::makeTokenList()
+Parse::tTokenList Parse::makeTokenList(std::string &fname)
 {
 	std::string	word;
 	Parse::PosInfo	curp, nextp;
 	tTokenList vTokenList;
+	std::ifstream	ifs(fname);
 
-	while (getToken(word, curp, nextp))
+	// 開けていなければ警告
+	if (ifs.fail()) {
+		std::cerr << "ファイルが開けませんでした(" << std::string(fname) << ")" << std::endl;
+	}
+
+	while (getToken(ifs, word, curp, nextp))
 	{
 		if (word != "\x20") {
 			vTokenList.push_back(Tokenize(word, curp));
 		}
 	}
+	ifs.close();
 
 	return (vTokenList);
 }
@@ -291,7 +294,7 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 }
 
 // 1単語取得
-bool Parse::getToken(std::string &token, Parse::PosInfo &tokenpos, Parse::PosInfo &nexttoken)
+bool Parse::getToken(std::ifstream &ifs, std::string &token, Parse::PosInfo &tokenpos, Parse::PosInfo &nexttoken)
 {
 	char chr;
 	bool next(true);
