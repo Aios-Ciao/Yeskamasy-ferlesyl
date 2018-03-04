@@ -1,9 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 #include "ladirvirelyl.h"
 #include "Parse.h"
 #include "Encoder.h"
+#include "Module.h"
 
 using namespace std;
 
@@ -11,18 +13,26 @@ static Encoder	enc;
 
 ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 {
-	load(argv[1]);
+	std::string		fname(argv[1]);
+
+	_modules.push_back(new Module(fname));
+
+	load(*_modules[0]);
 }
 
 ladirvirelyl::~ladirvirelyl()
 {
-
+	// アセンブルしたモジュールの開放
+	for (Module::tModuleList::iterator it = _modules.begin(); it != _modules.end(); it++)
+	{
+		delete *it;
+	}
 }
 
-void ladirvirelyl::load(char *fname)
+void ladirvirelyl::load(Module &_module)
 {
-	Parse	prs(fname);
-	Parse::tTokenList vTokenList = prs.makeTokenList();
+	Parse	prs;
+	Parse::tTokenList vTokenList = prs.makeTokenList(_module.getFilename());
 	unsigned long	lastlinenum(0);
 	string line = "";
 
