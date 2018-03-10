@@ -1,0 +1,14 @@
+; ラベルテスト
+;nll hoge
+;kue hoge
+;fen
+;l' hoge		;多重定義
+;ata f0 f1
+;l' hoge		;多重定義
+
+; クロスするラベル定義
+fen
+nll foo			; ataに対してラベル定義
+l' a
+ata f0 f1		; fenに対してラベル定義
+
