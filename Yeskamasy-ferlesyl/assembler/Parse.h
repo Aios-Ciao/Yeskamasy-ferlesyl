@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Statement.h"
+#include "Module.h"
 
 class Parse
 {
@@ -52,8 +53,6 @@ public:
 
 public:
 	using tTokenList = std::vector<Token>;
-	using tStatementList = std::vector<Statement>;
-
 private:
 	Parameter	makeParameter(Parse::tTokenList &list, Parse::tTokenList::size_type &top);
 
@@ -70,7 +69,7 @@ public:
 	~Parse();
 
 	tTokenList makeTokenList(std::string &);
-	tStatementList makeStatementList(tTokenList &vTokenList);
+	Statement::tStatementList makeStatementList(tTokenList &vTokenList, Module &mod);
 private:
 	// ÉäÅ[É_Å[I/F
 	bool getToken(std::ifstream &ifs, std::string &token, PosInfo &tokenpos, PosInfo &nexttoken);

@@ -10,6 +10,8 @@ class Statement
 public:
 	using tParamList = std::vector<Parameter>;
 	using tParamMap = std::map<Mnemonic::tParamCount, Parameter>;
+	using tStatementList = std::vector<Statement>;
+	using tStatementIndex = tStatementList::size_type;
 public:
 	Mnemonic				*mnemonic;		// ニーモニック
 	tParamList				param;			// ステートメントのパラメータ

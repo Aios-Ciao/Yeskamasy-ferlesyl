@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Common.h"
 
 // ステートメントのパラメータ
 class Parameter
@@ -43,8 +44,11 @@ public:
 	std::string		label;	// ラベル文字列
 	std::string		cond;	// 比較条件
 
+	lk::tAddressHalf	localaddr;	// 参照先(モジュール内の)アドレス
+	lk::tModuleID		modid;		// 参照先モジュールID
+
 public:
-	Parameter() :type(eptInvalid), imm(0), base(ernF0), dsp(ernF0), label(""), cond("") {};
+	Parameter() :type(eptInvalid), imm(0), base(ernF0), dsp(ernF0), label(""), cond(""), localaddr(0), modid(0) {};
 	~Parameter() {};
 
 public:

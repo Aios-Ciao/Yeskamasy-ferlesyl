@@ -1,7 +1,9 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <map>
+#include <list>
 #include "Parse.h"
 #include "Encoder.h"
 #include "Statement.h"
@@ -109,9 +111,10 @@ Parse::tTokenList Parse::makeTokenList(std::string &fname)
 }
 
 // トークンリストからステートメントリストへの変換
-Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
+Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList, Module &mod)
 {
-	tStatementList			vStatementList;
+
+	Statement::tStatementList	vStatementList;
 	tTokenList::size_type	idx(0);
 	Mnemonic::tParamDir		ecid(Mnemonic::tParamDir::eci_I_C);		// 初期値は'i'c
 
@@ -119,6 +122,10 @@ Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
 	auto setCI = [&](std::string &k) {
 		ecid = !k.compare("'c'i") ? Mnemonic::tParamDir::eci_C_I : Mnemonic::tParamDir::eci_I_C;
 	};
+
+	Symbol::tSymbolMap	msymbol;		// nllまたはl'で定義されるシンボル
+	Symbol::tSymbolList	kuereqlist;		// kueすべきシンボルリスト
+	Symbol::tSymbolList xokreqlist;		// xokすべきシンボルリスト
 
 	while (idx < vTokenList.size())
 	{
@@ -136,26 +143,74 @@ Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
 			else if (tok.chkKeyword("kue"))
 			{
 				// パラメータ１つとってラベル処理
-				idx+=2;
+				if (idx + 1 <= vTokenList.size()) {
+					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
+					kuereqlist.push_back(symbol);
+				}
+				idx += 2;
 			}
 			else if (tok.chkKeyword("xok"))
 			{
 				// パラメータ１つとってラベル処理
+				if (idx + 1 <= vTokenList.size()) {
+					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
+					xokreqlist.push_back(symbol);
+				}
 				idx += 2;
 			}
 			else if (tok.chkKeyword("nll"))
 			{
 				// パラメータ１つとってラベル処理
-				idx += 2;
+				if (idx + 1 <= vTokenList.size()) {
+					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
+
+					// 未登録なら
+					if (msymbol.count(symbol) > 0) {
+						// ラベルが重複定義
+					}
+					else {
+						Symbol::stLabelInfo	si;
+
+						si.base = vStatementList.size();			// 現在のステートメント位置
+						si.dir = Symbol::stLabelInfo::esForward;	// 後ろの方へ探索
+						si.isExported = false;						// 未公開
+
+						msymbol[symbol] = si;
+					}
+					idx += 2;
+				}
+				else {
+					// nll だけで終わった
+				}
 			}
 			else if (tok.chkKeyword("l'"))
 			{
 				// パラメータ１つとってラベル処理
-				idx += 2;
+				if (idx + 1 <= vTokenList.size()) {
+					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
+
+					// 未登録なら
+					if (msymbol.count(symbol) == 0) {
+						Symbol::stLabelInfo	si;
+
+						si.base = vStatementList.size();			// 現在のステートメント位置
+						si.dir = Symbol::stLabelInfo::esReverse;	// 前の方へ探索
+						si.isExported = false;						// 未公開
+
+						msymbol[symbol] = si;
+					}
+					else {
+						// ラベルが重複定義
+					}
+					idx += 2;
+				}
+				else {
+					// l' だけで終わった
+				}
 			}
 			else
 			{
-
+				// 不明なオプション
 			}
 			break;
 		case Token::eMnemonic: {
@@ -203,6 +258,42 @@ Parse::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList)
 		}	break;
 		default:
 			break;
+		}
+	}
+	
+	// ラベルのステートメント割り付け
+	for (Symbol::tSymbolMap::iterator it = msymbol.begin(); it != msymbol.end(); ++it)
+	{
+		Symbol::stLabelInfo si = it->second;
+
+		if (si.dir == si.esForward) {	// nll
+			// 次が無ければラベル定義エラー
+			if (vStatementList.size() <= si.base) {
+				
+			}
+			else {
+				// 正常ラベル定義
+			}
+		}
+		else {	// l'
+			// 前が無ければラベル定義エラー
+			if (si.base == 0) {
+			}
+			else {
+				// 正常ラベル定義
+				it->second.base--;		// 無理やりだけどひとつ前のステートメントを指させる
+			}
+		}
+	}
+
+	// kue要求リストの消化
+	for (Symbol::tSymbolList::iterator it = kuereqlist.begin(); it != kuereqlist.end(); ++it)
+	{
+		if (msymbol.count(*it) > 0) {
+			msymbol[*it].isExported = true;
+		}
+		else {
+			// 未定義シンボルのkue要求
 		}
 	}
 

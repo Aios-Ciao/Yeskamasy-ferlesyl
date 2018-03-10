@@ -3,22 +3,27 @@
 #include <map>
 #include <vector>
 #include "Common.h"
-#include "Parse.h"
+#include "Statement.h"
 #include "Symbol.h"
 
 // アセンブルするモジュールの管理
 class Module
 {
 public:
-	using tModuleID = uint8_t;				// モジュール番号
-private:
-	static tModuleID	id_base;			// 数え上げ用
-	tModuleID			id;
-	std::string			filename;
-	lk::tAddressHalf	loadaddress;		// モジュールの基点アドレス(上位16bit)
+						
+	/// パラメータが解決を要求するラベルの位置情報
+	struct stLabelRef {
+		Parameter	*target;	// あとで書き替えるべきパラメータへのポインタ
+		Symbol		*symbol;	// 
+	};
 
-	Parse::tStatementList	vStatements;	// ステートメント群
-	Symbol					_Symbols;		// シンボル群
+private:
+	static lk::tModuleID	id_base;			// 数え上げ用
+	lk::tModuleID			id;
+	lk::tModuleName			filename;
+	lk::tAddressHalf		loadaddress;		// モジュールの基点アドレス(上位16bit)
+
+	Statement::tStatementList	vStatements;	// ステートメント群
 
 public:
 	using tModuleList = std::vector<Module*>;
@@ -27,7 +32,7 @@ public:
 	Module(std::string &name);
 	~Module() {};
 
-	tModuleID	getID() { return(id); };
+	lk::tModuleID	getID() { return(id); };
 	std::string		getFilename() { return(filename); };
 };
 
