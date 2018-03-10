@@ -17,16 +17,19 @@ public:
 		Symbol		*symbol;	// 
 	};
 
+public:
+	using tModuleList = std::vector<Module*>;
+	using tStatementIdxList = std::vector<Statement::tStatementIndex>;
+
 private:
 	static lk::tModuleID	id_base;			// 数え上げ用
 	lk::tModuleID			id;
 	lk::tModuleName			filename;
 	lk::tAddressHalf		loadaddress;		// モジュールの基点アドレス(上位16bit)
 
-	Statement::tStatementList	vStatements;	// ステートメント群
-
 public:
-	using tModuleList = std::vector<Module*>;
+	Statement::tStatementList	vStatements;	// ステートメント群
+	tStatementIdxList			vLabelRefStateIdx;	/// 解決すべきラベルをパラメータとしてもつステートメントのインデックスリスト
 
 public:
 	Module(std::string &name);

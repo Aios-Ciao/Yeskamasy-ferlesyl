@@ -235,6 +235,7 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 			Mnemonic::tParamCount	count = mne->getParamCount();
 			Statement	statement;
 			bool bError(false);
+			bool bLabelReference(false);
 
 			Statement::tParamMap	params;
 
@@ -248,7 +249,13 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 
 				if (mne->chkParamType(pidx, prm.type))
 				{
+					// 適切なパラメータ
 					params[pidx] = prm;
+
+					// パラメータがラベルならばステートメントIdxを控える
+					if (prm.type == prm.eptLabel) {
+						bLabelReference = true;
+					}
 				}
 				else
 				{
@@ -260,6 +267,11 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 					}
 					break;
 				}
+			}
+
+			// ラベルの場合、あとのリンクのためステートメントのインデックスを控える
+			if (bLabelReference) {
+				mod.vLabelRefStateIdx.push_back(idx);
 			}
 
 			// エラーがなければ'i'c順にパラメータを整えてステートメントにセット
@@ -278,6 +290,8 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 			}
 		}	break;
 		default:
+			// 不明なオプション
+			std::cerr << "構文エラー: 不明なトークンです " << tok.str << " " << tok.pos.toString() << std::endl;
 			break;
 		}
 	}

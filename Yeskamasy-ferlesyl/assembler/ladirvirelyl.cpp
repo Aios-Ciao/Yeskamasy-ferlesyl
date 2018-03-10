@@ -13,11 +13,22 @@ static Encoder	enc;
 
 ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 {
-	std::string		fname(argv[1]);
+	int nfiles = argc;
 
-	_modules.push_back(new Module(fname));
+	// à¯êîñ≥ÇµÇ≈ÇÕâΩÇ‡ÇµÇ»Ç¢
+	if (nfiles == 0) {
+		return;
+	}
 
-	load(*_modules[0]);
+	for (int i = 1; i < nfiles; ++i) {
+		std::string		fname(argv[i]);
+		_modules.push_back(new Module(fname));
+	}
+
+	// äeÉÇÉWÉÖÅ[ÉãÇÃì«Ç›çûÇ›
+	for (Module::tModuleList::iterator mod = _modules.begin(); mod != _modules.end(); ++mod) {
+		load(**mod);
+	}
 }
 
 ladirvirelyl::~ladirvirelyl()
