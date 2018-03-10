@@ -36,7 +36,7 @@ void ladirvirelyl::load(Module &_module)
 	unsigned long	lastlinenum(0);
 	string line = "";
 
-	Parse::tStatementList	vStatements = prs.makeStatementList(vTokenList);
+	Statement::tStatementList	vStatements = prs.makeStatementList(vTokenList, _module);
 
 	for (Parse::tTokenList::iterator it = vTokenList.begin(); it != vTokenList.end(); it++)
 	{

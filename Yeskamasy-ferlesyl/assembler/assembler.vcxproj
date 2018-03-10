@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Encoder.h" />
+    <ClInclude Include="Linker.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="ladirvirelyl.h" />
     <ClInclude Include="Mnemonic.h" />
