@@ -123,7 +123,7 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		ecid = !k.compare("'c'i") ? Mnemonic::tParamDir::eci_C_I : Mnemonic::tParamDir::eci_I_C;
 	};
 
-	Symbol::tSymbolMap	msymbol;		// nllまたはl'で定義されるシンボル
+	tLabelMap	msymbol;		// nllまたはl'で定義されるシンボル
 	Symbol::tSymbolList	kuereqlist;		// kueすべきシンボルリスト
 	Symbol::tSymbolList xokreqlist;		// xokすべきシンボルリスト
 
@@ -143,37 +143,48 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 			else if (tok.chkKeyword("kue"))
 			{
 				// パラメータ１つとってラベル処理
-				if (idx + 1 <= vTokenList.size()) {
+				if ((idx + 1) <= vTokenList.size()) {
 					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
 					kuereqlist.push_back(symbol);
+					idx += 2;
 				}
-				idx += 2;
+				else {
+					std::cerr << "構文エラー: ラベルがありません " << tok.pos.toString() << std::endl;
+					break;
+				}
 			}
 			else if (tok.chkKeyword("xok"))
 			{
 				// パラメータ１つとってラベル処理
-				if (idx + 1 <= vTokenList.size()) {
+				if ((idx + 1) <= vTokenList.size()) {
 					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
 					xokreqlist.push_back(symbol);
+					idx += 2;
 				}
-				idx += 2;
+				else {
+					std::cerr << "構文エラー: ラベルがありません " << tok.pos.toString() << std::endl;
+					break;
+				}
 			}
 			else if (tok.chkKeyword("nll"))
 			{
 				// パラメータ１つとってラベル処理
 				if (idx + 1 <= vTokenList.size()) {
-					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
+					tLabelName	symbol = vTokenList[idx + 1].str;
 
 					// 未登録なら
 					if (msymbol.count(symbol) > 0) {
 						// ラベルが重複定義
+						std::cerr << "データエラー：ラベルが多重定義されます:" << symbol << " " << tok.pos.toString() << std::endl;
+						break;
 					}
 					else {
-						Symbol::stLabelInfo	si;
+						stLabelInfo	si;
 
-						si.base = vStatementList.size();			// 現在のステートメント位置
-						si.dir = Symbol::stLabelInfo::esForward;	// 後ろの方へ探索
+						si.target = vStatementList.size();			// 現在のステートメント位置
+						si.dir = stLabelInfo::esForward;			// 後ろの方へ探索
 						si.isExported = false;						// 未公開
+						si.tokenidx = idx;
 
 						msymbol[symbol] = si;
 					}
@@ -181,36 +192,41 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 				}
 				else {
 					// nll だけで終わった
+					std::cerr << "構文エラー: ラベルがありません " << tok.pos.toString() << std::endl;
 				}
 			}
 			else if (tok.chkKeyword("l'"))
 			{
 				// パラメータ１つとってラベル処理
 				if (idx + 1 <= vTokenList.size()) {
-					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
+					tLabelName	symbol = vTokenList[idx + 1].str;
 
 					// 未登録なら
 					if (msymbol.count(symbol) == 0) {
-						Symbol::stLabelInfo	si;
+						stLabelInfo	si;
 
-						si.base = vStatementList.size();			// 現在のステートメント位置
-						si.dir = Symbol::stLabelInfo::esReverse;	// 前の方へ探索
+						si.target = vStatementList.size();			// 現在のステートメント位置
+						si.dir = stLabelInfo::esReverse;			// 前の方へ探索
 						si.isExported = false;						// 未公開
+						si.tokenidx = idx;
 
 						msymbol[symbol] = si;
 					}
 					else {
 						// ラベルが重複定義
+						std::cerr << "データエラー：ラベルが多重定義されます:" << symbol << " " << tok.pos.toString() << std::endl;
 					}
 					idx += 2;
 				}
 				else {
 					// l' だけで終わった
+					std::cerr << "構文エラー: ラベルがありません " << tok.pos.toString() << std::endl;
 				}
 			}
 			else
 			{
 				// 不明なオプション
+				std::cerr << "構文エラー: 不明なトークンです " << tok.str << " " << tok.pos.toString() << std::endl;
 			}
 			break;
 		case Token::eMnemonic: {
@@ -223,9 +239,10 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 			Statement::tParamMap	params;
 
 			idx++;	// 次からパラメータ
-			// 必要な数だけパラメータを集める
+					// 必要な数だけパラメータを集める
 			for (Mnemonic::tParamCount cnt = 0; cnt < count; ++cnt)
 			{
+				Statement::tStatementIndex base = idx;		// パラメータの
 				Parameter	prm = makeParameter(vTokenList, idx);
 				Mnemonic::tParamCount	pidx = mne->getParamIndex(cnt, ecid);
 
@@ -237,6 +254,10 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 				{
 					bError = true;
 					// 不正な形式のパラメータ
+					{
+						std::cerr << "構文エラー: 不明なトークンです ";
+						std::cerr << vTokenList[base].str << " " << vTokenList[base].pos.toString() << std::endl;
+					}
 					break;
 				}
 			}
@@ -262,14 +283,15 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 	}
 	
 	// ラベルのステートメント割り付け
-	for (Symbol::tSymbolMap::iterator it = msymbol.begin(); it != msymbol.end(); ++it)
+	for (tLabelMap::iterator it = msymbol.begin(); it != msymbol.end(); ++it)
 	{
-		Symbol::stLabelInfo si = it->second;
+		stLabelInfo si = it->second;
 
 		if (si.dir == si.esForward) {	// nll
 			// 次が無ければラベル定義エラー
-			if (vStatementList.size() <= si.base) {
-				
+			if (vStatementList.size() <= si.target) {
+				std::cerr << "構文エラー: 不正な位置です ";
+				std::cerr << vTokenList[si.tokenidx].pos.toString() << std::endl;
 			}
 			else {
 				// 正常ラベル定義
@@ -277,11 +299,13 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		}
 		else {	// l'
 			// 前が無ければラベル定義エラー
-			if (si.base == 0) {
+			if (si.target == 0) {
+				std::cerr << "構文エラー: 不正な位置です ";
+				std::cerr << vTokenList[si.tokenidx].pos.toString() << std::endl;
 			}
 			else {
 				// 正常ラベル定義
-				it->second.base--;		// 無理やりだけどひとつ前のステートメントを指させる
+				it->second.target--;		// 無理やりだけどひとつ前のステートメントを指させる
 			}
 		}
 	}
@@ -294,6 +318,8 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		}
 		else {
 			// 未定義シンボルのkue要求
+			std::cerr << "データエラー: 対象のラベルが未定義です ";
+			std::cerr << *it << std::endl;
 		}
 	}
 

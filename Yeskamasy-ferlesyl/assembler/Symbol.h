@@ -4,7 +4,6 @@
 #include <list>
 #include <map>
 #include "Common.h"
-#include "Module.h"
 
 /// ラベル管理
 class Symbol
@@ -13,20 +12,7 @@ public:
 	using tSymbolName = std::string;
 	using tSymbolList = std::list<Symbol::tSymbolName>;
 
-	struct stLabelInfo {
-		Statement::tStatementIndex	base;			// 探索基点ステートメント番号
-		enum SerchDir {
-			esForward,
-			esReverse
-		}							dir;			// 探索方向
-		bool						isExported;		// kue済みか
 
-		stLabelInfo(Statement::tStatementIndex baseidx = 0)
-			:isExported(false), base(baseidx), dir(stLabelInfo::esForward) {};
-		~stLabelInfo() {};
-	};
-
-	using tSymbolMap = std::map<tSymbolName, stLabelInfo>;
 
 private:
 //	tSymbolMap		mSymbols;			// モジュール内定義シンボル

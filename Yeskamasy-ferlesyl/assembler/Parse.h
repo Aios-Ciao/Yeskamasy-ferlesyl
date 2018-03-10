@@ -27,6 +27,11 @@ public:
 		unsigned long nColumn;		// 桁番号
 		PosInfo(unsigned long row = 0, unsigned long col = 0) : nRow(row), nColumn(col) { };
 		// 代入はデフォルトのコピーコンストラクタに任せる
+
+		// トークンの行、列位置を示す文字列を返す 「line(col)」の形
+		std::string toString() {
+			return(std::to_string(nRow + 1) + "(" + std::to_string(nColumn + 1) + ")");
+		}
 	};
 
 	struct Token {
@@ -53,6 +58,26 @@ public:
 
 public:
 	using tTokenList = std::vector<Token>;
+	using tTokenIdx = tTokenList::size_type;
+
+	using tLabelName = std::string;
+
+	struct stLabelInfo {
+		Statement::tStatementIndex	target;			// 探索基点ステートメント番号
+		enum SerchDir {
+			esForward,
+			esReverse
+		}							dir;			// 探索方向
+		bool						isExported;		// kue済みか
+
+		tTokenIdx		tokenidx;	/// ラベル定義命令のトークン番号
+		stLabelInfo(Statement::tStatementIndex baseidx = 0)
+			:isExported(false), target(baseidx), dir(stLabelInfo::esForward) {};
+		~stLabelInfo() {};
+	};
+
+	using tLabelMap = std::map<tLabelName, stLabelInfo>;
+
 private:
 	Parameter	makeParameter(Parse::tTokenList &list, Parse::tTokenList::size_type &top);
 
