@@ -114,7 +114,7 @@ Parse::tTokenList Parse::makeTokenList(std::string &fname)
 Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList, Module &mod)
 {
 
-	Statement::tStatementList	vStatementList;
+	Statement::tStatementList	&vStatementList = mod.vStatements;
 	tTokenList::size_type	idx(0);
 	Mnemonic::tParamDir		ecid(Mnemonic::tParamDir::eci_I_C);		// ‰Šú’l‚Í'i'c
 
