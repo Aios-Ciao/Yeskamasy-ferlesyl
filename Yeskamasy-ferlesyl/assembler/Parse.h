@@ -68,7 +68,8 @@ public:
 			esForward,
 			esReverse
 		}							dir;			// 探索方向
-		bool						isExported;		// kue済みか
+		bool						isExported;		// kue要求
+		bool						isExterned;		// xok要求
 
 		tTokenIdx		tokenidx;	/// ラベル定義命令のトークン番号
 		stLabelInfo(Statement::tStatementIndex baseidx = 0)

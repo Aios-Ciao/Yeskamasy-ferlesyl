@@ -10,14 +10,6 @@
 class Module
 {
 public:
-						
-	/// パラメータが解決を要求するラベルの位置情報
-	struct stLabelRef {
-		Parameter	*target;	// あとで書き替えるべきパラメータへのポインタ
-		Symbol		*symbol;	// 
-	};
-
-public:
 	using tModuleList = std::vector<Module*>;
 	using tStatementIdxList = std::vector<Statement::tStatementIndex>;
 
@@ -28,8 +20,9 @@ private:
 	lk::tAddressHalf		loadaddress;		// モジュールの基点アドレス(上位16bit)
 
 public:
-	Statement::tStatementList	vStatements;	// ステートメント群
+	Statement::tStatementList	vStatements;	/// ステートメント群
 	tStatementIdxList			vLabelRefStateIdx;	/// 解決すべきラベルをパラメータとしてもつステートメントのインデックスリスト
+	Symbol::tSymbolAry			vSymbols;		/// モジュールで定義されるラベル一覧
 
 public:
 	Module(std::string &name);

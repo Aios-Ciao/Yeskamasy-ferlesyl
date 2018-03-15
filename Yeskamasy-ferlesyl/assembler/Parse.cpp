@@ -337,6 +337,28 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		}
 	}
 
+	// モジュールで定義されるシンボルの転記
+	for (tLabelMap::iterator it = msymbol.begin(); it != msymbol.end(); ++it)
+	{
+		stLabelInfo si = it->second;
+		Symbol	sym(it->first);
+
+		sym.modid = mod.getID();			// モジュールID
+		sym.celesol_kue = si.isExported;	// kueフラグセット
+		sym.idx = si.target;				// シンボルが指すステートメントインデックス
+		mod.vSymbols.push_back(sym);
+	}
+
+	// xok要求リストの消化
+	for (Symbol::tSymbolList::iterator it = xokreqlist.begin(); it != xokreqlist.end(); ++it)
+	{
+		Symbol	sym(*it);
+
+		sym.req_xok = true;
+		mod.vSymbols.push_back(sym);
+
+	}
+
 	return(vStatementList);
 }
 

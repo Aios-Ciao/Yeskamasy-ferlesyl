@@ -6,6 +6,7 @@
 #include "Parse.h"
 #include "Encoder.h"
 #include "Module.h"
+#include "Linker.h"
 
 using namespace std;
 
@@ -29,6 +30,9 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 	for (Module::tModuleList::iterator mod = _modules.begin(); mod != _modules.end(); ++mod) {
 		load(**mod);
 	}
+
+	// ƒ‚ƒWƒ…[ƒ‹ŠÔ‚ÌƒŠƒ“ƒN
+	Linker::Link(_modules);
 }
 
 ladirvirelyl::~ladirvirelyl()
@@ -44,11 +48,10 @@ void ladirvirelyl::load(Module &_module)
 {
 	Parse	prs;
 	Parse::tTokenList vTokenList = prs.makeTokenList(_module.getFilename());
-	unsigned long	lastlinenum(0);
-	string line = "";
-
 	Statement::tStatementList	vStatements = prs.makeStatementList(vTokenList, _module);
 
+	unsigned long	lastlinenum(0);
+	string line = "";
 	for (Parse::tTokenList::iterator it = vTokenList.begin(); it != vTokenList.end(); it++)
 	{
 		if (lastlinenum != it->pos.nRow)
