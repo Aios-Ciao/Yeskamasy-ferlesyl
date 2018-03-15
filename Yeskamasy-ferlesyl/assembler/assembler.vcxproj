@@ -169,6 +169,7 @@
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="ladirvirelyl.cpp" />
+    <ClCompile Include="Linker.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="Parse.cpp" />
     <ClCompile Include="Statement.cpp" />
