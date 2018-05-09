@@ -1,13 +1,13 @@
-
+ï»¿
 xok label1
 
 nll main
 fen
 ata f0 f1
 
-; nll label1		; ‘½d’è‹`
+; nll label1		; å¤šé‡å®šç¾©
 
-inj label1 xx f5@	; QÆƒWƒƒƒ“ƒv
+inj label1 xx f5@	; å‚ç…§ã‚¸ãƒ£ãƒ³ãƒ—
 
 fen
 inj f0 f1 f2

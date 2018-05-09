@@ -1,9 +1,9 @@
-#pragma once
+Ôªø#pragma once
 #include <string>
 #include <vector>
 #include "Mnemonic.h"
 
-// ÉGÉìÉRÅ[É_Å[
+// „Ç®„É≥„Ç≥„Éº„ÉÄ„Éº
 class Encoder
 {
 private:
