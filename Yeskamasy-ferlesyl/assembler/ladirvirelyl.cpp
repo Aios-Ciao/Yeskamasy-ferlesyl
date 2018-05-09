@@ -23,12 +23,14 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 
 	for (int i = 1; i < nfiles; ++i) {
 		std::string		fname(argv[i]);
-		_modules.push_back(new Module(fname));
+		Module	mod(fname);
+
+		_modules.push_back(mod);
 	}
 
 	// 各モジュールの読み込み
 	for (Module::tModuleList::iterator mod = _modules.begin(); mod != _modules.end(); ++mod) {
-		load(**mod);
+		load(*mod);
 	}
 
 	// モジュール間のリンク
@@ -37,11 +39,6 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 
 ladirvirelyl::~ladirvirelyl()
 {
-	// アセンブルしたモジュールの開放
-	for (Module::tModuleList::iterator it = _modules.begin(); it != _modules.end(); it++)
-	{
-		delete *it;
-	}
 }
 
 void ladirvirelyl::load(Module &_module)

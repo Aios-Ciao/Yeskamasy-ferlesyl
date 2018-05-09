@@ -10,7 +10,7 @@
 class Module
 {
 public:
-	using tModuleList = std::vector<Module*>;
+	using tModuleList = std::vector<Module>;
 	using tStatementIdxList = std::vector<Statement::tStatementIndex>;
 
 private:
