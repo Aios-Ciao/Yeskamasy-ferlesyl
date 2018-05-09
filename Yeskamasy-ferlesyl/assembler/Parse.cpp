@@ -135,11 +135,13 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		switch (tok.type)
 		{
 		case Token::eProcOption:
+			// パラメータ方向指定
 			if (tok.chkKeyword("'c'i") || tok.chkKeyword("'i'c"))
 			{
 				setCI(tok.str);
 				idx++;
 			}
+			// シンボル公開
 			else if (tok.chkKeyword("kue"))
 			{
 				// パラメータ１つとってラベル処理
@@ -153,6 +155,7 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 					break;
 				}
 			}
+			// 外部シンボル参照
 			else if (tok.chkKeyword("xok"))
 			{
 				// パラメータ１つとってラベル処理
@@ -166,6 +169,7 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 					break;
 				}
 			}
+			// 前置ラベル定義
 			else if (tok.chkKeyword("nll"))
 			{
 				// パラメータ１つとってラベル処理
@@ -195,6 +199,7 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 					std::cerr << "構文エラー: ラベルがありません " << tok.pos.toString() << std::endl;
 				}
 			}
+			// 後置ラベル定義
 			else if (tok.chkKeyword("l'"))
 			{
 				// パラメータ１つとってラベル処理
@@ -223,9 +228,9 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 					std::cerr << "構文エラー: ラベルがありません " << tok.pos.toString() << std::endl;
 				}
 			}
+			// 不明なオプション
 			else
 			{
-				// 不明なオプション
 				std::cerr << "構文エラー: 不明なトークンです " << tok.str << " " << tok.pos.toString() << std::endl;
 			}
 			break;
@@ -343,9 +348,10 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		stLabelInfo si = it->second;
 		Symbol	sym(it->first);
 
-		sym.modid = mod.getID();			// モジュールID
 		sym.celesol_kue = si.isExported;	// kueフラグセット
+		sym.modid = mod.getID();			// モジュールID
 		sym.idx = si.target;				// シンボルが指すステートメントインデックス
+
 		mod.vSymbols.push_back(sym);
 	}
 
@@ -355,6 +361,10 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 		Symbol	sym(*it);
 
 		sym.req_xok = true;
+		// sym.modid = other_modules_ID;			// リンク時に設定
+		// sym.idx = statement_idx_in_other_mod;	// リンク時に設定
+		// sym.celesol_xok = set_at_linker;			// リンク成功時に設定
+
 		mod.vSymbols.push_back(sym);
 
 	}
