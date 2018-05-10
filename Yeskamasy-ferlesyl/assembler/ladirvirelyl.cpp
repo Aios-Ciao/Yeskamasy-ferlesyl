@@ -1,24 +1,24 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
 #include "ladirvirelyl.h"
 #include "Parse.h"
-#include "Encoder.h"
+#include "Mnemonics.h"
 #include "Module.h"
 #include "Linker.h"
 #include "Sequencer.h"
 
 using namespace std;
+static Mnemonics mne;
 
-static Encoder	enc;
 
 ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 {
 	int nfiles = argc;
 	Sequencer	*seq;
 
-	// ˆø”–³‚µ‚Å‚Í‰½‚à‚µ‚È‚¢
+	// å¼•æ•°ç„¡ã—ã§ã¯ä½•ã‚‚ã—ãªã„
 	if (nfiles == 0) {
 		return;
 	}
@@ -30,12 +30,12 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 		_modules.push_back(mod);
 	}
 
-	// Šeƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İ
+	// å„ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®èª­ã¿è¾¼ã¿
 	for (Module::tModuleList::iterator mod = _modules.begin(); mod != _modules.end(); ++mod) {
 		load(*mod);
 	}
 
-	// ƒ‚ƒWƒ…[ƒ‹ŠÔ‚ÌƒŠƒ“ƒN
+	// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«é–“ã®ãƒªãƒ³ã‚¯
 	Linker::Link(_modules);
 	seq = new Sequencer(_modules);
 

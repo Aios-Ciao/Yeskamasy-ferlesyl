@@ -4,14 +4,14 @@
 #include "Mnemonic.h"
 
 // エンコーダー
-class Encoder
+class Mnemonics
 {
 private:
 	using tMnemonics = std::vector<Mnemonic*>;
 	static tMnemonics vMnemonics;
 public:
-	Encoder();
-	~Encoder();
+	Mnemonics();
+	~Mnemonics();
 	static bool isMnemonic(std::string &token);
 	static Mnemonic *getMnemonic(std::string &ope);
 };

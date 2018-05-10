@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include "Parameter.h"
@@ -7,30 +7,30 @@ class Mnemonic
 {
 public:
 	enum eCI {
-		eci_I_C,		// 'i'c ope src dest‚Ì‡	(ƒfƒtƒHƒ‹ƒg)
-		eci_C_I			// 'c'i ope dest src‚Ì‡
+		eci_I_C,		// 'i'c ope src destã®é †	(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+		eci_C_I			// 'c'i ope dest srcã®é †
 	};
 	using tParamDir = eCI;
 	using tParamCount = uint16_t;
 public:
-	// ƒj[ƒ‚ƒjƒbƒN‚ğˆ—‚Å‚«‚é‚È‚çtrue
+	// ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯ã‚’å‡¦ç†ã§ãã‚‹ãªã‚‰true
 	virtual bool chkApplicable(std::string &token) = 0;
 
-	// ƒj[ƒ‚ƒjƒbƒN•¶š—ñ‚Ìæ“¾
+	// ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯æ–‡å­—åˆ—ã®å–å¾—
 	virtual std::string getName() = 0;
 
-	// –½—ß‚ÌÀs
+	// å‘½ä»¤ã®å®Ÿè¡Œ
 //	virtual void Execute(std::vector<Parameter> &param) = 0;
 
-	// ƒoƒCƒgƒR[ƒh‚Ö‚Ì•ÏŠ·
+	// ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã¸ã®å¤‰æ›
 //	virtual unsigned char Encode(std::vector<Parameter> &param) = 0;
 
-	// ƒpƒ‰ƒ[ƒ^”æ“¾
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ•°å–å¾—
 	virtual tParamCount getParamCount() = 0;
 
-	// 'c'i/'i'cw’è‚É‚æ‚éƒpƒ‰ƒ[ƒ^‚Ì•À‚Ñ‚Ìƒ}ƒbƒv‰ğŒˆ
+	// 'c'i/'i'cæŒ‡å®šã«ã‚ˆã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ä¸¦ã³ã®ãƒãƒƒãƒ—è§£æ±º
 	virtual tParamCount	getParamIndex(tParamCount idx, tParamDir d = eci_I_C) = 0;
 
-	// w’è”Ô–Ú‚Ìƒpƒ‰ƒ[ƒ^ƒ^ƒCƒvƒ`ƒFƒbƒN(ƒpƒ‰ƒ[ƒ^‚Ì•À‚Ñ‚Í'i'cF0‚ªsrcA1‚ªdest)
+	// æŒ‡å®šç•ªç›®ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚¿ã‚¤ãƒ—ãƒã‚§ãƒƒã‚¯(ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ä¸¦ã³ã¯'i'cï¼š0ãŒsrcã€1ãŒdest)
 	virtual bool chkParamType(tParamCount idx, Parameter::ParamType type) = 0;
 };

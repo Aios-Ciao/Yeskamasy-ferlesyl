@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <fstream>
 #include <string>
 #include <vector>
@@ -9,26 +9,26 @@ class Parse
 {
 private:
 	enum CharType {
-		eBlank,		// \t \x20		‹ó”’Œn•¶š
-		eWord,		// a-zFRXV'-_	’Êí•¶š
-		ePlus,		// +			‹L†
-		eNum,		// 0-9			”š
-		eDerefer,	// @			‹L†
-		eComment,	// ;			ƒRƒƒ“ƒg
-		eBreak,		// \r \n		‰üsŒn•¶š
-		eInvalid	// •s–¾
+		eBlank,		// \t \x20		ç©ºç™½ç³»æ–‡å­—
+		eWord,		// a-zFRXV'-_	é€šå¸¸æ–‡å­—
+		ePlus,		// +			è¨˜å·
+		eNum,		// 0-9			æ•°å­—
+		eDerefer,	// @			è¨˜å·
+		eComment,	// ;			ã‚³ãƒ¡ãƒ³ãƒˆ
+		eBreak,		// \r \n		æ”¹è¡Œç³»æ–‡å­—
+		eInvalid	// ä¸æ˜
 	};
 	static unsigned char tblCharType[256];
 
 public:
 
 	struct PosInfo {
-		unsigned long nRow;			// s”Ô†
-		unsigned long nColumn;		// Œ…”Ô†
+		unsigned long nRow;			// è¡Œç•ªå·
+		unsigned long nColumn;		// æ¡ç•ªå·
 		PosInfo(unsigned long row = 0, unsigned long col = 0) : nRow(row), nColumn(col) { };
-		// ‘ã“ü‚ÍƒfƒtƒHƒ‹ƒg‚ÌƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚É”C‚¹‚é
+		// ä»£å…¥ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«ä»»ã›ã‚‹
 
-		// ƒg[ƒNƒ“‚ÌsA—ñˆÊ’u‚ğ¦‚·•¶š—ñ‚ğ•Ô‚· uline(col)v‚ÌŒ`
+		// ãƒˆãƒ¼ã‚¯ãƒ³ã®è¡Œã€åˆ—ä½ç½®ã‚’ç¤ºã™æ–‡å­—åˆ—ã‚’è¿”ã™ ã€Œline(col)ã€ã®å½¢
 		std::string toString() {
 			return(std::to_string(nRow + 1) + "(" + std::to_string(nColumn + 1) + ")");
 		}
@@ -36,19 +36,19 @@ public:
 
 	struct Token {
 		enum TokenType {
-			eRegister,		// f0`f7
-			eMnemonic,		// –½—ß–¼
-			eNumeric,		// ”’l
-			eSymbol,		// ƒ‰ƒxƒ‹Œó•â
+			eRegister,		// f0ï½f7
+			eMnemonic,		// å‘½ä»¤å
+			eNumeric,		// æ•°å€¤
+			eSymbol,		// ãƒ©ãƒ™ãƒ«å€™è£œ
 			eDereference,	// @
 			eDisplacement,	// +
-			eProcOption,	// 'c'i‚ânll‚Æ‚¢‚Á‚½‘åˆæ‚ÉŠÖ‚í‚éˆ—
-			eCondition,		// fi–½—ß—p‚Ì”»’fğŒ
-			eUnknown		// •s–¾‚È‚à‚Ì
+			eProcOption,	// 'c'iã‚„nllã¨ã„ã£ãŸå¤§åŸŸã«é–¢ã‚ã‚‹å‡¦ç†
+			eCondition,		// fiå‘½ä»¤ç”¨ã®åˆ¤æ–­æ¡ä»¶
+			eUnknown		// ä¸æ˜ãªã‚‚ã®
 		};
-		std::string	str;		// •¶š—ñ
-		TokenType	type;		// í•Ê
-		PosInfo		pos;		// Œ³ƒ\[ƒX‚Å‚ÌˆÊ’uî•ñ
+		std::string	str;		// æ–‡å­—åˆ—
+		TokenType	type;		// ç¨®åˆ¥
+		PosInfo		pos;		// å…ƒã‚½ãƒ¼ã‚¹ã§ã®ä½ç½®æƒ…å ±
 
 		Token() :str(""), type(TokenType::eUnknown), pos() {};
 		Token(std::string &token, PosInfo &_pos, TokenType _type = TokenType::eUnknown)
@@ -63,14 +63,14 @@ public:
 	using tLabelName = std::string;
 
 	struct stLabelInfo {
-		Statement::tStatementIndex	target;			// ’TõŠî“_ƒXƒe[ƒgƒƒ“ƒg”Ô†
+		Statement::tStatementIndex	target;			// æ¢ç´¢åŸºç‚¹ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆç•ªå·
 		enum SerchDir {
 			esForward,
 			esReverse
-		}							dir;			// ’Tõ•ûŒü
-		bool						isExported;		// kue—v‹
+		}							dir;			// æ¢ç´¢æ–¹å‘
+		bool						isExported;		// kueè¦æ±‚
 
-		tTokenIdx		tokenidx;	/// ƒ‰ƒxƒ‹’è‹`–½—ß‚Ìƒg[ƒNƒ“”Ô†
+		tTokenIdx		tokenidx;	/// ãƒ©ãƒ™ãƒ«å®šç¾©å‘½ä»¤ã®ãƒˆãƒ¼ã‚¯ãƒ³ç•ªå·
 		stLabelInfo(Statement::tStatementIndex baseidx = 0)
 			:isExported(false), target(baseidx), dir(stLabelInfo::esForward) {};
 		~stLabelInfo() {};
@@ -96,7 +96,7 @@ public:
 	tTokenList makeTokenList(std::string &);
 	Statement::tStatementList makeStatementList(tTokenList &vTokenList, Module &mod);
 private:
-	// ƒŠ[ƒ_[I/F
+	// ãƒªãƒ¼ãƒ€ãƒ¼I/F
 	bool getToken(std::ifstream &ifs, std::string &token, PosInfo &tokenpos, PosInfo &nexttoken);
 	Token Tokenize(std::string &token, PosInfo &tokenpos);
 };

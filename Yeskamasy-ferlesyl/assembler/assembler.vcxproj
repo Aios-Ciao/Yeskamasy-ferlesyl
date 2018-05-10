@@ -148,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Encoder.h" />
+    <ClInclude Include="Mnemonics.h" />
     <ClInclude Include="Linker.h" />
     <ClInclude Include="Sequencer.h" />
     <ClInclude Include="Symbol.h" />
@@ -168,7 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
-    <ClCompile Include="Encoder.cpp" />
+    <ClCompile Include="Mnemonics.cpp" />
     <ClCompile Include="ladirvirelyl.cpp" />
     <ClCompile Include="Linker.cpp" />
     <ClCompile Include="Module.cpp" />

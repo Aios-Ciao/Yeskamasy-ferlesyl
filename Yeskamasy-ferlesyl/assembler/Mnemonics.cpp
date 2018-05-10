@@ -1,5 +1,5 @@
-#include <string>
-#include "Encoder.h"
+ï»¿#include <string>
+#include "Mnemonics.h"
 #include "Mnemonic.h"
 #include "Mnemonics/ope_fen.h"
 #include "Mnemonics/ope_krz.h"
@@ -10,9 +10,9 @@
 #include "Mnemonics/ope_malkrz.h"
 using namespace std;
 
-Encoder::tMnemonics	Encoder::vMnemonics;
+Mnemonics::tMnemonics	Mnemonics::vMnemonics;
 
-Encoder::Encoder()
+Mnemonics::Mnemonics()
 {
 	vMnemonics.push_back(new ope_fen());
 	vMnemonics.push_back(new ope_krz());
@@ -23,7 +23,7 @@ Encoder::Encoder()
 	vMnemonics.push_back(new ope_malkrz());
 }
 
-Encoder::~Encoder()
+Mnemonics::~Mnemonics()
 {
 	for (tMnemonics::iterator it = vMnemonics.begin(); it != vMnemonics.end(); it++)
 	{
@@ -31,7 +31,7 @@ Encoder::~Encoder()
 	}
 }
 
-bool Encoder::isMnemonic(std::string &token)
+bool Mnemonics::isMnemonic(std::string &token)
 {
 	bool bIsMnemonic(false);
 
@@ -46,13 +46,13 @@ bool Encoder::isMnemonic(std::string &token)
 	return (bIsMnemonic);
 }
 
-Mnemonic * Encoder::getMnemonic(std::string &ope)
+Mnemonic * Mnemonics::getMnemonic(std::string &ope)
 {
 	Mnemonic *pOpe(nullptr);
 
 	for (tMnemonics::iterator it = vMnemonics.begin(); it != vMnemonics.end(); it++)
 	{
-		// ˆ—‚Å‚«‚éƒAƒCƒeƒ€‚ð•Ô‚·
+		// å‡¦ç†ã§ãã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿”ã™
 		if ((*it)->chkApplicable(ope)) {
 			pOpe = *it;
 			break;

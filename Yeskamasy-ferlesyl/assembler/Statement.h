@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <map>
 #include <string>
@@ -13,9 +13,9 @@ public:
 	using tStatementList = std::vector<Statement>;
 	using tStatementIndex = tStatementList::size_type;
 public:
-	Mnemonic				*mnemonic;		// ƒj[ƒ‚ƒjƒbƒN
-	tParamList				param;			// ƒXƒe[ƒgƒƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^
-	Mnemonic::tParamDir		eci;			// ƒpƒ‰ƒ[ƒ^‚ÌŠi”[‡˜
+	Mnemonic				*mnemonic;		// ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯
+	tParamList				param;			// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	Mnemonic::tParamDir		eci;			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ ¼ç´é †åº
 public:
 	Statement();
 	~Statement();

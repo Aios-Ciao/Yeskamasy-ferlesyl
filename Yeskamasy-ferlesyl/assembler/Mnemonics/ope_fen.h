@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include "../Mnemonic.h"
 
@@ -10,7 +10,7 @@ private:
 	};
 	const std::string	name = "fen";
 
-	// ˆø”ˆÊ’uƒe[ƒuƒ‹‚Í–³‚µ
+	// å¼•æ•°ä½ç½®ãƒ†ãƒ¼ãƒ–ãƒ«ã¯ç„¡ã—
 
 public:
 	bool chkApplicable(std::string &token)
@@ -27,7 +27,7 @@ public:
 	}
 	tParamCount	getParamIndex(tParamCount idx, tParamDir d)
 	{
-		if (idx >= eParamCount) return(-1);	// ”ÍˆÍŠO
+		if (idx >= eParamCount) return(-1);	// ç¯„å›²å¤–
 
 		return(0);
 	}

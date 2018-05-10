@@ -1,36 +1,36 @@
-#include <cstdio>
+ï»¿#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <map>
 #include <list>
 #include "Parse.h"
-#include "Encoder.h"
+#include "Mnemonics.h"
 #include "Statement.h"
 #include "Module.h"
 
 unsigned char Parse::tblCharType[256];
 
 std::map<std::string, std::string>	mmPOC;	// Processor Option Command
-std::map<std::string, std::string>	mmCondition;	// ”äŠrğŒ
+std::map<std::string, std::string>	mmCondition;	// æ¯”è¼ƒæ¡ä»¶
 
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Parse::Parse()
 {
-	// •¶šƒ^ƒCƒvƒ}ƒbƒv‰Šú‰»
+	// æ–‡å­—ã‚¿ã‚¤ãƒ—ãƒãƒƒãƒ—åˆæœŸåŒ–
 	{
-		// g—p‰Â”\‚È•¶šíˆÈŠO‚Í•s³‚Æ‚µ‚Ä‰Šú‰»
+		// ä½¿ç”¨å¯èƒ½ãªæ–‡å­—ç¨®ä»¥å¤–ã¯ä¸æ­£ã¨ã—ã¦åˆæœŸåŒ–
 		for (int idx = 0; idx < 255; idx++) {
 			tblCharType[idx] = Parse::eInvalid;
 		}
 
-		// ”š
+		// æ•°å­—
 		for (int idx = 0; idx < 10; idx++) {
 			tblCharType['0' + idx] = Parse::eNum;
 		}
 
-		// ’Êí•¶š
+		// é€šå¸¸æ–‡å­—
 		for (int idx = 'a'; idx <= 'z'; idx++) {
 			tblCharType[idx] = Parse::eWord;
 		}
@@ -42,23 +42,23 @@ Parse::Parse()
 		tblCharType['-'] = Parse::eWord;
 		tblCharType['_'] = Parse::eWord;
 
-		// ‹ó”’•¶š
+		// ç©ºç™½æ–‡å­—
 		tblCharType['\x20'] = Parse::eBlank;
 		tblCharType['\t'] = Parse::eBlank;
 
-		// ‰üsŒn•¶š
+		// æ”¹è¡Œç³»æ–‡å­—
 		tblCharType['\r'] = Parse::eBreak;
 		tblCharType['\n'] = Parse::eBreak;
 
-		// ‹L†
+		// è¨˜å·
 		tblCharType['+'] = Parse::ePlus;
 		tblCharType['@'] = Parse::eDerefer;
 
-		// ƒRƒƒ“ƒg‹L†
+		// ã‚³ãƒ¡ãƒ³ãƒˆè¨˜å·
 		tblCharType[';'] = Parse::eComment;
 	}
 
-	// ƒvƒƒZƒbƒTƒIƒvƒVƒ‡ƒ“ƒRƒ}ƒ“ƒh
+	// ãƒ—ãƒ­ã‚»ãƒƒã‚µã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚³ãƒãƒ³ãƒ‰
 	mmPOC.clear();
 	mmPOC["'c'i"] = "'c'i";
 	mmPOC["'i'c"] = "'i'c";
@@ -67,7 +67,7 @@ Parse::Parse()
 	mmPOC["kue"] = "kue";
 	mmPOC["xok"] = "xok";
 
-	// ğŒƒR[ƒh
+	// æ¡ä»¶ã‚³ãƒ¼ãƒ‰
 	mmCondition["xtlo"] = "xtlo";
 	mmCondition["xylo"] = "xylo";
 	mmCondition["clo"] = "clo";
@@ -81,12 +81,12 @@ Parse::Parse()
 
 }
 
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Parse::~Parse()
 {
 }
 
-// ƒg[ƒNƒ“‚ÌƒŠƒXƒg‚ğ¶¬‚·‚é
+// ãƒˆãƒ¼ã‚¯ãƒ³ã®ãƒªã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹
 Parse::tTokenList Parse::makeTokenList(std::string &fname)
 {
 	std::string	word;
@@ -94,9 +94,9 @@ Parse::tTokenList Parse::makeTokenList(std::string &fname)
 	tTokenList vTokenList;
 	std::ifstream	ifs(fname);
 
-	// ŠJ‚¯‚Ä‚¢‚È‚¯‚ê‚ÎŒx
+	// é–‹ã‘ã¦ã„ãªã‘ã‚Œã°è­¦å‘Š
 	if (ifs.fail()) {
-		std::cerr << "ƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½(" << std::string(fname) << ")" << std::endl;
+		std::cerr << "ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ(" << std::string(fname) << ")" << std::endl;
 	}
 
 	while (getToken(ifs, word, curp, nextp))
@@ -110,84 +110,84 @@ Parse::tTokenList Parse::makeTokenList(std::string &fname)
 	return (vTokenList);
 }
 
-// ƒg[ƒNƒ“ƒŠƒXƒg‚©‚çƒXƒe[ƒgƒƒ“ƒgƒŠƒXƒg‚Ö‚Ì•ÏŠ·
+// ãƒˆãƒ¼ã‚¯ãƒ³ãƒªã‚¹ãƒˆã‹ã‚‰ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆãƒªã‚¹ãƒˆã¸ã®å¤‰æ›
 Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList, Module &mod)
 {
 
 	Statement::tStatementList	&vStatementList = mod.vStatements;
 	tTokenList::size_type	idx(0);
-	Mnemonic::tParamDir		ecid(Mnemonic::tParamDir::eci_I_C);		// ‰Šú’l‚Í'i'c
+	Mnemonic::tParamDir		ecid(Mnemonic::tParamDir::eci_I_C);		// åˆæœŸå€¤ã¯'i'c
 
-	// ƒpƒ‰ƒ[ƒ^w’è•ûŒü‚Ìİ’è
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æŒ‡å®šæ–¹å‘ã®è¨­å®š
 	auto setCI = [&](std::string &k) {
 		ecid = !k.compare("'c'i") ? Mnemonic::tParamDir::eci_C_I : Mnemonic::tParamDir::eci_I_C;
 	};
 
-	tLabelMap	msymbol;		// nll‚Ü‚½‚Íl'‚Å’è‹`‚³‚ê‚éƒVƒ“ƒ{ƒ‹
-	Symbol::tSymbolList	kuereqlist;		// kue‚·‚×‚«ƒVƒ“ƒ{ƒ‹ƒŠƒXƒg
-	Symbol::tSymbolList xokreqlist;		// xok‚·‚×‚«ƒVƒ“ƒ{ƒ‹ƒŠƒXƒg
+	tLabelMap	msymbol;		// nllã¾ãŸã¯l'ã§å®šç¾©ã•ã‚Œã‚‹ã‚·ãƒ³ãƒœãƒ«
+	Symbol::tSymbolList	kuereqlist;		// kueã™ã¹ãã‚·ãƒ³ãƒœãƒ«ãƒªã‚¹ãƒˆ
+	Symbol::tSymbolList xokreqlist;		// xokã™ã¹ãã‚·ãƒ³ãƒœãƒ«ãƒªã‚¹ãƒˆ
 
 	while (idx < vTokenList.size())
 	{
 		Token & tok = vTokenList[idx];
 
-		// ‰Šúó‘Ô‚©‚ç‚Íƒpƒ‰ƒ[ƒ^‚Ì•ûŒüw¦‚Æƒj[ƒ‚ƒjƒbƒN‚Ì‚İó‚¯•t‚¯‚é
+		// åˆæœŸçŠ¶æ…‹ã‹ã‚‰ã¯ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ–¹å‘æŒ‡ç¤ºã¨ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯ã®ã¿å—ã‘ä»˜ã‘ã‚‹
 		switch (tok.type)
 		{
 		case Token::eProcOption:
-			// ƒpƒ‰ƒ[ƒ^•ûŒüw’è
+			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ–¹å‘æŒ‡å®š
 			if (tok.chkKeyword("'c'i") || tok.chkKeyword("'i'c"))
 			{
 				setCI(tok.str);
 				idx++;
 			}
-			// ƒVƒ“ƒ{ƒ‹ŒöŠJ
+			// ã‚·ãƒ³ãƒœãƒ«å…¬é–‹
 			else if (tok.chkKeyword("kue"))
 			{
-				// ƒpƒ‰ƒ[ƒ^‚P‚Â‚Æ‚Á‚Äƒ‰ƒxƒ‹ˆ—
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼‘ã¤ã¨ã£ã¦ãƒ©ãƒ™ãƒ«å‡¦ç†
 				if ((idx + 1) <= vTokenList.size()) {
 					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
 					kuereqlist.push_back(symbol);
 					idx += 2;
 				}
 				else {
-					std::cerr << "\•¶ƒGƒ‰[: ƒ‰ƒxƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ " << tok.pos.toString() << std::endl;
+					std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ãƒ©ãƒ™ãƒ«ãŒã‚ã‚Šã¾ã›ã‚“ " << tok.pos.toString() << std::endl;
 					break;
 				}
 			}
-			// ŠO•”ƒVƒ“ƒ{ƒ‹QÆ
+			// å¤–éƒ¨ã‚·ãƒ³ãƒœãƒ«å‚ç…§
 			else if (tok.chkKeyword("xok"))
 			{
-				// ƒpƒ‰ƒ[ƒ^‚P‚Â‚Æ‚Á‚Äƒ‰ƒxƒ‹ˆ—
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼‘ã¤ã¨ã£ã¦ãƒ©ãƒ™ãƒ«å‡¦ç†
 				if ((idx + 1) <= vTokenList.size()) {
 					Symbol::tSymbolName	symbol = vTokenList[idx + 1].str;
 					xokreqlist.push_back(symbol);
 					idx += 2;
 				}
 				else {
-					std::cerr << "\•¶ƒGƒ‰[: ƒ‰ƒxƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ " << tok.pos.toString() << std::endl;
+					std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ãƒ©ãƒ™ãƒ«ãŒã‚ã‚Šã¾ã›ã‚“ " << tok.pos.toString() << std::endl;
 					break;
 				}
 			}
-			// ‘O’uƒ‰ƒxƒ‹’è‹`
+			// å‰ç½®ãƒ©ãƒ™ãƒ«å®šç¾©
 			else if (tok.chkKeyword("nll"))
 			{
-				// ƒpƒ‰ƒ[ƒ^‚P‚Â‚Æ‚Á‚Äƒ‰ƒxƒ‹ˆ—
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼‘ã¤ã¨ã£ã¦ãƒ©ãƒ™ãƒ«å‡¦ç†
 				if (idx + 1 <= vTokenList.size()) {
 					tLabelName	symbol = vTokenList[idx + 1].str;
 
-					// –¢“o˜^‚È‚ç
+					// æœªç™»éŒ²ãªã‚‰
 					if (msymbol.count(symbol) > 0) {
-						// ƒ‰ƒxƒ‹‚ªd•¡’è‹`
-						std::cerr << "ƒf[ƒ^ƒGƒ‰[Fƒ‰ƒxƒ‹‚ª‘½d’è‹`‚³‚ê‚Ü‚·:" << symbol << " " << tok.pos.toString() << std::endl;
+						// ãƒ©ãƒ™ãƒ«ãŒé‡è¤‡å®šç¾©
+						std::cerr << "ãƒ‡ãƒ¼ã‚¿ã‚¨ãƒ©ãƒ¼ï¼šãƒ©ãƒ™ãƒ«ãŒå¤šé‡å®šç¾©ã•ã‚Œã¾ã™:" << symbol << " " << tok.pos.toString() << std::endl;
 						break;
 					}
 					else {
 						stLabelInfo	si;
 
-						si.target = vStatementList.size();			// Œ»İ‚ÌƒXƒe[ƒgƒƒ“ƒgˆÊ’u
-						si.dir = stLabelInfo::esForward;			// Œã‚ë‚Ì•û‚Ö’Tõ
-						si.isExported = false;						// –¢ŒöŠJ
+						si.target = vStatementList.size();			// ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆä½ç½®
+						si.dir = stLabelInfo::esForward;			// å¾Œã‚ã®æ–¹ã¸æ¢ç´¢
+						si.isExported = false;						// æœªå…¬é–‹
 						si.tokenidx = idx;
 
 						msymbol[symbol] = si;
@@ -195,48 +195,48 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 					idx += 2;
 				}
 				else {
-					// nll ‚¾‚¯‚ÅI‚í‚Á‚½
-					std::cerr << "\•¶ƒGƒ‰[: ƒ‰ƒxƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ " << tok.pos.toString() << std::endl;
+					// nll ã ã‘ã§çµ‚ã‚ã£ãŸ
+					std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ãƒ©ãƒ™ãƒ«ãŒã‚ã‚Šã¾ã›ã‚“ " << tok.pos.toString() << std::endl;
 				}
 			}
-			// Œã’uƒ‰ƒxƒ‹’è‹`
+			// å¾Œç½®ãƒ©ãƒ™ãƒ«å®šç¾©
 			else if (tok.chkKeyword("l'"))
 			{
-				// ƒpƒ‰ƒ[ƒ^‚P‚Â‚Æ‚Á‚Äƒ‰ƒxƒ‹ˆ—
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼‘ã¤ã¨ã£ã¦ãƒ©ãƒ™ãƒ«å‡¦ç†
 				if (idx + 1 <= vTokenList.size()) {
 					tLabelName	symbol = vTokenList[idx + 1].str;
 
-					// –¢“o˜^‚È‚ç
+					// æœªç™»éŒ²ãªã‚‰
 					if (msymbol.count(symbol) == 0) {
 						stLabelInfo	si;
 
-						si.target = vStatementList.size();			// Œ»İ‚ÌƒXƒe[ƒgƒƒ“ƒgˆÊ’u
-						si.dir = stLabelInfo::esReverse;			// ‘O‚Ì•û‚Ö’Tõ
-						si.isExported = false;						// –¢ŒöŠJ
+						si.target = vStatementList.size();			// ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆä½ç½®
+						si.dir = stLabelInfo::esReverse;			// å‰ã®æ–¹ã¸æ¢ç´¢
+						si.isExported = false;						// æœªå…¬é–‹
 						si.tokenidx = idx;
 
 						msymbol[symbol] = si;
 					}
 					else {
-						// ƒ‰ƒxƒ‹‚ªd•¡’è‹`
-						std::cerr << "ƒf[ƒ^ƒGƒ‰[Fƒ‰ƒxƒ‹‚ª‘½d’è‹`‚³‚ê‚Ü‚·:" << symbol << " " << tok.pos.toString() << std::endl;
+						// ãƒ©ãƒ™ãƒ«ãŒé‡è¤‡å®šç¾©
+						std::cerr << "ãƒ‡ãƒ¼ã‚¿ã‚¨ãƒ©ãƒ¼ï¼šãƒ©ãƒ™ãƒ«ãŒå¤šé‡å®šç¾©ã•ã‚Œã¾ã™:" << symbol << " " << tok.pos.toString() << std::endl;
 					}
 					idx += 2;
 				}
 				else {
-					// l' ‚¾‚¯‚ÅI‚í‚Á‚½
-					std::cerr << "\•¶ƒGƒ‰[: ƒ‰ƒxƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ " << tok.pos.toString() << std::endl;
+					// l' ã ã‘ã§çµ‚ã‚ã£ãŸ
+					std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ãƒ©ãƒ™ãƒ«ãŒã‚ã‚Šã¾ã›ã‚“ " << tok.pos.toString() << std::endl;
 				}
 			}
-			// •s–¾‚ÈƒIƒvƒVƒ‡ƒ“
+			// ä¸æ˜ãªã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			else
 			{
-				std::cerr << "\•¶ƒGƒ‰[: •s–¾‚Èƒg[ƒNƒ“‚Å‚· " << tok.str << " " << tok.pos.toString() << std::endl;
+				std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ä¸æ˜ãªãƒˆãƒ¼ã‚¯ãƒ³ã§ã™ " << tok.str << " " << tok.pos.toString() << std::endl;
 			}
 			break;
 		case Token::eMnemonic: {
-			// ƒj[ƒ‚ƒjƒbƒN
-			Mnemonic	*mne = Encoder::getMnemonic(tok.str);
+			// ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯
+			Mnemonic	*mne = Mnemonics::getMnemonic(tok.str);
 			Mnemonic::tParamCount	count = mne->getParamCount();
 			Statement	statement;
 			bool bError(false);
@@ -244,20 +244,20 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 
 			Statement::tParamMap	params;
 
-			idx++;	// Ÿ‚©‚çƒpƒ‰ƒ[ƒ^
-					// •K—v‚È”‚¾‚¯ƒpƒ‰ƒ[ƒ^‚ğW‚ß‚é
+			idx++;	// æ¬¡ã‹ã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+					// å¿…è¦ãªæ•°ã ã‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’é›†ã‚ã‚‹
 			for (Mnemonic::tParamCount cnt = 0; cnt < count; ++cnt)
 			{
-				Statement::tStatementIndex base = idx;		// ƒpƒ‰ƒ[ƒ^‚Ì
+				Statement::tStatementIndex base = idx;		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®
 				Parameter	prm = makeParameter(vTokenList, idx);
 				Mnemonic::tParamCount	pidx = mne->getParamIndex(cnt, ecid);
 
 				if (mne->chkParamType(pidx, prm.type))
 				{
-					// “KØ‚Èƒpƒ‰ƒ[ƒ^
+					// é©åˆ‡ãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 					params[pidx] = prm;
 
-					// ƒpƒ‰ƒ[ƒ^‚ªƒ‰ƒxƒ‹‚È‚ç‚ÎƒXƒe[ƒgƒƒ“ƒgIdx‚ğT‚¦‚é
+					// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒãƒ©ãƒ™ãƒ«ãªã‚‰ã°ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆIdxã‚’æ§ãˆã‚‹
 					if (prm.type == prm.eptLabel) {
 						bLabelReference = true;
 					}
@@ -265,27 +265,27 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 				else
 				{
 					bError = true;
-					// •s³‚ÈŒ`®‚Ìƒpƒ‰ƒ[ƒ^
+					// ä¸æ­£ãªå½¢å¼ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 					{
-						std::cerr << "\•¶ƒGƒ‰[: •s–¾‚Èƒg[ƒNƒ“‚Å‚· ";
+						std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ä¸æ˜ãªãƒˆãƒ¼ã‚¯ãƒ³ã§ã™ ";
 						std::cerr << vTokenList[base].str << " " << vTokenList[base].pos.toString() << std::endl;
 					}
 					break;
 				}
 			}
 
-			// ƒ‰ƒxƒ‹‚Ìê‡A‚ ‚Æ‚ÌƒŠƒ“ƒN‚Ì‚½‚ßƒXƒe[ƒgƒƒ“ƒg‚ÌƒCƒ“ƒfƒbƒNƒX‚ğT‚¦‚é
+			// ãƒ©ãƒ™ãƒ«ã®å ´åˆã€ã‚ã¨ã®ãƒªãƒ³ã‚¯ã®ãŸã‚ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ§ãˆã‚‹
 			if (bLabelReference) {
 				mod.vLabelRefStateIdx.push_back(idx);
 			}
 
-			// ƒGƒ‰[‚ª‚È‚¯‚ê‚Î'i'c‡‚Éƒpƒ‰ƒ[ƒ^‚ğ®‚¦‚ÄƒXƒe[ƒgƒƒ“ƒg‚ÉƒZƒbƒg
+			// ã‚¨ãƒ©ãƒ¼ãŒãªã‘ã‚Œã°'i'cé †ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’æ•´ãˆã¦ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã«ã‚»ãƒƒãƒˆ
 			if (!bError)
 			{
 				statement.eci = ecid;
 				statement.mnemonic = mne;
 
-				// ŠeMnemonic‚Å’è‹`‚³‚ê‚éePrmType‚Ì‡‚ÉÏ‚İ‚È‚¨‚µ
+				// å„Mnemonicã§å®šç¾©ã•ã‚Œã‚‹ePrmTypeã®é †ã«ç©ã¿ãªãŠã—
 				for (Mnemonic::tParamCount cnt = 0; cnt < count; ++cnt)
 				{
 					statement.param.push_back(params[cnt]);
@@ -295,75 +295,76 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 			}
 		}	break;
 		default:
-			// •s–¾‚ÈƒIƒvƒVƒ‡ƒ“
-			std::cerr << "\•¶ƒGƒ‰[: •s–¾‚Èƒg[ƒNƒ“‚Å‚· " << tok.str << " " << tok.pos.toString() << std::endl;
+			// ä¸æ˜ãªã‚ªãƒ—ã‚·ãƒ§ãƒ³
+			std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ä¸æ˜ãªãƒˆãƒ¼ã‚¯ãƒ³ã§ã™ " << tok.str << " " << tok.pos.toString() << std::endl;
+			idx++;	// ã¨ã‚Šã‚ãˆãšæ¬¡ã¸é€²ã‚ã‚‹
 			break;
 		}
 	}
 	
-	// ƒ‰ƒxƒ‹‚ÌƒXƒe[ƒgƒƒ“ƒgŠ„‚è•t‚¯
+	// ãƒ©ãƒ™ãƒ«ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆå‰²ã‚Šä»˜ã‘
 	for (tLabelMap::iterator it = msymbol.begin(); it != msymbol.end(); ++it)
 	{
 		stLabelInfo si = it->second;
 
 		if (si.dir == si.esForward) {	// nll
-			// Ÿ‚ª–³‚¯‚ê‚Îƒ‰ƒxƒ‹’è‹`ƒGƒ‰[
+			// æ¬¡ãŒç„¡ã‘ã‚Œã°ãƒ©ãƒ™ãƒ«å®šç¾©ã‚¨ãƒ©ãƒ¼
 			if (vStatementList.size() <= si.target) {
-				std::cerr << "\•¶ƒGƒ‰[: •s³‚ÈˆÊ’u‚Å‚· ";
+				std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ä¸æ­£ãªä½ç½®ã§ã™ ";
 				std::cerr << vTokenList[si.tokenidx].pos.toString() << std::endl;
 			}
 			else {
-				// ³íƒ‰ƒxƒ‹’è‹`
+				// æ­£å¸¸ãƒ©ãƒ™ãƒ«å®šç¾©
 			}
 		}
 		else {	// l'
-			// ‘O‚ª–³‚¯‚ê‚Îƒ‰ƒxƒ‹’è‹`ƒGƒ‰[
+			// å‰ãŒç„¡ã‘ã‚Œã°ãƒ©ãƒ™ãƒ«å®šç¾©ã‚¨ãƒ©ãƒ¼
 			if (si.target == 0) {
-				std::cerr << "\•¶ƒGƒ‰[: •s³‚ÈˆÊ’u‚Å‚· ";
+				std::cerr << "æ§‹æ–‡ã‚¨ãƒ©ãƒ¼: ä¸æ­£ãªä½ç½®ã§ã™ ";
 				std::cerr << vTokenList[si.tokenidx].pos.toString() << std::endl;
 			}
 			else {
-				// ³íƒ‰ƒxƒ‹’è‹`
-				it->second.target--;		// –³—‚â‚è‚¾‚¯‚Ç‚Ğ‚Æ‚Â‘O‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğw‚³‚¹‚é
+				// æ­£å¸¸ãƒ©ãƒ™ãƒ«å®šç¾©
+				it->second.target--;		// ç„¡ç†ã‚„ã‚Šã ã‘ã©ã²ã¨ã¤å‰ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’æŒ‡ã•ã›ã‚‹
 			}
 		}
 	}
 
-	// kue—v‹ƒŠƒXƒg‚ÌÁ‰»
+	// kueè¦æ±‚ãƒªã‚¹ãƒˆã®æ¶ˆåŒ–
 	for (Symbol::tSymbolList::iterator it = kuereqlist.begin(); it != kuereqlist.end(); ++it)
 	{
 		if (msymbol.count(*it) > 0) {
 			msymbol[*it].isExported = true;
 		}
 		else {
-			// –¢’è‹`ƒVƒ“ƒ{ƒ‹‚Ìkue—v‹
-			std::cerr << "ƒf[ƒ^ƒGƒ‰[: ‘ÎÛ‚Ìƒ‰ƒxƒ‹‚ª–¢’è‹`‚Å‚· ";
+			// æœªå®šç¾©ã‚·ãƒ³ãƒœãƒ«ã®kueè¦æ±‚
+			std::cerr << "ãƒ‡ãƒ¼ã‚¿ã‚¨ãƒ©ãƒ¼: å¯¾è±¡ã®ãƒ©ãƒ™ãƒ«ãŒæœªå®šç¾©ã§ã™ ";
 			std::cerr << *it << std::endl;
 		}
 	}
 
-	// ƒ‚ƒWƒ…[ƒ‹‚Å’è‹`‚³‚ê‚éƒVƒ“ƒ{ƒ‹‚Ì“]‹L
+	// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§å®šç¾©ã•ã‚Œã‚‹ã‚·ãƒ³ãƒœãƒ«ã®è»¢è¨˜
 	for (tLabelMap::iterator it = msymbol.begin(); it != msymbol.end(); ++it)
 	{
 		stLabelInfo si = it->second;
 		Symbol	sym(it->first);
 
-		sym.celesol_kue = si.isExported;	// kueƒtƒ‰ƒOƒZƒbƒg
-		sym.modid = mod.getID();			// ƒ‚ƒWƒ…[ƒ‹ID
-		sym.idx = si.target;				// ƒVƒ“ƒ{ƒ‹‚ªw‚·ƒXƒe[ƒgƒƒ“ƒgƒCƒ“ƒfƒbƒNƒX
+		sym.celesol_kue = si.isExported;	// kueãƒ•ãƒ©ã‚°ã‚»ãƒƒãƒˆ
+		sym.modid = mod.getID();			// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ID
+		sym.idx = si.target;				// ã‚·ãƒ³ãƒœãƒ«ãŒæŒ‡ã™ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
 		mod.vSymbols.push_back(sym);
 	}
 
-	// xok—v‹ƒŠƒXƒg‚ÌÁ‰»
+	// xokè¦æ±‚ãƒªã‚¹ãƒˆã®æ¶ˆåŒ–
 	for (Symbol::tSymbolList::iterator it = xokreqlist.begin(); it != xokreqlist.end(); ++it)
 	{
 		Symbol	sym(*it);
 
 		sym.req_xok = true;
-		// sym.modid = other_modules_ID;			// ƒŠƒ“ƒN‚Éİ’è
-		// sym.idx = statement_idx_in_other_mod;	// ƒŠƒ“ƒN‚Éİ’è
-		// sym.celesol_xok = set_at_linker;			// ƒŠƒ“ƒN¬Œ÷‚Éİ’è
+		// sym.modid = other_modules_ID;			// ãƒªãƒ³ã‚¯æ™‚ã«è¨­å®š
+		// sym.idx = statement_idx_in_other_mod;	// ãƒªãƒ³ã‚¯æ™‚ã«è¨­å®š
+		// sym.celesol_xok = set_at_linker;			// ãƒªãƒ³ã‚¯æˆåŠŸæ™‚ã«è¨­å®š
 
 		mod.vSymbols.push_back(sym);
 
@@ -372,7 +373,7 @@ Statement::tStatementList Parse::makeStatementList(Parse::tTokenList &vTokenList
 	return(vStatementList);
 }
 
-// ƒg[ƒNƒ“ƒŠƒXƒg‚Ìw’è‚µ‚½ˆÊ’u‚©‚çƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äg‚¦‚é’PˆÊ‚Å‚P‚Âæ“¾‚·‚é
+// ãƒˆãƒ¼ã‚¯ãƒ³ãƒªã‚¹ãƒˆã®æŒ‡å®šã—ãŸä½ç½®ã‹ã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¨ã—ã¦ä½¿ãˆã‚‹å˜ä½ã§ï¼‘ã¤å–å¾—ã™ã‚‹
 Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::size_type &top)
 {
 	Parameter	param;
@@ -383,19 +384,19 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 	switch (tok.type)
 	{
 	case Token::eCondition:
-		// ”äŠrğŒ‚ª—ˆ‚½‚çƒRƒ“ƒfƒBƒVƒ‡ƒ“‚ÅŠm’è
+		// æ¯”è¼ƒæ¡ä»¶ãŒæ¥ãŸã‚‰ã‚³ãƒ³ãƒ‡ã‚£ã‚·ãƒ§ãƒ³ã§ç¢ºå®š
 		param.type = Parameter::eptCondition;
 		param.cond = Parameter::fromCondStr(tok.str);
 		top++;
 		break;
 	case Token::eNumeric:
-		// ”’l‚ª—ˆ‚½‚çƒCƒ~ƒfƒBƒGƒCƒgŠm’è
+		// æ•°å€¤ãŒæ¥ãŸã‚‰ã‚¤ãƒŸãƒ‡ã‚£ã‚¨ã‚¤ãƒˆç¢ºå®š
 		param.type = Parameter::eptImmidiate;
 		param.imm = std::stoul(tok.str);
 		top++;
 		break;
 	case Token::eSymbol:
-		// ƒ‰ƒxƒ‹‚ª—ˆ‚½‚çƒ‰ƒxƒ‹w’èŠm’è(ƒAƒhƒŒƒX‰ğŒˆ•K—v)
+		// ãƒ©ãƒ™ãƒ«ãŒæ¥ãŸã‚‰ãƒ©ãƒ™ãƒ«æŒ‡å®šç¢ºå®š(ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºå¿…è¦)
 		param.type = Parameter::eptLabel;
 		param.label = tok.str;
 		top++;
@@ -403,21 +404,21 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 	case Token::eRegister:
 		if ((top + 1) < vTokList.size())
 		{
-			// ƒŠƒXƒg‚ÌÅŒã‚Å‚È‚¢ê‡Cü‚ğƒ`ƒFƒbƒN
+			// ãƒªã‚¹ãƒˆã®æœ€å¾Œã§ãªã„å ´åˆä¿®é£¾ã‚’ãƒã‚§ãƒƒã‚¯
 			switch (vTokList[top+1].type)
 			{
 			case Token::eDereference:	// @
-				// ƒŒƒWƒXƒ^ŠÔÚ(ƒIƒtƒZƒbƒg‚È‚Ç–³‚µ)Šm’è
+				// ãƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥(ã‚ªãƒ•ã‚»ãƒƒãƒˆãªã©ç„¡ã—)ç¢ºå®š
 				param.type = Parameter::eptReg_Ofs_Imm;
 				param.base = Parameter::fromRegName(tok.str);
-				param.imm = 0;	// ƒIƒtƒZƒbƒg0‚ÌŠÔÚQÆ‚Æ‚µ‚Äˆµ‚¤
+				param.imm = 0;	// ã‚ªãƒ•ã‚»ãƒƒãƒˆ0ã®é–“æ¥å‚ç…§ã¨ã—ã¦æ‰±ã†
 				top += 2;
 				break;
 			case Token::eDisplacement:	// +
-				// + reg/imm @ ‚Å3‚Âæ‚Ü‚Å•K—v
+				// + reg/imm @ ã§3ã¤å…ˆã¾ã§å¿…è¦
 				if (((top + 3) < vTokList.size()) && (vTokList[top + 3].type == Token::eDereference))
 				{
-					// ƒŠƒXƒg‚ÌÅŒã‚Å‚È‚¯‚ê‚Îc‚è‚àƒ`ƒFƒbƒN
+					// ãƒªã‚¹ãƒˆã®æœ€å¾Œã§ãªã‘ã‚Œã°æ®‹ã‚Šã‚‚ãƒã‚§ãƒƒã‚¯
 					if (vTokList[top + 2].type == Token::eRegister) {
 						// reg + reg @
 						param.type = Parameter::eptReg_Ofs_Reg;
@@ -434,7 +435,7 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 				}
 				break;
 			default:
-				// ƒ‰ƒXƒg‚È‚ç‚ÎƒŒƒWƒXƒ^’¼Ú‚ÉŒˆ’è
+				// ãƒ©ã‚¹ãƒˆãªã‚‰ã°ãƒ¬ã‚¸ã‚¹ã‚¿ç›´æ¥ã«æ±ºå®š
 				param.type = Parameter::eptRegister;
 				param.base = Parameter::fromRegName(tok.str);
 				top++;
@@ -443,7 +444,7 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 		}
 		else
 		{
-			// ƒ‰ƒXƒg‚È‚ç‚ÎƒŒƒWƒXƒ^’¼Ú‚ÉŒˆ’è
+			// ãƒ©ã‚¹ãƒˆãªã‚‰ã°ãƒ¬ã‚¸ã‚¹ã‚¿ç›´æ¥ã«æ±ºå®š
 			param.type = Parameter::eptRegister;
 			param.base = Parameter::fromRegName(tok.str);
 			top++;
@@ -456,7 +457,7 @@ Parameter	Parse::makeParameter(Parse::tTokenList &vTokList, Parse::tTokenList::s
 	return(param);
 }
 
-// 1’PŒêæ“¾
+// 1å˜èªå–å¾—
 bool Parse::getToken(std::ifstream &ifs, std::string &token, Parse::PosInfo &tokenpos, Parse::PosInfo &nexttoken)
 {
 	char chr;
@@ -482,7 +483,7 @@ bool Parse::getToken(std::ifstream &ifs, std::string &token, Parse::PosInfo &tok
 		nexttoken.nColumn++;
 
 		type = tblCharType[chr];
-		// ƒRƒƒ“ƒgˆ—’†‚Í‰üsˆÈŠO‹ó”’‚Æ‚µ‚Äˆµ‚¤
+		// ã‚³ãƒ¡ãƒ³ãƒˆå‡¦ç†ä¸­ã¯æ”¹è¡Œä»¥å¤–ç©ºç™½ã¨ã—ã¦æ‰±ã†
 		if (bcommentskip) {
 			if (type != eBreak)
 			{
@@ -515,9 +516,9 @@ bool Parse::getToken(std::ifstream &ifs, std::string &token, Parse::PosInfo &tok
 			break;
 		case Parse::eBreak:
 			token = "\x20";
-			nexttoken.nRow++;			// Ÿ‚Ìs‚Ö
+			nexttoken.nRow++;			// æ¬¡ã®è¡Œã¸
 			nexttoken.nColumn = 0;
-			bcommentskip = false;		// sƒRƒƒ“ƒgI—¹
+			bcommentskip = false;		// è¡Œã‚³ãƒ¡ãƒ³ãƒˆçµ‚äº†
 			next = false;
 			break;
 		case Parse::eBlank:
@@ -534,7 +535,7 @@ bool Parse::getToken(std::ifstream &ifs, std::string &token, Parse::PosInfo &tok
 				token = "\x20";
 				next = false;
 			}
-			bcommentskip = true;	// ˆÈ~s––(‰üs)‚Ü‚ÅƒRƒƒ“ƒg‚Æ‚µ‚ÄƒXƒLƒbƒv
+			bcommentskip = true;	// ä»¥é™è¡Œæœ«(æ”¹è¡Œ)ã¾ã§ã‚³ãƒ¡ãƒ³ãƒˆã¨ã—ã¦ã‚¹ã‚­ãƒƒãƒ—
 			break;
 		case Parse::eDerefer:		// @
 		case Parse::ePlus:			// +
@@ -550,46 +551,46 @@ bool Parse::getToken(std::ifstream &ifs, std::string &token, Parse::PosInfo &tok
 	return (!ifs.eof());
 }
 
-// ƒvƒŠƒvƒƒZƒbƒT‚Ì–½—ß‚©
+// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã®å‘½ä»¤ã‹
 bool Parse::isProcOption(std::string &token)
 {
 	return (mmPOC.count(token) > 0);
 }
 
-// ƒŒƒWƒXƒ^–¼‚É“o˜^‚ª‚ ‚é‚©
+// ãƒ¬ã‚¸ã‚¹ã‚¿åã«ç™»éŒ²ãŒã‚ã‚‹ã‹
 bool Parse::isRegister(std::string &token)
 {
 	return (Parameter::isValidRegName(token));
 }
 
-// –½—ß–¼‚Æ‚µ‚Ä“o˜^‚ª‚ ‚é‚©
+// å‘½ä»¤åã¨ã—ã¦ç™»éŒ²ãŒã‚ã‚‹ã‹
 bool Parse::isMnemonic(std::string &token)
 {
 //	return (mmOpe.count(token) > 0);
-	return (Encoder::isMnemonic(token));
+	return (Mnemonics::isMnemonic(token));
 }
 
-// ”’l•¶š—ñ‚©
+// æ•°å€¤æ–‡å­—åˆ—ã‹
 bool Parse::isNumeric(std::string &token)
 {
-	// ”šˆÈŠO‚Ì‚à‚Ì‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚È‚ç”’l•¶š—ñ
+	// æ•°å­—ä»¥å¤–ã®ã‚‚ã®ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸãªã‚‰æ•°å€¤æ–‡å­—åˆ—
 	return (token.find_first_not_of("0123456789") == -1);
 }
 
-// ”äŠrğŒ‚©
+// æ¯”è¼ƒæ¡ä»¶ã‹
 bool Parse::isCondition(std::string &token)
 {
 	return(mmCondition.count(token) > 0);
 }
 
-// ƒ‰ƒxƒ‹AƒVƒ“ƒ{ƒ‹‚Æ‚µ‚Ä—LŒø‚È•¶š‚Å\¬‚³‚ê‚Ä‚¢‚é‚©
+// ãƒ©ãƒ™ãƒ«ã€ã‚·ãƒ³ãƒœãƒ«ã¨ã—ã¦æœ‰åŠ¹ãªæ–‡å­—ã§æ§‹æˆã•ã‚Œã¦ã„ã‚‹ã‹
 bool Parse::isValidSymbol(std::string &token)
 {
 	bool bValid(false);
 
-	// —LŒø‚È•¶š‚Å\¬‚³‚ê‚Ä‚¢‚é‚±‚Æ
+	// æœ‰åŠ¹ãªæ–‡å­—ã§æ§‹æˆã•ã‚Œã¦ã„ã‚‹ã“ã¨
 	if (token.find_first_not_of("pFftcxkqhRzmnrljwbVvdsgXiyuoea0123456789'-_") == -1) {
-		// 1•¶š–Ú‚Í”šˆÈŠO‚Å‚ ‚é‚±‚Æ
+		// 1æ–‡å­—ç›®ã¯æ•°å­—ä»¥å¤–ã§ã‚ã‚‹ã“ã¨
 		if ((token[0] < '0') || ('9' < token[0])) {
 			bValid = true;
 		}

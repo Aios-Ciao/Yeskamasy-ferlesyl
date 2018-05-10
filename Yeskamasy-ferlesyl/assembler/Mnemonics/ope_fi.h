@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma once
 #include <string>
 #include "../Mnemonic.h"
@@ -14,7 +14,7 @@ private:
 	};
 	const std::string name = "fi";
 
-	// ˆø”ˆÊ’uƒe[ƒuƒ‹								0			1			2
+	// å¼•æ•°ä½ç½®ãƒ†ãƒ¼ãƒ–ãƒ«								0			1			2
 	const ePrmType	tbl_prmidx[eParamCount] = { eLeftValue,	eRighttValue,eCondition };
 
 public:
@@ -33,9 +33,9 @@ public:
 	}
 	tParamCount	getParamIndex(tParamCount idx, tParamDir d)
 	{
-		if (idx >= eParamCount) return(-1);	// ”ÍˆÍŠO
+		if (idx >= eParamCount) return(-1);	// ç¯„å›²å¤–
 
-		// fi‚Íƒpƒ‰ƒ[ƒ^‡‚Í•Ï‚í‚ç‚È‚¢
+		// fiã¯ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿é †ã¯å¤‰ã‚ã‚‰ãªã„
 		return(tbl_prmidx[idx]);
 	}
 	bool chkParamType(tParamCount idx, Parameter::ParamType type)

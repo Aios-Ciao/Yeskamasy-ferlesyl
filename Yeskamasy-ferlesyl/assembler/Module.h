@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <map>
 #include <vector>
@@ -6,7 +6,7 @@
 #include "Statement.h"
 #include "Symbol.h"
 
-// ƒAƒZƒ“ƒuƒ‹‚·‚éƒ‚ƒWƒ…[ƒ‹‚ÌŠÇ—
+// ã‚¢ã‚»ãƒ³ãƒ–ãƒ«ã™ã‚‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ç®¡ç†
 class Module
 {
 public:
@@ -14,15 +14,15 @@ public:
 	using tStatementIdxList = std::vector<Statement::tStatementIndex>;
 
 private:
-	static lk::tModuleID	id_base;			// ”‚¦ã‚°—p
+	static lk::tModuleID	id_base;			// æ•°ãˆä¸Šã’ç”¨
 	lk::tModuleID			id;
 	lk::tModuleName			filename;
-	lk::tAddressHalf		loadaddress;		// ƒ‚ƒWƒ…[ƒ‹‚ÌŠî“_ƒAƒhƒŒƒX(ãˆÊ16bit)
+	lk::tAddressHalf		loadaddress;		// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®åŸºç‚¹ã‚¢ãƒ‰ãƒ¬ã‚¹(ä¸Šä½16bit)
 
 public:
-	Statement::tStatementList	vStatements;	/// ƒXƒe[ƒgƒƒ“ƒgŒQ
-	tStatementIdxList			vLabelRefStateIdx;	/// ‰ğŒˆ‚·‚×‚«ƒ‰ƒxƒ‹‚ğƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä‚à‚ÂƒXƒe[ƒgƒƒ“ƒg‚ÌƒCƒ“ƒfƒbƒNƒXƒŠƒXƒg
-	Symbol::tSymbolAry			vSymbols;		/// ƒ‚ƒWƒ…[ƒ‹‚Å’è‹`‚³‚ê‚éƒ‰ƒxƒ‹ˆê——
+	Statement::tStatementList	vStatements;	/// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆç¾¤
+	tStatementIdxList			vLabelRefStateIdx;	/// è§£æ±ºã™ã¹ããƒ©ãƒ™ãƒ«ã‚’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¨ã—ã¦ã‚‚ã¤ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒªã‚¹ãƒˆ
+	Symbol::tSymbolAry			vSymbols;		/// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã§å®šç¾©ã•ã‚Œã‚‹ãƒ©ãƒ™ãƒ«ä¸€è¦§
 
 public:
 	Module(std::string &name);
