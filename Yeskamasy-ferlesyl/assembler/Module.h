@@ -30,5 +30,6 @@ public:
 
 	lk::tModuleID	getID() { return(id); };
 	std::string		getFilename() { return(filename); };
+	Statement&		operator[](Statement::tStatementIndex idx) { return(vStatements[idx]); };
 };
 

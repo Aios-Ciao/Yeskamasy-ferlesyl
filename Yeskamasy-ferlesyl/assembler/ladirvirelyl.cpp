@@ -7,6 +7,7 @@
 #include "Encoder.h"
 #include "Module.h"
 #include "Linker.h"
+#include "Sequencer.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ static Encoder	enc;
 ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 {
 	int nfiles = argc;
+	Sequencer	*seq;
 
 	// ˆø”–³‚µ‚Å‚Í‰½‚à‚µ‚È‚¢
 	if (nfiles == 0) {
@@ -35,6 +37,14 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 
 	// ƒ‚ƒWƒ…[ƒ‹ŠÔ‚ÌƒŠƒ“ƒN
 	Linker::Link(_modules);
+	seq = new Sequencer(_modules);
+
+	while (seq->Step())
+	{
+
+	}
+
+	delete seq;
 }
 
 ladirvirelyl::~ladirvirelyl()

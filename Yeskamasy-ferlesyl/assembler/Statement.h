@@ -20,9 +20,6 @@ public:
 	Statement();
 	~Statement();
 
-	void Execute();	// ステートメントの実行
-	void Encode();	// 機械語コードへの変換
-
 	std::string ToString();
 };
 

@@ -86,4 +86,19 @@ public:
 		if (!cond.compare("llonys")) return(ecn_llonys);
 		return(ecn_niv);	// ƒ_ƒ~[
 	};
+	static std::string RegNameFrom(ParamRegName fx) {
+		switch (fx) {
+		case ernF0:	return("f0");
+		case ernF1:	return("f1");
+		case ernF2:	return("f2");
+		case ernF3:	return("f3");
+		case ernF4:	return("f4");
+		case ernF5:	return("f5");
+		case ernF6:	return("f6");
+		case ernF7:	return("f7");
+		case ernXX:	return("xx");
+		default:	return("??");
+		}
+		return "??";
+	};
 };
