@@ -93,6 +93,9 @@
     <ClInclude Include="Sequencer.h">
       <Filter>ヘッダー ファイル\Interpret</Filter>
     </ClInclude>
+    <ClInclude Include="Proc.h">
+      <Filter>ヘッダー ファイル\Interpret</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">

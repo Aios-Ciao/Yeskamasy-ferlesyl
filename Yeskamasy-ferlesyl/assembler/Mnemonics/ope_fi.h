@@ -84,7 +84,30 @@ public:
 	std::string getName()
 	{
 		return (name);
-	}
+	};
+
+	// 命令の実行
+	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
+	{
+		bool bSuccess(false);
+
+		switch (prm[eCondition].cond) {
+		case Parameter::ecn_clo:
+		case Parameter::ecn_xtlo:
+		case Parameter::ecn_xtlonys:
+		case Parameter::ecn_xolo:
+		case Parameter::ecn_niv:
+		case Parameter::ecn_xylo:
+		case Parameter::ecn_xylonys:
+		case Parameter::ecn_llo:
+		case Parameter::ecn_llonys:
+			break;
+		default:
+			break;
+		}
+
+		return(bSuccess);
+	};
 
 };
 

@@ -150,6 +150,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Mnemonics.h" />
     <ClInclude Include="Linker.h" />
+    <ClInclude Include="Proc.h" />
     <ClInclude Include="Sequencer.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="ladirvirelyl.h" />

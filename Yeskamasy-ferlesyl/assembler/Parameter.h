@@ -36,19 +36,21 @@ public:
 		ecn_llonys
 	};
 
+	using tParamList = std::vector<Parameter>;
+
 	// 各アドレッシングモードで使用するパラメータだけ使用する
 	ParamType		type;	// パラメータのアドレッシングモード種別
 	uint32_t		imm;	// 即値データ
 	ParamRegName	base;	// ベースレジスタ
 	ParamRegName	dsp;	// オフセットまたはインデックスのレジスタ
 	std::string		label;	// ラベル文字列
-	std::string		cond;	// 比較条件
+	ParamCondName	cond;	// 比較条件
 
 	lk::tAddressHalf	localaddr;	// 参照先(モジュール内の)アドレス
 	lk::tModuleID		modid;		// 参照先モジュールID
 
 public:
-	Parameter() :type(eptInvalid), imm(0), base(ernF0), dsp(ernF0), label(""), cond(""), localaddr(0), modid(0) {};
+	Parameter() :type(eptInvalid), imm(0), base(ernF0), dsp(ernF0), label(""), cond(ecn_clo), localaddr(0), modid(0) {};
 	~Parameter() {};
 
 public:

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+#include "Proc.h"
 #include "Parameter.h"
 
 class Mnemonic
@@ -20,7 +21,7 @@ public:
 	virtual std::string getName() = 0;
 
 	// 命令の実行
-//	virtual void Execute(std::vector<Parameter> &param) = 0;
+	virtual bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d) = 0;
 
 	// バイトコードへの変換
 //	virtual unsigned char Encode(std::vector<Parameter> &param) = 0;

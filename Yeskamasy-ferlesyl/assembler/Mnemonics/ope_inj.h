@@ -91,5 +91,13 @@ public:
 	{
 		return (name);
 	}
+	// 命令の実行
+	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
+	{
+		bool bSuccess(false);
 
+		bSuccess = true;
+
+		return(bSuccess);
+	};
 };

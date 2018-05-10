@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Module.h"
+#include "Proc.h"
 
 // ステートメントシーケンサ
 class Sequencer
@@ -7,6 +8,7 @@ class Sequencer
 	Module::tModuleList	&_modules;
 	lk::tModuleID	idx_module;
 	Statement::tStatementIndex	idx_statement;
+	Proc	processor;
 
 public:
 	Sequencer(Module::tModuleList& modules)

@@ -62,3 +62,11 @@ std::string Statement::ToString()
 	return( statement );
 }
 
+bool Statement::operator()(Proc &proc)
+{
+	bool bSuccess(false);
+
+	bSuccess = mnemonic->Execute(proc, param, eci);
+
+	return(bSuccess);
+}
