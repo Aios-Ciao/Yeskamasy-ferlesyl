@@ -150,6 +150,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Encoder.h" />
     <ClInclude Include="Linker.h" />
+    <ClInclude Include="Sequencer.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="ladirvirelyl.h" />
     <ClInclude Include="Mnemonic.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Linker.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="Parse.cpp" />
+    <ClCompile Include="Sequencer.cpp" />
     <ClCompile Include="Statement.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
