@@ -30,7 +30,7 @@ bool Sequencer::Run()
 	{
 		cur_idx_module = (nx >> 16) & 0x0000FFFF;
 		cur_idx_statement = nx & 0x0000FFFF;
-		set_nx(nx);
+		set_nx(nx + 1);
 		std::cout << _modules[idx_module][cur_idx_statement].ToString() << std::endl;
 		_modules[idx_module][cur_idx_statement](processor);
 		nx = get_nx();
@@ -49,11 +49,10 @@ bool Sequencer::Run()
 			std::cout << val << std::endl;
 
 			lk::tAddressFull retaddr = get_mem(sp);
-			set_nx(retaddr);
+			nx = retaddr;
 		}
 			break;
 		default:
-			nx++;
 			break;
 		}
 	}
