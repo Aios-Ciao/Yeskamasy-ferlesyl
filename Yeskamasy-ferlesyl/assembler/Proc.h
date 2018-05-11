@@ -25,6 +25,9 @@ public:
 			if (_memory.count(addr + ofs) > 0) {
 				work.byte[ofs] = _memory[addr + ofs];
 			}
+			else {
+				work.byte[ofs] = 0;
+			}
 		}
 		value = work.dword;
 
@@ -40,9 +43,7 @@ public:
 		// 連続領域書き込み
 		work.dword = value;
 		for (int ofs = 0; ofs < 4; ofs++) {
-			if (_memory.count(addr + ofs) > 0) {
-				_memory[addr + ofs] = work.byte[ofs];
-			}
+			_memory[addr + ofs] = work.byte[ofs];
 		}
 
 	}
@@ -119,6 +120,20 @@ public:
 	bool chkFlag() {
 		return(firjal.flg.bits.F);
 	};
+
+	// for interpretor
+	Ferlesexiayl::tRegister getNX() {
+		return firjal.xx;
+	};
+	void setNX(Ferlesexiayl::tRegister addr) {
+		firjal.xx = addr;
+	}
+	Ferlesexiayl::tRegister getReg(Parameter::ParamRegName reg) {
+		return firjal.refReg(reg);
+	}
+	Ferlesexiayl::tRegister getMem(Ferlesexiayl::tRegister addr) {
+		return setistafar.read(addr);
+	}
 
 	Ferlesexiayl::tRegister &Read(Parameter &opeland) {
 		Ferlesexiayl::tRegister value(0);
