@@ -138,7 +138,7 @@ public:
 			work_R += 0x80000000u;
 			/* not break */
 		case Parameter::ecn_llonys:
-			result = (work_L <= work_R);
+			result = (work_L > work_R);
 			proc.setFlag(result);
 			break;
 		default:
