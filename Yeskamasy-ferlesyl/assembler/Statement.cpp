@@ -26,10 +26,10 @@ std::string Statement::ToString()
 
 		switch (prm.type) {
 		case Parameter::eptImmidiate:
-			statement += prm.imm;
+			statement += std::to_string(prm.imm);
 			break;
 		case Parameter::eptCondition:
-			statement += prm.cond;
+			statement += Parameter::StrFromCond(prm.cond);
 			break;
 		case Parameter::eptLabel:
 			statement += prm.label;
@@ -41,7 +41,7 @@ std::string Statement::ToString()
 			statement += Parameter::RegNameFrom(prm.base);
 			if (prm.imm != 0) {
 				statement += "+";
-				statement += prm.imm;
+				statement += std::to_string(prm.imm);
 			}
 			statement += "@";
 			break;
