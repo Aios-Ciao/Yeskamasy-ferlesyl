@@ -53,6 +53,33 @@ bool Linker::Link(Module::tModuleList vModules)
 		}
 	}
 
+	// 各ステートメントのパラメータに対してアドレス(モジュールIDとステートメントインデックス)解決
+	for (Module::tModuleList::iterator mod = vModules.begin(); mod != vModules.end(); ++mod) {
+		Symbol::tSymbolAry &syms = mod->vSymbols;
+		std::map<std::string, Symbol *> mSymbols;
+
+		// 一旦モジュール内のシンボルをハッシュに変換する
+		for (Symbol::tSymbolAry::iterator sym = syms.begin(); sym != syms.end(); ++sym) {
+			mSymbols[sym->name] = &(*sym);
+		}
+
+		for (Statement::tStatementList::iterator statement = mod->vStatements.begin(); statement != mod->vStatements.end(); ++statement) {
+			for (Parameter::tParamList::iterator param = statement->param.begin(); param != statement->param.end(); ++param) {
+				// パラメータがラベルならばそのシンボルのアドレスをロードする
+				if (param->type == Parameter::eptLabel) {
+					if (mSymbols.count(param->label) > 0) {
+						param->localaddr = lk::tAddressHalf(mSymbols[param->label]->idx);
+						param->modid = mSymbols[param->label]->modid;
+					}
+					else {
+						std::cerr << "シンボルが見つかりませんでした。" << param->label << std::endl;
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	return(true);
 }
 
