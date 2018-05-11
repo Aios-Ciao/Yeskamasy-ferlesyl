@@ -19,5 +19,10 @@ public:
 
 	~Sequencer() {};
 
+	bool Run();
 	bool Step();
+	lk::tAddressFull get_nx();
+	void set_nx(lk::tAddressFull addr);
+	Ferlesexiayl::tRegister get_fn(Parameter::ParamRegName reg);
+	Ferlesexiayl::tRegister get_mem(lk::tAddressFull addr);
 };

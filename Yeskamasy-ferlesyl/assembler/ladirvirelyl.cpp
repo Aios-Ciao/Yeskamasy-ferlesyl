@@ -39,10 +39,7 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 	Linker::Link(_modules);
 	seq = new Sequencer(_modules);
 
-	while (seq->Step())
-	{
-
-	}
+	seq->Run();
 
 	delete seq;
 }
