@@ -15,7 +15,7 @@ using tKueSymbol = struct KuedSymbol{
 using mKueSymbols = std::map<std::string, tKueSymbol>;
 
 /// リンク処理
-bool Linker::Link(Module::tModuleList vModules)
+bool Linker::Link(Module::tModuleList &vModules)
 {
 	mKueSymbols symbols_kue;
 

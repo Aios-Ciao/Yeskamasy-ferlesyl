@@ -4,6 +4,6 @@
 
 class Linker {
 public:
-	static bool Link(Module::tModuleList mods);
+	static bool Link(Module::tModuleList &mods);
 };
 
