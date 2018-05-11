@@ -94,13 +94,9 @@ public:
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
-		bool bSuccess;
+		bool bSuccess(false);
 
-		// フラグセット時にkrz処理
-		if (proc.chkFlag()) {
-			Ferlesexiayl::tRegister	work = proc.Read(prm[eSource]);
-			bSuccess = proc.Write(prm[eTarget], work);
-		}
+		bSuccess = true;
 
 		return(bSuccess);
 	};

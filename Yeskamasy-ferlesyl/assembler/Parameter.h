@@ -29,7 +29,6 @@ public:
 		ecn_xtlo,
 		ecn_xtlonys,
 		ecn_xolo,
-		ecn_xolonys,
 		ecn_niv,
 		ecn_xylo,
 		ecn_xylonys,
@@ -82,7 +81,6 @@ public:
 		if (!cond.compare("xtlo")) return(ecn_xtlo);
 		if (!cond.compare("xtlonys")) return(ecn_xtlonys);
 		if (!cond.compare("xolo")) return(ecn_xolo);
-		if (!cond.compare("xolonys")) return(ecn_xolonys);
 		if (!cond.compare("niv")) return(ecn_niv);
 		if (!cond.compare("xylo")) return(ecn_xylo);
 		if (!cond.compare("xylonys")) return(ecn_xylonys);
