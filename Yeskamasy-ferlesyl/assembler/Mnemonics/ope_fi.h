@@ -90,19 +90,59 @@ public:
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
 		bool bSuccess(false);
+		bool result;
+
+		Ferlesexiayl::tRegister	work_L = proc.Read(prm[eLeftValue]);
+		Ferlesexiayl::tRegister	work_R = proc.Read(prm[eRighttValue]);
 
 		switch (prm[eCondition].cond) {
 		case Parameter::ecn_clo:
-		case Parameter::ecn_xtlo:
-		case Parameter::ecn_xtlonys:
-		case Parameter::ecn_xolo:
+			result = work_L == work_R;
+			proc.setFlag(result);
+			break;
+
 		case Parameter::ecn_niv:
+			result = work_L != work_R;
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_xtlo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
+		case Parameter::ecn_xtlonys:
+			result = work_L <= work_R;
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_xolo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
+		case Parameter::ecn_xolonys:
+			result = work_L >= work_R;
+			proc.setFlag(result);
+			break;
+
 		case Parameter::ecn_xylo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
 		case Parameter::ecn_xylonys:
+			result = work_L < work_R;
+			proc.setFlag(result);
+			break;
+
 		case Parameter::ecn_llo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
 		case Parameter::ecn_llonys:
+			result = work_L <= work_R;
+			proc.setFlag(result);
 			break;
 		default:
+			result = false;
 			break;
 		}
 
