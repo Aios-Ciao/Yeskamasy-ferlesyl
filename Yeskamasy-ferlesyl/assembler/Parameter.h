@@ -77,19 +77,6 @@ public:
 		if (!name.compare("f7")) return(ernF7);
 		return(ernXX);		// ダミー
 	};
-	static ParamCondName fromCondStr(std::string &cond) {
-		if (!cond.compare("clo")) return(ecn_clo);
-		if (!cond.compare("xtlo")) return(ecn_xtlo);
-		if (!cond.compare("xtlonys")) return(ecn_xtlonys);
-		if (!cond.compare("xolo")) return(ecn_xolo);
-		if (!cond.compare("xolonys")) return(ecn_xolonys);
-		if (!cond.compare("niv")) return(ecn_niv);
-		if (!cond.compare("xylo")) return(ecn_xylo);
-		if (!cond.compare("xylonys")) return(ecn_xylonys);
-		if (!cond.compare("llo")) return(ecn_llo);
-		if (!cond.compare("llonys")) return(ecn_llonys);
-		return(ecn_niv);	// ダミー
-	};
 	static std::string RegNameFrom(ParamRegName fx) {
 		switch (fx) {
 		case ernF0:	return("f0");
@@ -104,5 +91,33 @@ public:
 		default:	return("??");
 		}
 		return "??";
+	};
+	static ParamCondName fromCondStr(std::string &cond) {
+		if (!cond.compare("clo")) return(ecn_clo);
+		if (!cond.compare("xtlo")) return(ecn_xtlo);
+		if (!cond.compare("xtlonys")) return(ecn_xtlonys);
+		if (!cond.compare("xolo")) return(ecn_xolo);
+		if (!cond.compare("xolonys")) return(ecn_xolonys);
+		if (!cond.compare("niv")) return(ecn_niv);
+		if (!cond.compare("xylo")) return(ecn_xylo);
+		if (!cond.compare("xylonys")) return(ecn_xylonys);
+		if (!cond.compare("llo")) return(ecn_llo);
+		if (!cond.compare("llonys")) return(ecn_llonys);
+		return(ecn_niv);	// ダミー
+	};
+	static std::string StrFromCond(ParamCondName cond) {
+		switch (cond) {
+		case ecn_clo:		return("clo");
+		case ecn_niv:		return("niv");
+		case ecn_xtlo:		return("xtlo");
+		case ecn_xtlonys:	return("xtlonys");
+		case ecn_xolo:		return("xolo");
+		case ecn_xolonys:	return("xolonys");
+		case ecn_xylo:		return("xylo");
+		case ecn_xylonys:	return("xylonys");
+		case ecn_llo:		return("llo");
+		case ecn_llonys:	return("llonys");
+		default:			return("");
+		}
 	};
 };
