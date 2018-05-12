@@ -110,15 +110,21 @@ public:
 	{
 		bool bSuccess(true);
 
-		int32_t wk_m = proc.Read(prm[eTarget_ResultL]);
-		int32_t wk_n = proc.Read(prm[eMulti]);
+		using regtype = union {
+			Ferlesexiayl::tRegister	reg_u;
+			int32_t	reg_s;
+		};
+		regtype wk_m, wk_n;
 
-		int64_t wk_l = (int64_t)wk_m * (int64_t)wk_n;
+		bSuccess &= proc.Read(wk_m.reg_u, prm[eTarget_ResultL]);
+		bSuccess &= proc.Read(wk_n.reg_u, prm[eMulti]);
+
+		int64_t wk_l = (int64_t)wk_m.reg_s * (int64_t)wk_n.reg_s;
 		Ferlesexiayl::tRegister result_h = uint32_t(wk_l >> 32);
 		Ferlesexiayl::tRegister result_l = uint32_t(wk_l & 0xFFFFFFFFul);
 
-		bSuccess |= proc.Write(prm[eResultH], result_h);
-		bSuccess |= proc.Write(prm[eTarget_ResultL], result_l);
+		bSuccess &= proc.Write(prm[eResultH], result_h);
+		bSuccess &= proc.Write(prm[eTarget_ResultL], result_l);
 
 		return(bSuccess);
 	};

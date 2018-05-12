@@ -95,9 +95,10 @@ public:
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
 		bool bSuccess(true);
+		Ferlesexiayl::tRegister	work1, work2;
 
-		Ferlesexiayl::tRegister	work1 = proc.Read(prm[eSource]);
-		Ferlesexiayl::tRegister	work2 = proc.Read(prm[eDestSrc]);
+		bSuccess &= proc.Read(work1, prm[eSource]);
+		bSuccess &= proc.Read(work2, prm[eDestSrc]);
 		bSuccess &= proc.Write(prm[eDestSrc], work1);
 		bSuccess &= proc.Write(prm[eTarget], work2);
 

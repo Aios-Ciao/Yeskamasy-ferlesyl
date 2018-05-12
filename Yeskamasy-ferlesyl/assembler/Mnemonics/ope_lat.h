@@ -110,8 +110,9 @@ public:
 	{
 		bool bSuccess(true);
 
-		uint32_t wk_m = proc.Read(prm[eTarget_ResultL]);
-		uint32_t wk_n = proc.Read(prm[eMulti]);
+		uint32_t wk_m, wk_n;
+		bSuccess &= proc.Read(wk_m, prm[eTarget_ResultL]);
+		bSuccess &= proc.Read(wk_n, prm[eMulti]);
 
 		uint64_t wk_l = (uint64_t)wk_m * (uint64_t)wk_n;
 		Ferlesexiayl::tRegister result_h = uint32_t(wk_l >> 32);

@@ -136,8 +136,8 @@ public:
 		return setistafar.read(addr);
 	}
 
-	Ferlesexiayl::tRegister &Read(Parameter &opeland) {
-		Ferlesexiayl::tRegister value(0);
+	bool Read(Ferlesexiayl::tRegister &value, Parameter &opeland) {
+		bool result(true);
 		Ferlesexiayl::tRegister addr(0);
 
 		switch (opeland.type) {
@@ -159,10 +159,11 @@ public:
 			value = (opeland.modid << 16) | opeland.localaddr;
 			break;
 		default:
+			result = false;
 			break;
 		}
 
-		return( value );
+		return( result );
 	};
 
 	bool Write(Parameter &opeland, Ferlesexiayl::tRegister value) {

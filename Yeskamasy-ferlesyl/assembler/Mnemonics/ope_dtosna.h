@@ -94,15 +94,21 @@ public:
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
-		bool bSuccess;
+		bool bSuccess(true);
+		using regtype = union {
+			Ferlesexiayl::tRegister	reg_u;
+			int32_t	reg_s;
+		};
+		regtype wk_m;
+		Ferlesexiayl::tRegister	amount;
 
-		int32_t wk_s = proc.Read(prm[eTarget]);
-		Ferlesexiayl::tRegister amount = proc.Read(prm[eAmount]);
+		bSuccess &= proc.Read(wk_m.reg_u, prm[eTarget]);
+		bSuccess &= proc.Read(amount, prm[eAmount]);
 
-		int64_t wk_l = (int64_t)wk_s;
-		Ferlesexiayl::tRegister work = uint32_t(wk_l >> amount);
+		int64_t wk_l = (int64_t)wk_m.reg_s;
+		Ferlesexiayl::tRegister result = uint32_t(wk_l >> amount);
 
-		bSuccess = proc.Write(prm[eTarget], work);
+		bSuccess &= proc.Write(prm[eTarget], result);
 
 		return(bSuccess);
 	};

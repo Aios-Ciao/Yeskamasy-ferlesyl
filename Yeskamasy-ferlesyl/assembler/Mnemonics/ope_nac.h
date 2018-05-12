@@ -70,9 +70,10 @@ public:
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
-		bool bSuccess;
+		bool bSuccess(true);
+		Ferlesexiayl::tRegister work;
 
-		Ferlesexiayl::tRegister work = proc.Read(prm[eTarget]);
+		bSuccess &= proc.Read(work, prm[eTarget]);
 		work ^= 0xFFFFFFFFu;
 		bSuccess = proc.Write(prm[eTarget], work);
 

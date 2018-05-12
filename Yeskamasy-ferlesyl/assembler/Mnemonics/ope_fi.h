@@ -91,9 +91,10 @@ public:
 	{
 		bool bSuccess(true);
 		bool result;
+		Ferlesexiayl::tRegister	work_L, work_R;
 
-		Ferlesexiayl::tRegister	work_L = proc.Read(prm[eLeftValue]);
-		Ferlesexiayl::tRegister	work_R = proc.Read(prm[eRighttValue]);
+		bSuccess &= proc.Read(work_L, prm[eLeftValue]);
+		bSuccess &= proc.Read(work_R, prm[eRighttValue]);
 
 		switch (prm[eCondition].cond) {
 		case Parameter::ecn_clo:

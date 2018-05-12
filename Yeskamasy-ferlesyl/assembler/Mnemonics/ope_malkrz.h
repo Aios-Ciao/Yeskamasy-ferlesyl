@@ -98,8 +98,9 @@ public:
 
 		// フラグセット時にkrz処理
 		if (proc.chkFlag()) {
-			Ferlesexiayl::tRegister	work = proc.Read(prm[eSource]);
-			bSuccess = proc.Write(prm[eTarget], work);
+			Ferlesexiayl::tRegister	work;
+			bSuccess &= proc.Read(work, prm[eSource]);
+			bSuccess &= proc.Write(prm[eTarget], work);
 		}
 
 		return(bSuccess);

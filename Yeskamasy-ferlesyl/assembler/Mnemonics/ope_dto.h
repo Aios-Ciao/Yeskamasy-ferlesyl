@@ -94,18 +94,19 @@ public:
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
-		bool bSuccess;
+		bool bSuccess(true);
 
-		Ferlesexiayl::tRegister work = proc.Read(prm[eTarget]);
-		Ferlesexiayl::tRegister amount = proc.Read(prm[eAmount]);
+		Ferlesexiayl::tRegister value, amount;
+		bSuccess &= proc.Read(value, prm[eTarget]);
+		bSuccess &= proc.Read(amount, prm[eAmount]);
 
 		if (amount >= 32) {
-			work = 0u;
+			value = 0u;
 		}
 		else {
-			work >>= amount;
+			value >>= amount;
 		}
-		bSuccess = proc.Write(prm[eTarget], work);
+		bSuccess &= proc.Write(prm[eTarget], value);
 
 		return(bSuccess);
 	};
