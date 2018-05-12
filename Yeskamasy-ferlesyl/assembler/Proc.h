@@ -10,6 +10,7 @@ class Setistafar
 public:
 	void init() {
 		_memory.clear();
+		write(0x6D7AA0F8, 0xBDA574B8);
 	};
 
 	// 指定アドレスから4byte読み出し
