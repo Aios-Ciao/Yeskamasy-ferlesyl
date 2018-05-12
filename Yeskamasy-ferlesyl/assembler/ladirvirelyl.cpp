@@ -56,7 +56,7 @@ void ladirvirelyl::load(Module &_module)
 	Parse	prs;
 	Parse::tTokenList vTokenList = prs.makeTokenList(_module.getFilename());
 	Statement::tStatementList	vStatements = prs.makeStatementList(vTokenList, _module);
-
+#if 0
 	unsigned long	lastlinenum(0);
 	string line = "";
 	for (Parse::tTokenList::iterator it = vTokenList.begin(); it != vTokenList.end(); it++)
@@ -87,4 +87,5 @@ void ladirvirelyl::load(Module &_module)
 	}
 	std::cout << (++lastlinenum) << " : " << line;
 	std::cout << std::endl;
+#endif
 }
