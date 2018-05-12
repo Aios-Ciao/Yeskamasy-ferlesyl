@@ -6,6 +6,15 @@
 #include "Mnemonics/ope_inj.h"
 #include "Mnemonics/ope_ata.h"
 #include "Mnemonics/ope_nta.h"
+#include "Mnemonics/ope_lat.h"
+#include "Mnemonics/ope_latsna.h"
+#include "Mnemonics/ope_ada.h"
+#include "Mnemonics/ope_ekc.h"
+#include "Mnemonics/ope_nac.h"
+#include "Mnemonics/ope_dal.h"
+#include "Mnemonics/ope_dto.h"
+#include "Mnemonics/ope_dtosna.h"
+#include "Mnemonics/ope_dro.h"
 #include "Mnemonics/ope_fi.h"
 #include "Mnemonics/ope_malkrz.h"
 using namespace std;
@@ -19,6 +28,15 @@ Mnemonics::Mnemonics()
 	vMnemonics.push_back(new ope_inj());
 	vMnemonics.push_back(new ope_ata());
 	vMnemonics.push_back(new ope_nta());
+	vMnemonics.push_back(new ope_lat());
+	vMnemonics.push_back(new ope_latsna());
+	vMnemonics.push_back(new ope_ada());
+	vMnemonics.push_back(new ope_ekc());
+	vMnemonics.push_back(new ope_nac());
+	vMnemonics.push_back(new ope_dal());
+	vMnemonics.push_back(new ope_dto());
+	vMnemonics.push_back(new ope_dtosna());
+	vMnemonics.push_back(new ope_dro());
 	vMnemonics.push_back(new ope_fi());
 	vMnemonics.push_back(new ope_malkrz());
 }
