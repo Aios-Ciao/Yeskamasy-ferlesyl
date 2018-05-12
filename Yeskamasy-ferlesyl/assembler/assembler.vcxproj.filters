@@ -96,6 +96,33 @@
     <ClInclude Include="Proc.h">
       <Filter>ヘッダー ファイル\Interpret</Filter>
     </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dtosna.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dto.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dal.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_ekc.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_ada.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_nac.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dro.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_lat.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_latsna.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">
