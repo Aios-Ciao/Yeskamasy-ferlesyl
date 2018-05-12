@@ -41,6 +41,9 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 
 	seq->Run();
 
+	std::cout << "End of steps." << std::endl;
+	(void)getchar();
+
 	delete seq;
 }
 
@@ -84,7 +87,4 @@ void ladirvirelyl::load(Module &_module)
 	}
 	std::cout << (++lastlinenum) << " : " << line;
 	std::cout << std::endl;
-
-	std::cout << "done." << std::endl;
-	(void)getchar();
 }
