@@ -148,8 +148,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Encoder.h" />
+    <ClInclude Include="Mnemonics.h" />
     <ClInclude Include="Linker.h" />
+    <ClInclude Include="Mnemonics\ope_ada.h" />
+    <ClInclude Include="Mnemonics\ope_dal.h" />
+    <ClInclude Include="Mnemonics\ope_dro.h" />
+    <ClInclude Include="Mnemonics\ope_dto.h" />
+    <ClInclude Include="Mnemonics\ope_dtosna.h" />
+    <ClInclude Include="Mnemonics\ope_ekc.h" />
+    <ClInclude Include="Mnemonics\ope_lat.h" />
+    <ClInclude Include="Mnemonics\ope_latsna.h" />
+    <ClInclude Include="Mnemonics\ope_nac.h" />
+    <ClInclude Include="Proc.h" />
+    <ClInclude Include="Sequencer.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="ladirvirelyl.h" />
     <ClInclude Include="Mnemonic.h" />
@@ -167,11 +178,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
-    <ClCompile Include="Encoder.cpp" />
+    <ClCompile Include="Mnemonics.cpp" />
     <ClCompile Include="ladirvirelyl.cpp" />
     <ClCompile Include="Linker.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="Parse.cpp" />
+    <ClCompile Include="Sequencer.cpp" />
     <ClCompile Include="Statement.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

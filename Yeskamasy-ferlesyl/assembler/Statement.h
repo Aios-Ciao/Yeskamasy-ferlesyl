@@ -1,27 +1,25 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <map>
 #include <string>
+#include "Proc.h"
 #include "Mnemonic.h"
 #include "Parameter.h"
 
 class Statement
 {
 public:
-	using tParamList = std::vector<Parameter>;
 	using tParamMap = std::map<Mnemonic::tParamCount, Parameter>;
 	using tStatementList = std::vector<Statement>;
 	using tStatementIndex = tStatementList::size_type;
 public:
-	Mnemonic				*mnemonic;		// ƒj[ƒ‚ƒjƒbƒN
-	tParamList				param;			// ƒXƒe[ƒgƒƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^
-	Mnemonic::tParamDir		eci;			// ƒpƒ‰ƒ[ƒ^‚ÌŠi”[‡˜
+	Mnemonic				*mnemonic;		// ãƒ‹ãƒ¼ãƒ¢ãƒ‹ãƒƒã‚¯
+	Parameter::tParamList	param;			// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	Mnemonic::tParamDir		eci;			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ ¼ç´é †åº
 public:
 	Statement();
 	~Statement();
-
-	void Execute();	// ƒXƒe[ƒgƒƒ“ƒg‚ÌÀs
-	void Encode();	// ‹@ŠBŒêƒR[ƒh‚Ö‚Ì•ÏŠ·
+	bool operator()(Proc &);
 
 	std::string ToString();
 };

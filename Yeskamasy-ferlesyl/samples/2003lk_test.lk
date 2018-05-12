@@ -1,0 +1,89 @@
+;;;;;;;;;;;;;;;;;;;;
+; 2003lkの実装テスト
+;;;;;;;;;;;;;;;;;;;;
+; 2003lkの実装について、複雑な部分についてテストします。
+; 正しい結果ではなかった場合は、( )内の番号をデバッグ出力します。
+; 全てのテストにクリアした場合は、0をデバッグ出力します。
+;
+; 3126834864に、引数を一つ受け取り、それを出力する関数が実装されている必要があります。
+;
+; 本家Haskell実装では、コメント中にでも日本語の文字を含むことはできないようなので、
+; この部分のコメントを消してから実行してください。
+
+'c'i
+krz f3 0
+
+; (1) 4294967295 + 4294967295 = 4294967295
+krz f0 4294967295 ata f0 4294967295
+fi f0 4294967294 clo malkrz xx p1
+krz f3 1 nta f5 4 krz f5@ 1 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p1
+
+; (2) 4294967294 - 4294967295 = 4294967295
+krz f0 4294967294 nta f0 4294967295
+fi f0 4294967295 clo malkrz xx p2
+krz f3 1 nta f5 4 krz f5@ 2 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p2
+
+; (3) 4294967295 >>> 63 = 0
+krz f0 4294967295 dto f0 63
+fi f0 0 clo malkrz xx p3
+krz f3 1 nta f5 4 krz f5@ 3 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p3
+
+; (4) 2147483647 >> 32 = 0
+krz f0 2147483647 dtosna f0 32
+fi f0 0 clo malkrz xx p4
+krz f3 1 nta f5 4 krz f5@ 4 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p4
+
+; (5) 2147483648 >> 32 = 4294967295
+krz f0 2147483648 dtosna f0 32
+fi f0 4294967295 clo malkrz xx p5
+krz f3 1 nta f5 4 krz f5@ 5 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p5
+
+; (6) 4294967295 << 63 = 0
+krz f0 4294967295 dro f0 63
+fi f0 0 clo malkrz xx p6
+krz f3 1 nta f5 4 krz f5@ 6 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p6
+
+; (7) 2147483647 > 2147483648 (signed)
+fi 2147483647 2147483648 llo malkrz xx p7
+krz f3 1 nta f5 4 krz f5@ 7 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p7
+
+; (8) 2147483647 < 2147483648 (unsigned)
+fi 2147483647 2147483648 xylonys malkrz xx p8
+krz f3 1 nta f5 4 krz f5@ 8 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p8
+
+; (9) 2 * 3 = 6
+krz f0 2 lat f0 f0 3
+fi f0 6 clo malkrz xx p9
+krz f3 1 nta f5 4 krz f5@ 9 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p9
+
+; (10) 4294967295 * 4294967295 = 4294967294 * 2^32 + 1 (unsigned)
+krz f0 4294967295 lat f0 f1 4294967295
+fi f0 1 niv malkrz xx p10_niv
+fi f1 4294967294 clo malkrz xx p10
+krz f3 1 l' p10_niv nta f5 4 krz f5@ 10 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p10
+
+; (11) 4279967296 * 15000000 = 4294914909 * 2^32 + 451735552 (signed)
+krz f0 4279967296 latsna f0 f1 15000000
+fi f0 451735552 niv malkrz xx p11_niv
+fi f1 4294914909 clo malkrz xx p11
+krz f3 1 l' p11_niv nta f5 4 krz f5@ 11 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p11
+
+; (12) inj exchange
+krz f0 0 krz f1 1 inj f0 f1 f0
+fi f0 1 niv malkrz xx p12_niv
+fi f1 0 clo malkrz xx p12
+krz f3 1 l' p12_niv nta f5 4 krz f5@ 12 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p12
+
+; (13) big endian
+nta f5 4 krz f5@ 100000000 nta f5 4 krz f5@ 1000000000
+fi f5+1@ 2596929541 clo malkrz xx p13
+krz f3 1 nta f5 4 krz f5@ 13 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p13 ata f5 8
+
+; (14) f5+4294967292@ = f5-4@
+nta f5 4 krz f5@ 1 ata f5 4
+fi f5+4294967292@ 1 clo malkrz xx p14
+krz f3 1 nta f5 4 krz f5@ 14 nta f5 4 inj f5@ xx 3126834864 ata f5 8 nll p14
+
+fi f3 0 niv malkrz xx situv
+nta f5 4 krz f5@ 0 nta f5 4 inj f5@ xx 3126834864 ata f5 8
+krz xx f5@ l' situv

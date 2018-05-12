@@ -1,34 +1,35 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include "Common.h"
 
-// ƒXƒe[ƒgƒƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^
+// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 class Parameter
 {
 public:
 	enum ParamType {
-		eptInvalid,			/// •s³‚Èƒpƒ‰ƒ[ƒ^
-		eptImmidiate,		/// ‘¦’l				imm
-		eptRegister,		/// ƒŒƒWƒXƒ^’¼Ú		f0
-		eptLabel,			/// ƒ‰ƒxƒ‹				l'‚©nll‚Å’è‹`Axok‚Å’è‹`QÆ
-		eptCondition,		/// ”»’fğŒ			fi‚Ìƒpƒ‰ƒ[ƒ^
-		eptReg_Ofs_Imm,		/// ‘¦’lƒIƒtƒZƒbƒg•t‚«ƒŒƒWƒXƒ^ŠÔÚ			f0+imm@
-		eptReg_Ofs_Reg,		/// ƒŒƒWƒXƒ^ƒIƒtƒZƒbƒg•t‚«ƒŒƒWƒXƒ^ŠÔÚ		f0+f1@
-//		eptReg_Idx_Imm,		/// ‘¦’lƒCƒ“ƒfƒbƒNƒX•t‚«ƒŒƒWƒXƒ^ŠÔÚ			f0:imm@
-//		eptReg_Idx_Reg		/// ƒŒƒWƒXƒ^ƒCƒ“ƒfƒbƒNƒX•t‚«ƒŒƒWƒXƒ^ŠÔÚ		f0:f1@
+		eptInvalid,			/// ä¸æ­£ãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+		eptImmidiate,		/// å³å€¤				imm
+		eptRegister,		/// ãƒ¬ã‚¸ã‚¹ã‚¿ç›´æ¥		f0
+		eptLabel,			/// ãƒ©ãƒ™ãƒ«				l'ã‹nllã§å®šç¾©ã€xokã§å®šç¾©å‚ç…§
+		eptCondition,		/// åˆ¤æ–­æ¡ä»¶			fiã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+		eptReg_Ofs_Imm,		/// å³å€¤ã‚ªãƒ•ã‚»ãƒƒãƒˆä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥			f0+imm@
+		eptReg_Ofs_Reg,		/// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚ªãƒ•ã‚»ãƒƒãƒˆä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥		f0+f1@
+//		eptReg_Idx_Imm,		/// å³å€¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥			f0:imm@
+//		eptReg_Idx_Reg		/// ãƒ¬ã‚¸ã‚¹ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»˜ããƒ¬ã‚¸ã‚¹ã‚¿é–“æ¥		f0:f1@
 	};
 
-	/// ƒŒƒWƒXƒ^–¼
+	/// ãƒ¬ã‚¸ã‚¹ã‚¿å
 	enum ParamRegName {
 		ernF0, ernF1, ernF2, ernF3, ernF4, ernF5, ernF6, ernF7, ernXX
 	};
 
-	/// ”äŠrğŒ
+	/// æ¯”è¼ƒæ¡ä»¶
 	enum ParamCondName {
 		ecn_clo,
 		ecn_xtlo,
 		ecn_xtlonys,
 		ecn_xolo,
+		ecn_xolonys,
 		ecn_niv,
 		ecn_xylo,
 		ecn_xylonys,
@@ -36,19 +37,21 @@ public:
 		ecn_llonys
 	};
 
-	// ŠeƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒh‚Åg—p‚·‚éƒpƒ‰ƒ[ƒ^‚¾‚¯g—p‚·‚é
-	ParamType		type;	// ƒpƒ‰ƒ[ƒ^‚ÌƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒhí•Ê
-	uint32_t		imm;	// ‘¦’lƒf[ƒ^
-	ParamRegName	base;	// ƒx[ƒXƒŒƒWƒXƒ^
-	ParamRegName	dsp;	// ƒIƒtƒZƒbƒg‚Ü‚½‚ÍƒCƒ“ƒfƒbƒNƒX‚ÌƒŒƒWƒXƒ^
-	std::string		label;	// ƒ‰ƒxƒ‹•¶š—ñ
-	std::string		cond;	// ”äŠrğŒ
+	using tParamList = std::vector<Parameter>;
 
-	lk::tAddressHalf	localaddr;	// QÆæ(ƒ‚ƒWƒ…[ƒ‹“à‚Ì)ƒAƒhƒŒƒX
-	lk::tModuleID		modid;		// QÆæƒ‚ƒWƒ…[ƒ‹ID
+	// å„ã‚¢ãƒ‰ãƒ¬ãƒƒã‚·ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ã§ä½¿ç”¨ã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã ã‘ä½¿ç”¨ã™ã‚‹
+	ParamType		type;	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ãƒƒã‚·ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ç¨®åˆ¥
+	uint32_t		imm;	// å³å€¤ãƒ‡ãƒ¼ã‚¿
+	ParamRegName	base;	// ãƒ™ãƒ¼ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿
+	ParamRegName	dsp;	// ã‚ªãƒ•ã‚»ãƒƒãƒˆã¾ãŸã¯ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ¬ã‚¸ã‚¹ã‚¿
+	std::string		label;	// ãƒ©ãƒ™ãƒ«æ–‡å­—åˆ—
+	ParamCondName	cond;	// æ¯”è¼ƒæ¡ä»¶
+
+	lk::tAddressHalf	localaddr;	// å‚ç…§å…ˆ(ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…ã®)ã‚¢ãƒ‰ãƒ¬ã‚¹
+	lk::tModuleID		modid;		// å‚ç…§å…ˆãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ID
 
 public:
-	Parameter() :type(eptInvalid), imm(0), base(ernF0), dsp(ernF0), label(""), cond(""), localaddr(0), modid(0) {};
+	Parameter() :type(eptInvalid), imm(0), base(ernF0), dsp(ernF0), label(""), cond(ecn_clo), localaddr(0), modid(0) {};
 	~Parameter() {};
 
 public:
@@ -57,7 +60,7 @@ public:
 		if ((name.length() == 2)
 			&& ((name[0] == 'f')
 				&& (('0' <= name[1]) && (name[1] <= '7')))) {
-			// 2•¶š‚ÅA1•¶š–Ú‚ªfA‚©‚Â0`7‚È‚çOK
+			// 2æ–‡å­—ã§ã€1æ–‡å­—ç›®ãŒfã€ã‹ã¤0ï½7ãªã‚‰OK
 			return(true);
 		}
 		return(false);
@@ -72,18 +75,49 @@ public:
 		if (!name.compare("f5")) return(ernF5);
 		if (!name.compare("f6")) return(ernF6);
 		if (!name.compare("f7")) return(ernF7);
-		return(ernXX);		// ƒ_ƒ~[
+		return(ernXX);		// ãƒ€ãƒŸãƒ¼
+	};
+	static std::string RegNameFrom(ParamRegName fx) {
+		switch (fx) {
+		case ernF0:	return("f0");
+		case ernF1:	return("f1");
+		case ernF2:	return("f2");
+		case ernF3:	return("f3");
+		case ernF4:	return("f4");
+		case ernF5:	return("f5");
+		case ernF6:	return("f6");
+		case ernF7:	return("f7");
+		case ernXX:	return("xx");
+		default:	return("??");
+		}
+		return "??";
 	};
 	static ParamCondName fromCondStr(std::string &cond) {
 		if (!cond.compare("clo")) return(ecn_clo);
 		if (!cond.compare("xtlo")) return(ecn_xtlo);
 		if (!cond.compare("xtlonys")) return(ecn_xtlonys);
 		if (!cond.compare("xolo")) return(ecn_xolo);
+		if (!cond.compare("xolonys")) return(ecn_xolonys);
 		if (!cond.compare("niv")) return(ecn_niv);
 		if (!cond.compare("xylo")) return(ecn_xylo);
 		if (!cond.compare("xylonys")) return(ecn_xylonys);
 		if (!cond.compare("llo")) return(ecn_llo);
 		if (!cond.compare("llonys")) return(ecn_llonys);
-		return(ecn_niv);	// ƒ_ƒ~[
+		return(ecn_niv);	// ãƒ€ãƒŸãƒ¼
+	};
+	static std::string StrFromCond(ParamCondName cond) {
+		switch (cond) {
+		case ecn_clo:		return("clo");
+		case ecn_niv:		return("niv");
+		case ecn_xtlo:		return("xtlo");
+		case ecn_xtlonys:	return("xtlonys");
+		case ecn_xolo:		return("xolo");
+		case ecn_xolonys:	return("xolonys");
+		case ecn_xylo:		return("xylo");
+		case ecn_xylonys:	return("xylonys");
+		case ecn_llo:		return("llo");
+		case ecn_llonys:	return("llonys");
+		default:			return("");
+		}
 	};
 };

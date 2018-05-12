@@ -1,4 +1,4 @@
-#include <vector>
+ï»¿#include <vector>
 #include <string>
 #include "Statement.h"
 
@@ -13,23 +13,60 @@ Statement::~Statement()
 
 }
 
-// ƒXƒe[ƒgƒƒ“ƒg‚ÌŽÀs
-void Statement::Execute()
-{
-//	mnemonic->Execute(param);
-}
-
-// ƒXƒe[ƒgƒƒ“ƒg‚Ì‹@ŠBŒêƒR[ƒh‚Ö‚Ì•ÏŠ·
-void Statement::Encode()
-{
-
-}
-
-// ‚PƒXƒe[ƒgƒƒ“ƒg‚ð‹tƒAƒZ‚µ‚½‚æ‚¤‚É•¶Žš—ñ‚É’¼‚·
+// ï¼‘ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’é€†ã‚¢ã‚»ã—ãŸã‚ˆã†ã«æ–‡å­—åˆ—ã«ç›´ã™
 std::string Statement::ToString()
 {
 	std::string statement;
 
+	statement += mnemonic->getName() + " ";
+	for (Mnemonic::tParamCount idx = 0; idx < mnemonic->getParamCount(); ++idx) {
+		Mnemonic::tParamCount pos = mnemonic->getParamIndex(idx, eci);
+
+		Parameter &prm = param[pos];
+
+		switch (prm.type) {
+		case Parameter::eptImmidiate:
+			statement += std::to_string(prm.imm);
+			break;
+		case Parameter::eptCondition:
+			statement += Parameter::StrFromCond(prm.cond);
+			break;
+		case Parameter::eptLabel:
+			statement += prm.label;
+			break;
+		case Parameter::eptRegister:
+			statement += Parameter::RegNameFrom(prm.base);
+			break;
+		case Parameter::eptReg_Ofs_Imm:
+			statement += Parameter::RegNameFrom(prm.base);
+			if (prm.imm != 0) {
+				statement += "+";
+				statement += std::to_string(prm.imm);
+			}
+			statement += "@";
+			break;
+		case Parameter::eptReg_Ofs_Reg:
+			statement += Parameter::RegNameFrom(prm.base) + "+";
+			statement += Parameter::RegNameFrom(prm.dsp) + "@";
+			break;
+		default:
+			break;
+		}
+
+		if (idx < (mnemonic->getParamCount() - 1)) {
+			statement += " ";
+		}
+
+	}
+
 	return( statement );
 }
 
+bool Statement::operator()(Proc &proc)
+{
+	bool bSuccess(false);
+
+	bSuccess = mnemonic->Execute(proc, param, eci);
+
+	return(bSuccess);
+}

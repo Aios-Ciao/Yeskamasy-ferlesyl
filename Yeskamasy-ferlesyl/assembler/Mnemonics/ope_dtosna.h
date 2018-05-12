@@ -2,27 +2,26 @@
 #include <string>
 #include "../Mnemonic.h"
 
-class ope_krz : public Mnemonic
+class ope_dtosna : public Mnemonic
 {
 private:
-	enum ePrmType{
-		eSource,
+	enum ePrmType {
 		eTarget,
+		eAmount,
 		eParamCount
 	};
-	const std::string name = "krz";
+	const std::string name = "dtosna";
 
 	// 引数位置テーブル								0			1
-	const ePrmType	tbl_prmidx_ic[eParamCount] = {	eSource,	eTarget };
-	const ePrmType	tbl_prmidx_ci[eParamCount] = {	eTarget,	eSource };
+	const ePrmType	tbl_prmidx_ic[eParamCount] = { eAmount,	eTarget };
+	const ePrmType	tbl_prmidx_ci[eParamCount] = { eTarget,	eAmount };
 
 public:
 	bool chkApplicable(std::string &token)
 	{
 		bool bok(false);
 
-		bok |= !token.compare("krz");
-		bok |= !token.compare("kRz");
+		bok |= !token.compare("dtosna");
 
 		return(bok);
 	};
@@ -54,14 +53,13 @@ public:
 
 		switch (idx)
 		{
-		case eSource:
+		case eAmount:
 			switch (type)
 			{
 			case Parameter::ParamType::eptRegister:
 			case Parameter::ParamType::eptImmidiate:
 			case Parameter::ParamType::eptReg_Ofs_Imm:
 			case Parameter::ParamType::eptReg_Ofs_Reg:
-			case Parameter::ParamType::eptLabel:
 				isOK = true;
 				break;
 			default:
@@ -87,16 +85,23 @@ public:
 
 		return(isOK);
 	}
+
 	std::string getName()
 	{
 		return (name);
 	}
+
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
 		bool bSuccess;
 
-		Ferlesexiayl::tRegister	work = proc.Read(prm[eSource]);
+		int32_t wk_s = proc.Read(prm[eTarget]);
+		Ferlesexiayl::tRegister amount = proc.Read(prm[eAmount]);
+
+		int64_t wk_l = (int64_t)wk_s;
+		Ferlesexiayl::tRegister work = uint32_t(wk_l >> amount);
+
 		bSuccess = proc.Write(prm[eTarget], work);
 
 		return(bSuccess);

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma once
 #include <string>
 #include "../Mnemonic.h"
@@ -14,7 +14,7 @@ private:
 	};
 	const std::string name = "fi";
 
-	// ˆø”ˆÊ’uƒe[ƒuƒ‹								0			1			2
+	// å¼•æ•°ä½ç½®ãƒ†ãƒ¼ãƒ–ãƒ«								0			1			2
 	const ePrmType	tbl_prmidx[eParamCount] = { eLeftValue,	eRighttValue,eCondition };
 
 public:
@@ -33,9 +33,9 @@ public:
 	}
 	tParamCount	getParamIndex(tParamCount idx, tParamDir d)
 	{
-		if (idx >= eParamCount) return(-1);	// ”ÍˆÍŠO
+		if (idx >= eParamCount) return(-1);	// ç¯„å›²å¤–
 
-		// fi‚Íƒpƒ‰ƒ[ƒ^‡‚Í•Ï‚í‚ç‚È‚¢
+		// fiã¯ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿é †ã¯å¤‰ã‚ã‚‰ãªã„
 		return(tbl_prmidx[idx]);
 	}
 	bool chkParamType(tParamCount idx, Parameter::ParamType type)
@@ -84,7 +84,70 @@ public:
 	std::string getName()
 	{
 		return (name);
-	}
+	};
+
+	// å‘½ä»¤ã®å®Ÿè¡Œ
+	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
+	{
+		bool bSuccess(true);
+		bool result;
+
+		Ferlesexiayl::tRegister	work_L = proc.Read(prm[eLeftValue]);
+		Ferlesexiayl::tRegister	work_R = proc.Read(prm[eRighttValue]);
+
+		switch (prm[eCondition].cond) {
+		case Parameter::ecn_clo:
+			result = (work_L == work_R);
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_niv:
+			result = (work_L != work_R);
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_xtlo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
+		case Parameter::ecn_xtlonys:
+			result = (work_L <= work_R);
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_xolo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
+		case Parameter::ecn_xolonys:
+			result = (work_L >= work_R);
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_xylo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
+		case Parameter::ecn_xylonys:
+			result = (work_L < work_R);
+			proc.setFlag(result);
+			break;
+
+		case Parameter::ecn_llo:
+			work_L += 0x80000000u;
+			work_R += 0x80000000u;
+			/* not break */
+		case Parameter::ecn_llonys:
+			result = (work_L > work_R);
+			proc.setFlag(result);
+			break;
+		default:
+			bSuccess = false;
+			break;
+		}
+
+		return(bSuccess);
+	};
 
 };
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <cstdint>
 #include <string>
 
@@ -7,7 +7,7 @@ namespace lk
 	using tAddressHalf = uint16_t;
 	using tAddressFull = uint32_t;
 
-	using tModuleID = uint16_t;				/// ƒ‚ƒWƒ…[ƒ‹”Ô†(0Fmain 1`255Fü•Ó)
+	using tModuleID = uint16_t;				/// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ç•ªå·(0ï¼šmain 1ï½255ï¼šå‘¨è¾º)
 	using tModuleName = std::string;
 };
 

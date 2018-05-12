@@ -2,27 +2,24 @@
 #include <string>
 #include "../Mnemonic.h"
 
-class ope_krz : public Mnemonic
+class ope_nac : public Mnemonic
 {
 private:
-	enum ePrmType{
-		eSource,
+	enum ePrmType {
 		eTarget,
 		eParamCount
 	};
-	const std::string name = "krz";
+	const std::string name = "nac";
 
-	// 引数位置テーブル								0			1
-	const ePrmType	tbl_prmidx_ic[eParamCount] = {	eSource,	eTarget };
-	const ePrmType	tbl_prmidx_ci[eParamCount] = {	eTarget,	eSource };
+	// 引数位置テーブル								0
+	const ePrmType	tbl_prmidx[eParamCount] = { eTarget };
 
 public:
 	bool chkApplicable(std::string &token)
 	{
 		bool bok(false);
 
-		bok |= !token.compare("krz");
-		bok |= !token.compare("kRz");
+		bok |= !token.compare("nac");
 
 		return(bok);
 	};
@@ -36,16 +33,7 @@ public:
 	{
 		if (idx >= eParamCount) return(-1);	// 範囲外
 
-		switch (d)
-		{
-		case Mnemonic::eci_C_I:
-			return(tbl_prmidx_ci[idx]);
-			break;
-		case Mnemonic::eci_I_C:
-		default:
-			return(tbl_prmidx_ic[idx]);
-			break;
-		}
+		return(tbl_prmidx[idx]);
 	}
 
 	bool chkParamType(tParamCount idx, Parameter::ParamType type)
@@ -54,20 +42,6 @@ public:
 
 		switch (idx)
 		{
-		case eSource:
-			switch (type)
-			{
-			case Parameter::ParamType::eptRegister:
-			case Parameter::ParamType::eptImmidiate:
-			case Parameter::ParamType::eptReg_Ofs_Imm:
-			case Parameter::ParamType::eptReg_Ofs_Reg:
-			case Parameter::ParamType::eptLabel:
-				isOK = true;
-				break;
-			default:
-				break;
-			}
-			break;
 		case eTarget:
 			switch (type)
 			{
@@ -87,16 +61,19 @@ public:
 
 		return(isOK);
 	}
+
 	std::string getName()
 	{
 		return (name);
 	}
+
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
 		bool bSuccess;
 
-		Ferlesexiayl::tRegister	work = proc.Read(prm[eSource]);
+		Ferlesexiayl::tRegister work = proc.Read(prm[eTarget]);
+		work ^= 0xFFFFFFFFu;
 		bSuccess = proc.Write(prm[eTarget], work);
 
 		return(bSuccess);

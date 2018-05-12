@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <string>
 #include <list>
 #include "Common.h"
 #include "Statement.h"
 
-/// ƒ‰ƒxƒ‹ŠÇ—
+/// ãƒ©ãƒ™ãƒ«ç®¡ç†
 class Symbol
 {
 public:
@@ -13,16 +13,16 @@ public:
 	using tSymbolList = std::list<Symbol::tSymbolName>;
 	using tSymbolAry = std::vector<Symbol>;
 
-	tSymbolName					name;			/// ƒVƒ“ƒ{ƒ‹–¼
-	bool						celesol_kue;	/// kue‚³‚ê‚½ƒVƒ“ƒ{ƒ‹
-	bool						celesol_xok;	/// xok‚Å’Ç‰Á‚³‚ê‚½ƒVƒ“ƒ{ƒ‹
-	bool						req_xok;		/// xok‚ğ—v‹‚·‚éƒVƒ“ƒ{ƒ‹
-	lk::tModuleID				modid;			/// ƒ‚ƒWƒ…[ƒ‹ID
-	Statement::tStatementIndex	idx;			/// ƒ‚ƒWƒ…[ƒ‹“àƒXƒe[ƒgƒƒ“ƒgIndex
-//	lk::tAddressHalf			addr;			/// ƒ‚ƒWƒ…[ƒ‹“àƒAƒhƒŒƒX(ƒLƒƒƒbƒVƒ…“I‚ÈˆÊ’u‚Ã‚¯)
+	tSymbolName					name;			/// ã‚·ãƒ³ãƒœãƒ«å
+	bool						celesol_kue;	/// kueã•ã‚ŒãŸã‚·ãƒ³ãƒœãƒ«
+	bool						celesol_xok;	/// xokã§è¿½åŠ ã•ã‚ŒãŸã‚·ãƒ³ãƒœãƒ«
+	bool						req_xok;		/// xokã‚’è¦æ±‚ã™ã‚‹ã‚·ãƒ³ãƒœãƒ«
+	lk::tModuleID				modid;			/// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ID
+	Statement::tStatementIndex	idx;			/// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆIndex
+//	lk::tAddressHalf			addr;			/// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…ã‚¢ãƒ‰ãƒ¬ã‚¹(ã‚­ãƒ£ãƒƒã‚·ãƒ¥çš„ãªä½ç½®ã¥ã‘)
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	// Å’áŒÀƒVƒ“ƒ{ƒ‹ƒeƒLƒXƒg‚Íˆø”‚É•K—v
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	// æœ€ä½é™ã‚·ãƒ³ãƒœãƒ«ãƒ†ã‚­ã‚¹ãƒˆã¯å¼•æ•°ã«å¿…è¦
 	Symbol(tSymbolName _name, bool c_kue = false, bool r_xok = false, bool c_xok = false, lk::tModuleID mid = 0, Statement::tStatementIndex sidx = 0)
 		: name(_name), celesol_kue(c_kue), celesol_xok(c_xok), req_xok(r_xok), modid(mid), idx(sidx)
 	{

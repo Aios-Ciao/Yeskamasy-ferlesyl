@@ -16,6 +16,24 @@
     <Filter Include="ヘッダー ファイル\Mnemonics">
       <UniqueIdentifier>{da3cd56d-53d9-4cc3-9fd8-567f45c16724}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Encode">
+      <UniqueIdentifier>{f2ddf419-fbda-40be-a242-ce83689df17c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Common">
+      <UniqueIdentifier>{44d7798e-e4e1-4797-a729-62d97eac9d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Common">
+      <UniqueIdentifier>{df5d3833-fab0-46f0-a56b-ae6341d1f54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Encode">
+      <UniqueIdentifier>{caa930dd-4de9-4826-8014-de10e1ff9d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Interpret">
+      <UniqueIdentifier>{58048347-3042-4035-a68e-09b01289999a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Interpret">
+      <UniqueIdentifier>{e4e995ac-a249-49eb-896a-ff852881d343}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,17 +42,8 @@
     <ClInclude Include="ladirvirelyl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Parse.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Mnemonics\ope_fen.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
-    </ClInclude>
-    <ClInclude Include="Encoder.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Mnemonic.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Mnemonics\ope_krz.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
@@ -45,12 +54,6 @@
     <ClInclude Include="Mnemonics\ope_ata.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
-    <ClInclude Include="Statement.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Parameter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Mnemonics\ope_fi.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
@@ -60,40 +63,91 @@
     <ClInclude Include="Mnemonics\ope_nta.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Symbol.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Mnemonics.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
     </ClInclude>
     <ClInclude Include="Linker.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonic.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Parse.h">
+      <Filter>ヘッダー ファイル\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="Parameter.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Statement.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Symbol.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequencer.h">
+      <Filter>ヘッダー ファイル\Interpret</Filter>
+    </ClInclude>
+    <ClInclude Include="Proc.h">
+      <Filter>ヘッダー ファイル\Interpret</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dtosna.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dto.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dal.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_ekc.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_ada.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_nac.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_dro.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_lat.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_latsna.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Linker.cpp">
+      <Filter>ソース ファイル\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="Parse.cpp">
+      <Filter>ソース ファイル\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="Mnemonics.cpp">
+      <Filter>ソース ファイル\Common</Filter>
+    </ClCompile>
     <ClCompile Include="ladirvirelyl.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Parse.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Encoder.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Module.cpp">
+      <Filter>ソース ファイル\Common</Filter>
     </ClCompile>
     <ClCompile Include="Statement.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Module.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Linker.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Sequencer.cpp">
+      <Filter>ソース ファイル\Interpret</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

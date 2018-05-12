@@ -2,27 +2,26 @@
 #include <string>
 #include "../Mnemonic.h"
 
-class ope_krz : public Mnemonic
+class ope_dal : public Mnemonic
 {
 private:
-	enum ePrmType{
+	enum ePrmType {
 		eSource,
 		eTarget,
 		eParamCount
 	};
-	const std::string name = "krz";
+	const std::string name = "dal";
 
 	// 引数位置テーブル								0			1
-	const ePrmType	tbl_prmidx_ic[eParamCount] = {	eSource,	eTarget };
-	const ePrmType	tbl_prmidx_ci[eParamCount] = {	eTarget,	eSource };
+	const ePrmType	tbl_prmidx_ic[eParamCount] = { eSource,	eTarget };
+	const ePrmType	tbl_prmidx_ci[eParamCount] = { eTarget,	eSource };
 
 public:
 	bool chkApplicable(std::string &token)
 	{
 		bool bok(false);
 
-		bok |= !token.compare("krz");
-		bok |= !token.compare("kRz");
+		bok |= !token.compare("dal");
 
 		return(bok);
 	};
@@ -61,7 +60,6 @@ public:
 			case Parameter::ParamType::eptImmidiate:
 			case Parameter::ParamType::eptReg_Ofs_Imm:
 			case Parameter::ParamType::eptReg_Ofs_Reg:
-			case Parameter::ParamType::eptLabel:
 				isOK = true;
 				break;
 			default:
@@ -87,16 +85,20 @@ public:
 
 		return(isOK);
 	}
+
 	std::string getName()
 	{
 		return (name);
 	}
+
 	// 命令の実行
 	bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d)
 	{
 		bool bSuccess;
 
-		Ferlesexiayl::tRegister	work = proc.Read(prm[eSource]);
+		Ferlesexiayl::tRegister work = proc.Read(prm[eTarget]);
+		work ^= proc.Read(prm[eSource]);
+		work = ~work;
 		bSuccess = proc.Write(prm[eTarget], work);
 
 		return(bSuccess);
