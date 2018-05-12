@@ -2,6 +2,9 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#if defined(TIME_MEASURE)
+#  include <chrono>
+#endif
 #include "ladirvirelyl.h"
 #include "Parse.h"
 #include "Mnemonics.h"
@@ -23,6 +26,11 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 		return;
 	}
 
+#if defined(TIME_MEASURE)
+	std::chrono::system_clock::time_point  start, end;
+	start = std::chrono::system_clock::now();
+#endif
+
 	for (int i = 1; i < nfiles; ++i) {
 		std::string		fname(argv[i]);
 		Module	mod(fname);
@@ -40,6 +48,12 @@ ladirvirelyl::ladirvirelyl(int argc, char *argv[])
 	seq = new Sequencer(_modules);
 
 	seq->Run();
+
+#if defined(TIME_MEASURE)
+	end = std::chrono::system_clock::now();
+	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+	std::cout << "所要時間:" << elapsed << "ms" << std::endl;
+#endif
 
 	std::cout << "End of steps." << std::endl;
 	(void)getchar();
