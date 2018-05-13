@@ -3,6 +3,7 @@
 #include <vector>
 #include "Proc.h"
 #include "Parameter.h"
+#include "Opecode.h"
 
 class Mnemonic
 {
@@ -15,23 +16,26 @@ public:
 	using tParamCount = uint16_t;
 public:
 	// ニーモニックを処理できるならtrue
-	virtual bool chkApplicable(std::string &token) = 0;
+	virtual bool chkApplicable(std::string &token) { return false; };
 
 	// ニーモニック文字列の取得
-	virtual std::string getName() = 0;
+	virtual std::string getName() { return ""; };
 
 	// 命令の実行
-	virtual bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d) = 0;
+	virtual bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d) { return false; };
 
 	// バイトコードへの変換
-//	virtual unsigned char Encode(std::vector<Parameter> &param) = 0;
+	virtual bool Encode(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return false; };
+
+	// バイトコードのデータ長
+	virtual Opecode::tCodeLength CodeSize(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return 0; };
 
 	// パラメータ数取得
-	virtual tParamCount getParamCount() = 0;
+	virtual tParamCount getParamCount() { return 0; };
 
 	// 'c'i/'i'c指定によるパラメータの並びのマップ解決
-	virtual tParamCount	getParamIndex(tParamCount idx, tParamDir d = eci_I_C) = 0;
+	virtual tParamCount	getParamIndex(tParamCount idx, tParamDir d = eci_I_C) { return 0; };
 
 	// 指定番目のパラメータタイプチェック(パラメータの並びは'i'c：0がsrc、1がdest)
-	virtual bool chkParamType(tParamCount idx, Parameter::ParamType type) = 0;
+	virtual bool chkParamType(tParamCount idx, Parameter::ParamType type) { return false; };
 };
