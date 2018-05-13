@@ -87,7 +87,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TIME_MEASURE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile />
     </ClCompile>
@@ -160,6 +160,7 @@
     <ClInclude Include="Mnemonics\ope_lat.h" />
     <ClInclude Include="Mnemonics\ope_latsna.h" />
     <ClInclude Include="Mnemonics\ope_nac.h" />
+    <ClInclude Include="Opecode.h" />
     <ClInclude Include="Proc.h" />
     <ClInclude Include="Sequencer.h" />
     <ClInclude Include="Symbol.h" />
