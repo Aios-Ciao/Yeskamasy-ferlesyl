@@ -1,8 +1,11 @@
 ﻿#pragma once
 #include <string>
-#include "../Mnemonic.h"
+#include "../Proc.h"
+//#include "../Mnemonic.h"
+//#include "../Opecode.h"
+#include "../imp_Instruction.h"
 
-class ope_fen : public Mnemonic
+class ope_fen : public imp_Instruction
 {
 private:
 	enum ePrmType {
@@ -48,5 +51,7 @@ public:
 
 		return(bSuccess);
 	};
+
+	bool Encode(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return false; };
 };
 

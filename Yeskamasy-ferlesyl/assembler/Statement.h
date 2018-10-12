@@ -16,6 +16,8 @@ public:
 	Mnemonic				*mnemonic;		// ニーモニック
 	Parameter::tParamList	param;			// ステートメントのパラメータ
 	Mnemonic::tParamDir		eci;			// パラメータの格納順序
+private:
+
 public:
 	Statement();
 	~Statement();

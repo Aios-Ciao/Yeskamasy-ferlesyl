@@ -1,11 +1,16 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
-#include "Proc.h"
+//#include "Proc.h"
 #include "Parameter.h"
-#include "Opecode.h"
+//#include "Opecode.h"
+//#include "Common.h"
+#include "Instruction.h"
 
-class Mnemonic
+class Proc;
+class Instruction;
+
+class Mnemonic : public Instruction
 {
 public:
 	enum eCI {
@@ -25,10 +30,10 @@ public:
 	virtual bool Execute(Proc &proc, Parameter::tParamList &prm, tParamDir d) { return false; };
 
 	// バイトコードへの変換
-	virtual bool Encode(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return false; };
+//	virtual bool Encode(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return false; };
 
 	// バイトコードのデータ長
-	virtual Opecode::tCodeLength CodeSize(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return 0; };
+//	virtual Opecode::tCodeLength CodeSize(Parameter::tParamList &prm, Opecode::tCodeBytes &bytes) { return 0; };
 
 	// パラメータ数取得
 	virtual tParamCount getParamCount() { return 0; };

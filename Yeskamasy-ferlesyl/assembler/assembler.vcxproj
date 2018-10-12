@@ -149,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Encoder.h" />
+    <ClInclude Include="imp_Instruction.h" />
+    <ClInclude Include="Instruction.h" />
     <ClInclude Include="Mnemonics.h" />
     <ClInclude Include="Linker.h" />
     <ClInclude Include="Mnemonics\ope_ada.h" />

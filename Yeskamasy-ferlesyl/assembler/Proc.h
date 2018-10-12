@@ -72,6 +72,7 @@ public:
 	};
 public:
 	tRegister	f0, f1, f2, f3, f5, xx;		/// firjal
+	tRegister	dmy;
 	tFlags		flg;
 
 	void init() {
@@ -82,7 +83,6 @@ public:
 	};
 
 	tRegister &refReg(Parameter::ParamRegName reg) {
-		tRegister dummy(0);
 
 		switch (reg) {
 		case Parameter::ernF0:	return(f0);
@@ -96,7 +96,7 @@ public:
 			break;
 		}
 
-		return dummy;
+		return dmy;
 	};
 };
 

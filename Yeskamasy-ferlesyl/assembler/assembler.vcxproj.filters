@@ -126,6 +126,15 @@
     <ClInclude Include="Opecode.h">
       <Filter>ヘッダー ファイル\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Encoder.h">
+      <Filter>ヘッダー ファイル\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="imp_Instruction.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Instruction.h">
+      <Filter>ヘッダー ファイル\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">

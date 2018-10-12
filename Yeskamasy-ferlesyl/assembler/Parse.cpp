@@ -8,6 +8,7 @@
 #include "Mnemonics.h"
 #include "Statement.h"
 #include "Module.h"
+#include "imp_Instruction.h"
 
 unsigned char Parse::tblCharType[256];
 

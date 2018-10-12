@@ -1,9 +1,10 @@
 ﻿#pragma once
 #pragma once
 #include <string>
-#include "../Mnemonic.h"
+//#include "../Mnemonic.h"
+#include "../imp_Instruction.h"
 
-class ope_fi : public Mnemonic
+class ope_fi : public imp_Instruction
 {
 private:
 	enum ePrmType {
