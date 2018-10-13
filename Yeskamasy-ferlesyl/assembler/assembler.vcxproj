@@ -157,6 +157,10 @@
     <ClInclude Include="Mnemonics\ope_dto.h" />
     <ClInclude Include="Mnemonics\ope_dtosna.h" />
     <ClInclude Include="Mnemonics\ope_ekc.h" />
+    <ClInclude Include="Mnemonics\ope_krz16c.h" />
+    <ClInclude Include="Mnemonics\ope_krz16i.h" />
+    <ClInclude Include="Mnemonics\ope_krz8c.h" />
+    <ClInclude Include="Mnemonics\ope_krz8i.h" />
     <ClInclude Include="Mnemonics\ope_lat.h" />
     <ClInclude Include="Mnemonics\ope_latsna.h" />
     <ClInclude Include="Mnemonics\ope_nac.h" />

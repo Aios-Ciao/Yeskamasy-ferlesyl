@@ -123,6 +123,18 @@
     <ClInclude Include="Mnemonics\ope_latsna.h">
       <Filter>ヘッダー ファイル\Mnemonics</Filter>
     </ClInclude>
+    <ClInclude Include="Mnemonics\ope_krz8c.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_krz8i.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_krz16i.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mnemonics\ope_krz16c.h">
+      <Filter>ヘッダー ファイル\Mnemonics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp">
