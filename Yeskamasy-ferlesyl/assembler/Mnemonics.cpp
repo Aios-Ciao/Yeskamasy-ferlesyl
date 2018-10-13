@@ -3,6 +3,10 @@
 #include "Mnemonic.h"
 #include "Mnemonics/ope_fen.h"
 #include "Mnemonics/ope_krz.h"
+#include "Mnemonics/ope_krz8i.h"
+#include "Mnemonics/ope_krz8c.h"
+#include "Mnemonics/ope_krz16i.h"
+#include "Mnemonics/ope_krz16c.h"
 #include "Mnemonics/ope_inj.h"
 #include "Mnemonics/ope_ata.h"
 #include "Mnemonics/ope_nta.h"
@@ -25,6 +29,10 @@ Mnemonics::Mnemonics()
 {
 	vMnemonics.push_back(new ope_fen());
 	vMnemonics.push_back(new ope_krz());
+	vMnemonics.push_back(new ope_krz8i());
+	vMnemonics.push_back(new ope_krz8c());
+	vMnemonics.push_back(new ope_krz16i());
+	vMnemonics.push_back(new ope_krz16c());
 	vMnemonics.push_back(new ope_inj());
 	vMnemonics.push_back(new ope_ata());
 	vMnemonics.push_back(new ope_nta());
